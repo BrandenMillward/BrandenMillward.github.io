@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma Machine Simulation — Branden Millward</title>
+  <meta name="description" content="MSc AI project: a pure code Enigma cipher simulation with message decoding and setting recovery." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Enigma</p>
+      <h1>Enigma Machine Simulation</h1>
+      <div class="page-meta">
+        <span>MSc Artificial Intelligence · University of Bath</span>
+        <span>Cryptography · Python</span>
+      </div>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <div class="container">
+      <img src="../images/Enigma machine.png" alt="Enigma machine simulation" class="article-image" />
+
+      <div class="case-study-grid">
+        <div class="case-study-block">
+          <h3>Problem</h3>
+          <p>Implement the Enigma cipher machine entirely in code — encode and decode messages with specific rotor settings, and recover unknown settings from intercepted ciphertext.</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Approach</h3>
+          <ul>
+            <li>Built rotor, reflector, and plugboard components from scratch</li>
+            <li>Implemented forward and reverse signal paths through the machine</li>
+            <li>Developed search strategies to infer settings from message pairs</li>
+          </ul>
+        </div>
+        <div class="case-study-block">
+          <h3>Result</h3>
+          <p>A working simulation capable of encrypting/decrypting messages and solving setting-recovery challenges — connecting historical cryptography to modern search and constraint problems.</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Stack</h3>
+          <ul>
+            <li>Python</li>
+            <li>Custom cipher engine</li>
+            <li>Brute-force &amp; heuristic search</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Why this project matters</h2>
+      <p>The Enigma machine is one of the most famous encryption devices in history. Rebuilding it in software forces you to understand permutation cycles, stateful rotors, and the combinatorial explosion of possible settings — the same kind of complexity that appears in modern AI search problems.</p>
+
+      <h2>Key challenges</h2>
+      <p>Getting the stepping mechanism right (where middle and left rotors advance under specific conditions) required careful state management. The setting-recovery task added a layer of search optimisation — testing candidate configurations until plaintext emerged.</p>
+
+      <div class="article-actions">
+        <a href="https://github.com/BrandenMillward/Masters_Projects/tree/main/Enigma_Simulation" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="../index.html#projects" class="btn btn-secondary">← All Projects</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>

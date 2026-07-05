@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amazon Price Tracker — Branden Millward</title>
+  <meta name="description" content="Automated Amazon web scraper with daily price tracking and email alerts." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Amazon Tracker</p>
+      <h1>Amazon Web Scraper &amp; Automated Email Alerts</h1>
+      <div class="page-meta">
+        <span>Automation · Python</span>
+        <span>Web Scraping · Scheduled Jobs</span>
+      </div>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <div class="container">
+      <img src="../images/Web Scrapping.jpeg" alt="Web scraping project" class="article-image" />
+
+      <div class="case-study-grid">
+        <div class="case-study-block">
+          <h3>Problem</h3>
+          <p>Manually checking Amazon for price drops on a product of interest is tedious. Could a script scrape prices daily and alert me only when a threshold was met?</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Approach</h3>
+          <ul>
+            <li>Built a web scraper to extract product name and price</li>
+            <li>Stored daily snapshots in a CSV file for history</li>
+            <li>Automated daily runs with email alerts on price drops</li>
+          </ul>
+        </div>
+        <div class="case-study-block">
+          <h3>Result</h3>
+          <p>A hands-off price monitoring system that emails a direct product link whenever the price falls below a configured threshold — practical automation with real utility.</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Stack</h3>
+          <ul>
+            <li>Python</li>
+            <li>Web scraping libraries</li>
+            <li>CSV storage · Email automation</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Why build this?</h2>
+      <p>This project combines data extraction, persistence, and notification — the same pipeline pattern used in monitoring systems I've built professionally. Start with a data source, store history, define a rule, and alert when conditions are met.</p>
+
+      <div class="article-actions">
+        <a href="https://github.com/BrandenMillward/Projects/blob/main/Amazon%20web%20scraper%20and%20automated%20email%20project.ipynb" class="btn btn-primary" target="_blank" rel="noopener">View Notebook</a>
+        <a href="../index.html#projects" class="btn btn-secondary">← All Projects</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
