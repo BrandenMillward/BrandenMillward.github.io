@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Bar chart transforming into a decision arrow">
+  <rect width="640" height="360" fill="#151c26"/>
+
+  <g>
+    <rect x="90" y="230" width="36" height="60" fill="#1b2531" stroke="#2dd4bf" stroke-width="2"/>
+    <rect x="150" y="190" width="36" height="100" fill="#1b2531" stroke="#2dd4bf" stroke-width="2"/>
+    <rect x="210" y="150" width="36" height="140" fill="#1b2531" stroke="#2dd4bf" stroke-width="2"/>
+    <rect x="270" y="110" width="36" height="180" fill="#2dd4bf"/>
+  </g>
+
+  <line x1="70" y1="290" x2="330" y2="290" stroke="#5c6d82" stroke-width="1.5"/>
+
+  <g stroke="#2dd4bf" stroke-width="2.5" fill="none">
+    <line x1="340" y1="200" x2="470" y2="200"/>
+    <polygon points="470,185 500,200 470,215" fill="#2dd4bf" stroke="none"/>
+  </g>
+
+  <g transform="translate(520,150)">
+    <rect x="0" y="0" width="100" height="100" rx="10" fill="#1b2531" stroke="#2dd4bf" stroke-width="2"/>
+    <path d="M 25 55 L 45 75 L 80 30" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

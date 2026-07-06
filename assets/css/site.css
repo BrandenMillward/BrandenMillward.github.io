@@ -671,7 +671,7 @@ section {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 0.875rem;
-  padding: 1.5rem;
+  overflow: hidden;
   transition: transform 0.2s, border-color 0.2s;
   display: flex;
   flex-direction: column;
@@ -680,6 +680,19 @@ section {
 .blog-card:hover {
   transform: translateY(-3px);
   border-color: rgba(45, 212, 191, 0.3);
+}
+
+.blog-image {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
+}
+
+.blog-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .blog-date {

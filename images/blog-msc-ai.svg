@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Graduation cap beside a neural network diagram">
+  <rect width="640" height="360" fill="#151c26"/>
+
+  <g stroke="#2dd4bf" stroke-width="1" opacity="0.35">
+    <line x1="380" y1="120" x2="470" y2="90"/>
+    <line x1="380" y1="120" x2="470" y2="150"/>
+    <line x1="380" y1="120" x2="470" y2="210"/>
+    <line x1="380" y1="200" x2="470" y2="90"/>
+    <line x1="380" y1="200" x2="470" y2="150"/>
+    <line x1="380" y1="200" x2="470" y2="210"/>
+    <line x1="470" y1="90" x2="560" y2="150"/>
+    <line x1="470" y1="150" x2="560" y2="150"/>
+    <line x1="470" y1="210" x2="560" y2="150"/>
+  </g>
+  <g fill="#2dd4bf">
+    <circle cx="380" cy="120" r="6"/>
+    <circle cx="380" cy="200" r="6"/>
+    <circle cx="470" cy="90" r="6"/>
+    <circle cx="470" cy="150" r="6"/>
+    <circle cx="470" cy="210" r="6"/>
+    <circle cx="560" cy="150" r="6"/>
+  </g>
+
+  <g transform="translate(80,150)">
+    <polygon points="0,0 160,-45 320,0 160,45" fill="#1b2531" stroke="#2dd4bf" stroke-width="2"/>
+    <polygon points="120,0 160,15 200,0 160,-15" fill="#2dd4bf"/>
+    <line x1="70" y1="20" x2="70" y2="80" stroke="#2dd4bf" stroke-width="2"/>
+    <circle cx="70" cy="86" r="6" fill="#2dd4bf"/>
+    <rect x="140" y="45" width="40" height="30" rx="3" fill="#0b0f14" stroke="#2dd4bf" stroke-width="2"/>
+  </g>
+</svg>

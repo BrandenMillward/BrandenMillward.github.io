@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlocking the Value of AI for Your Business, Ep 3: Explainable AI — Branden Millward</title>
+  <meta name="description" content="The third in a series on AI for business: what explainable AI means, the six categories of XAI technique, SHAP and LIME, and why explainability is becoming essential." />
+  <meta property="og:title" content="Unlocking the Value of AI for Your Business Series: Ep 3 — Explainable AI" />
+  <meta property="og:description" content="What explainable AI means, the six categories of XAI technique, SHAP and LIME, and why explainability is becoming essential." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+        <li><a href="../index.html#events">Events</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
+      <h1>Unlocking the Value of AI for Your Business Series: Ep 3 — Explainable AI</h1>
+      <div class="page-meta">
+        <span>February 2026</span>
+        <span>4 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <div class="container">
+
+      <h2>Why explainable AI matters today</h2>
+      <p>Explainable AI (XAI) is increasingly viewed as essential rather than optional, especially as AI systems become more complex and influential. There's no use having the most advanced AI in the world if it's never used because nobody trusts it.</p>
+
+      <h2>Understanding explainable AI: what it really means</h2>
+      <p>As models and agents have become more complex, many now rely on Deep Learning techniques — commonly referred to as "black boxes", reflecting the fact that people often don't know what's happening inside the model, or believe its decisions are hidden from view. Explainable AI provides transparency, trust, accountability, and visibility for safety and ethics purposes.</p>
+      <p>Explainable AI techniques can be classified along three characteristics, each with two options.</p>
+
+      <img src="../images/explainable AI.jpg" alt="Diagram of interpretable ML classifications: application stage (ante-hoc, post-hoc), interpretability scope (global, local), and model dependency (model-specific, model-agnostic)" class="article-image" />
+
+      <h2>The six categories of explainable AI techniques</h2>
+      <p><strong>Application stage</strong></p>
+      <ul>
+        <li><strong>Ante-hoc:</strong> the model is explainable by design — generally interpretable models, such as regression models with equations that explain their own decisions</li>
+        <li><strong>Post-hoc:</strong> the model needs an explainability or interpretability technique applied afterwards</li>
+      </ul>
+      <p><strong>Model dependency</strong></p>
+      <p>Are the XAI techniques model agnostic or model specific? Can they be used with any type of model, or are they restricted to specific types like neural networks or decision trees?</p>
+      <p><strong>Interpretability scope</strong></p>
+      <ul>
+        <li><strong>Global explainability:</strong> explains how the entire model works overall. Example: "These features are the most important across all predictions."</li>
+        <li><strong>Local explainability:</strong> explains why the model made one specific decision. Example: "This student was predicted to be at risk because of decreased attendance."</li>
+      </ul>
+
+      <img src="../images/post hoc.jpg" alt="Sankey diagram of post-hoc explainability techniques, including SHAP and LIME, flowing between model dependency and interpretability scope" class="article-image" />
+
+      <h2>SHAP and LIME, the most common techniques</h2>
+      <p><strong>SHAP (SHapley Additive exPlanations)</strong> shows how each feature contributes to a prediction. For example, it can show how higher loan terms and interest rates have a negative impact on the likelihood of a loan being repaid.</p>
+
+      <img src="../images/SHAP.jpg" alt="SHAP beeswarm plot showing feature impact on model output for a loan repayment model" class="article-image" />
+
+      <p><strong>LIME (Local Interpretable Model-Agnostic Explanations)</strong> creates understandable explanations for individual decisions. Rather than looking at the model as a whole, LIME looks at an individual case — showing the likelihood of a specific person repaying a loan, and the main features that impacted that decision.</p>
+
+      <img src="../images/Lime.jpg" alt="LIME output showing prediction probabilities and feature contributions for an individual loan case" class="article-image" />
+
+      <p>These tools can also be combined to show how a specific customer compares to the group as a whole. Both generally work by using an "explainer model" that examines the features going into the main model, and its output, to predict the reasons behind a decision.</p>
+
+      <img src="../images/Explainable AI to stakeholders.png" alt="Diagram showing input data flowing through an ML model and XAI method to produce predictions and explanations for stakeholders" class="article-image" />
+
+      <h2>Why this is essential</h2>
+      <p>As the ethics of AI use come under more scrutiny, XAI has become more essential than ever. A growing body of research shows that user trust is fundamentally linked to understanding how AI systems reach their decisions. Businesses are increasingly adopting XAI not just for technical transparency, but to meet growing regulatory requirements around AI accountability and fairness.</p>
+      <p>These techniques let businesses benefit from more complex models while still being able to justify and explain decisions — showing customers why a model produced the output it did, without giving away competitive advantage. Using the loan example above, a business could show a customer the top things they could improve to be accepted for a loan in future — improving trust and transparency for both the business and its customers.</p>
+
+      <h2>Challenges and limitations of explainable AI</h2>
+      <p>Explainable and interpretable AI can go a long way toward building trust in systems and decisions, but the models themselves still make mistakes, just as we all do. Where a decision might be appealed, or a classification is borderline, it's important to keep humans in the loop — making people within the business responsible for the actions and decisions made using AI, and giving the people who build these models a reason to understand how and why a decision was made, so they can keep improving it.</p>
+
+      <h2>How businesses can start implementing explainable AI</h2>
+      <p>Leading guidance is clear that XAI shouldn't be an afterthought — it needs to be integrated from design, through training, to deployment. Organisations should:</p>
+      <ul>
+        <li>Include explainability criteria early in model selection</li>
+        <li>Build pipelines that automatically generate and store explanations</li>
+        <li>Validate models using interpretability metrics alongside accuracy metrics</li>
+      </ul>
+      <p>Doing so reduces "black box" risk and improves compliance readiness.</p>
+
+      <h2>What's next: the future of explainable AI</h2>
+      <p>The future of XAI is moving from nice-to-have to must-have for all AI usage. The accuracy-versus-interpretability trade-off is fading as businesses demand more from AI solutions — AI without interpretability can cause ethical, legal, and financial harm.</p>
+      <p>Regulations don't yet explicitly call out the need for explainable AI, but it pays to focus on transparency and ethics regardless. It's looking less like a question of if explainable AI becomes a mandatory regulatory requirement, and more a question of when.</p>
+
+      <div class="article-actions">
+        <a href="index.html" class="btn btn-secondary">← All Posts</a>
+        <a href="unlocking-value-of-ai-ep2.html" class="btn btn-ghost">← Previous post</a>
+        <a href="unlocking-value-of-ai-ep4.html" class="btn btn-ghost">Next post →</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
