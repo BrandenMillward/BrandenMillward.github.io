@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Neural network diagram beside a shield representing regulated industries">
+  <rect width="640" height="360" fill="#151c26"/>
+
+  <g stroke="#2dd4bf" stroke-width="1" opacity="0.35">
+    <line x1="90" y1="100" x2="250" y2="60"/>
+    <line x1="90" y1="100" x2="250" y2="140"/>
+    <line x1="90" y1="100" x2="250" y2="220"/>
+    <line x1="90" y1="100" x2="250" y2="300"/>
+    <line x1="90" y1="180" x2="250" y2="60"/>
+    <line x1="90" y1="180" x2="250" y2="140"/>
+    <line x1="90" y1="180" x2="250" y2="220"/>
+    <line x1="90" y1="180" x2="250" y2="300"/>
+    <line x1="90" y1="260" x2="250" y2="60"/>
+    <line x1="90" y1="260" x2="250" y2="140"/>
+    <line x1="90" y1="260" x2="250" y2="220"/>
+    <line x1="90" y1="260" x2="250" y2="300"/>
+    <line x1="250" y1="60" x2="400" y2="140"/>
+    <line x1="250" y1="60" x2="400" y2="220"/>
+    <line x1="250" y1="140" x2="400" y2="140"/>
+    <line x1="250" y1="140" x2="400" y2="220"/>
+    <line x1="250" y1="220" x2="400" y2="140"/>
+    <line x1="250" y1="220" x2="400" y2="220"/>
+    <line x1="250" y1="300" x2="400" y2="140"/>
+    <line x1="250" y1="300" x2="400" y2="220"/>
+  </g>
+
+  <g fill="#2dd4bf">
+    <circle cx="90" cy="100" r="7"/>
+    <circle cx="90" cy="180" r="7"/>
+    <circle cx="90" cy="260" r="7"/>
+    <circle cx="250" cy="60" r="7"/>
+    <circle cx="250" cy="140" r="7"/>
+    <circle cx="250" cy="220" r="7"/>
+    <circle cx="250" cy="300" r="7"/>
+    <circle cx="400" cy="140" r="7"/>
+    <circle cx="400" cy="220" r="7"/>
+  </g>
+
+  <line x1="440" y1="180" x2="470" y2="180" stroke="#2dd4bf" stroke-width="1.5" opacity="0.5"/>
+
+  <path d="M 480 90 L 560 90 L 560 190 C 560 240 520 265 520 265 C 520 265 480 240 480 190 Z" fill="#0b0f14" stroke="#2dd4bf" stroke-width="2"/>
+  <path d="M 500 180 L 515 198 L 545 158" fill="none" stroke="#2dd4bf" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

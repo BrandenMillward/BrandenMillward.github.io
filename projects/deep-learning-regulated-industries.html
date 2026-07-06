@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Increasing Deep Learning Utilisation in Regulated Industries — Branden Millward</title>
+  <meta name="description" content="MSc dissertation investigating how explainability techniques like LIME and SHAP can increase deep learning adoption in regulated industries, using a large-scale credit risk dataset." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#events">Events</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Deep Learning in Regulated Industries</p>
+      <h1>Increasing Deep Learning Utilisation in Regulated Industries</h1>
+      <div class="page-meta">
+        <span>MSc Dissertation · University of Bath</span>
+        <span>Deep Learning · Explainable AI</span>
+      </div>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <div class="container">
+      <img src="../images/deep-learning-regulated.svg" alt="Neural network diagram beside a shield representing regulated industries" class="article-image" />
+
+      <div class="case-study-grid">
+        <div class="case-study-block">
+          <h3>Problem</h3>
+          <p>Deep learning consistently outperforms simpler models on complex prediction tasks, yet regulated industries like financial services are often reluctant to adopt it — largely because "black box" models are hard to explain to regulators, auditors, and customers. What would it take to close that trust gap?</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Approach</h3>
+          <ul>
+            <li>Cleaned and engineered features on a 2.26 million row Lending Club loan dataset down to 1.2 million completed loans and 86 usable features</li>
+            <li>Built and compared a TensorFlow neural network against Random Forest, Logistic Regression, and XGBoost baselines</li>
+            <li>Applied LIME and SHAP to make the deep learning model's predictions interpretable at both the global and individual-prediction level</li>
+          </ul>
+        </div>
+        <div class="case-study-block">
+          <h3>Result</h3>
+          <p>Showed that explainability tooling can translate deep learning outputs into the kind of case-by-case justification regulated industries require — evidence that the barrier to adoption is less about raw model capability and more about making decisions auditable.</p>
+        </div>
+        <div class="case-study-block">
+          <h3>Stack</h3>
+          <ul>
+            <li>Python, Pandas</li>
+            <li>TensorFlow, XGBoost, Scikit-learn</li>
+            <li>LIME, SHAP</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Background</h2>
+      <p>Regulated sectors such as banking and insurance operate under model risk management rules that demand a clear account of why a model made a given decision — something traditional deep learning struggles to provide out of the box. This dissertation used real-world credit risk data to ask whether modern explainability techniques can bridge that gap without giving up the predictive power that makes deep learning worth adopting in the first place.</p>
+
+      <h2>What I learned</h2>
+      <p>Most of the hard work happened before any model was trained: filtering out loans that hadn't reached a final outcome, dropping fields that wouldn't be available at the point of application, and deciding how to treat sparse or high-cardinality columns without leaking information or destroying signal. That data discipline mattered as much as the choice of algorithm, and it shaped how I think about deploying models into environments where every decision needs to be defensible.</p>
+
+      <div class="article-actions">
+        <a href="https://github.com/BrandenMillward/how-to-Increase-Deep-Learning-Utilisation-in-Regulated-Industries" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="../index.html#projects" class="btn btn-secondary">← All Projects</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
