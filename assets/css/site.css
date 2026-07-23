@@ -835,6 +835,13 @@ section {
   padding: 1.25rem;
 }
 
+.event-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  display: block;
+}
+
 .event-video {
   position: relative;
   aspect-ratio: 16 / 9;
