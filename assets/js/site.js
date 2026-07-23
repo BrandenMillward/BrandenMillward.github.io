@@ -139,49 +139,6 @@
     });
   }
 
-  function initStatCounters() {
-    const counters = document.querySelectorAll('[data-count-to]');
-    if (!counters.length) return;
-
-    function animateCounter(el) {
-      const target = parseInt(el.dataset.countTo, 10);
-      const suffix = el.dataset.suffix || '';
-
-      if (prefersReducedMotion) {
-        el.textContent = target + suffix;
-        return;
-      }
-
-      const duration = 1200;
-      const start = performance.now();
-
-      function tick(now) {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(eased * target) + suffix;
-        if (progress < 1) requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    }
-
-    const observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    counters.forEach(function (el) {
-      observer.observe(el);
-    });
-  }
-
   function initScrollProgress() {
     const nav = document.querySelector('.site-nav');
     if (!nav) return;
@@ -227,7 +184,6 @@
     initReveal();
     initHeroSpotlight();
     initCardGlow();
-    initStatCounters();
     initScrollProgress();
     initNavScroll();
   });
