@@ -88,7 +88,15 @@ a:hover {
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.25s ease;
+}
+
+.site-nav.scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.16);
+}
+
+[data-theme='light'] .site-nav.scrolled {
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
 }
 
 .site-nav .container {
@@ -97,6 +105,26 @@ a:hover {
   justify-content: space-between;
   height: 4rem;
   gap: 1rem;
+  transition: height 0.25s ease;
+}
+
+.site-nav.scrolled .container {
+  height: 3.5rem;
+}
+
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
 }
 
 .nav-logo {
@@ -182,10 +210,29 @@ a:hover {
 }
 
 .hero-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 30%), rgba(45, 212, 191, 0.16), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .hero:hover::after {
+    opacity: 1;
+  }
 }
 
 .hero-eyebrow {
@@ -499,17 +546,22 @@ section {
 }
 
 .skill-group {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 1.5rem;
+  transition: border-color 0.2s;
 }
 
-.skill-group h3 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--text);
+.skill-group:hover {
+  border-color: rgba(45, 212, 191, 0.3);
+}
+
+.skill-group h3,
+.skill-group .skill-tags {
+  position: relative;
+  z-index: 2;
 }
 
 .skill-tags {
@@ -562,6 +614,7 @@ section {
 }
 
 .project-card {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 0.875rem;
@@ -575,6 +628,12 @@ section {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
   border-color: rgba(45, 212, 191, 0.3);
+}
+
+.project-card .project-image,
+.project-card .project-body {
+  position: relative;
+  z-index: 2;
 }
 
 .project-card.hidden {
@@ -668,6 +727,7 @@ section {
 }
 
 .blog-card {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 0.875rem;
@@ -680,6 +740,12 @@ section {
 .blog-card:hover {
   transform: translateY(-3px);
   border-color: rgba(45, 212, 191, 0.3);
+}
+
+.blog-card .blog-image,
+.blog-card .blog-body {
+  position: relative;
+  z-index: 2;
 }
 
 .blog-image {
@@ -1006,6 +1072,41 @@ section {
   margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
+}
+
+/* ── Mouse-tracked card glow ── */
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card::after,
+  .blog-card::after,
+  .skill-group::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(45, 212, 191, 0.16), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .project-card:hover::after,
+  .blog-card:hover::after,
+  .skill-group:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ── Reduced motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after,
+  .project-card::after,
+  .blog-card::after,
+  .skill-group::after {
+    display: none;
+  }
 }
 
 /* ── Animations ── */
