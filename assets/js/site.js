@@ -139,6 +139,31 @@
     });
   }
 
+  function initEventVideos() {
+    const containers = document.querySelectorAll('.event-video[data-yt-id]');
+    if (!containers.length) return;
+
+    containers.forEach(function (container) {
+      const btn = container.querySelector('.event-video-play');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        const id = container.dataset.ytId;
+        const title = container.dataset.ytTitle || 'YouTube video player';
+
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+        iframe.title = title;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+
+        container.innerHTML = '';
+        container.appendChild(iframe);
+        iframe.focus();
+      });
+    });
+  }
+
   function initScrollProgress() {
     const nav = document.querySelector('.site-nav');
     if (!nav) return;
@@ -184,6 +209,7 @@
     initReveal();
     initHeroSpotlight();
     initCardGlow();
+    initEventVideos();
     initScrollProgress();
     initNavScroll();
   });

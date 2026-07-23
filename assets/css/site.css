@@ -824,6 +824,84 @@ section {
   overflow: hidden;
 }
 
+.event-card.has-media {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card.has-media .event-body {
+  padding: 1.25rem;
+}
+
+.event-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.event-video-play {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.event-video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.event-video-play:hover .event-video-thumb {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+
+.event-video-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(11, 15, 20, 0.75);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.event-video-play:hover .event-video-icon {
+  background: var(--accent);
+  color: #0b0f14;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.event-video-icon svg {
+  margin-left: 3px;
+}
+
+.event-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
 .event-card.featured .event-image {
   aspect-ratio: unset;
   height: 100%;
