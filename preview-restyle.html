@@ -72,9 +72,9 @@
     z-index: -1;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 1.6s ease;
+    transition: opacity 1s ease;
   }
-  #bg-net.is-visible { opacity: .07; }
+  #bg-net.is-visible { opacity: .12; }
 
   @media (prefers-reduced-motion: reduce) {
     #bg-net { transition: opacity .4s ease; }
@@ -153,7 +153,7 @@
   .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   /* ── Hero ── */
-  .viewport { border-bottom: 1px solid var(--line); padding-block: 6.5rem 3rem; }
+  .viewport { position: relative; z-index: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: 6.5rem 3rem; }
 
   /* Desktop: headline then photo stacked in the left column, network filling
      the right. Mobile re-orders to network → headline → photo. */
@@ -1068,13 +1068,12 @@
 
 (function () {
   // ── Background parallax neural network ──
-  // A sparse, near-invisible node field fixed behind all content. It stays
-  // hidden over the hero (which has its own canvas) and fades in once the
-  // hero scrolls out of view, drifting slowly and shifting opposite to
-  // scroll at a fraction of its speed for a parallax "deeper layer" feel.
+  // A sparse, low-opacity node field fixed behind all content, drifting
+  // slowly and shifting opposite to scroll at a fraction of its speed for
+  // a parallax "deeper layer" feel. The hero has its own opaque background
+  // and canvas, so this one is visible from the top of the page onward.
   const canvas = document.getElementById('bg-net');
-  const hero = document.querySelector('.viewport');
-  if (!canvas || !hero) return;
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1092,7 +1091,7 @@
 
   let w = 0, h = 0, fieldH = 0, nodes = [];
   let scrollY = window.scrollY || 0, scrollTicking = false;
-  let visible = false, rafId = null;
+  let visible = true, rafId = null;
 
   function build() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1159,15 +1158,7 @@
     rafId = requestAnimationFrame(draw);
   }
 
-  const io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      const show = !entry.isIntersecting;
-      if (show === visible) return;
-      visible = show;
-      canvas.classList.toggle('is-visible', visible);
-    });
-  }, { threshold: 0 });
-  io.observe(hero);
+  canvas.classList.add('is-visible');
 
   window.addEventListener('scroll', function () {
     if (scrollTicking) return;
