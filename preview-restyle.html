@@ -209,13 +209,16 @@
   .slab-head h3 { font-size: .88rem; font-weight: 700; letter-spacing: .02em; }
   .slab-head h3 a { color: var(--text); }
   .slab-head h3 a:hover { color: var(--accent); }
-  .slab-media { background: var(--bg-2); }
-  .slab-media img { width: 100%; max-height: 36svh; object-fit: cover; }
-  .slab-note { padding-block: .9rem 1.3rem; }
-  .slab-note p { max-width: var(--measure); margin-inline: auto; color: var(--muted); font-size: .88rem; }
+  .slab-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem;
+    align-items: center; padding-block: .4rem 1.3rem;
+  }
+  .slab-media { border-radius: .4rem; overflow: hidden; background: var(--bg); height: 14rem; }
+  .slab-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slab-note p { color: var(--muted); font-size: .88rem; }
   .slab-tags {
     display: flex; flex-wrap: wrap; gap: .4rem;
-    max-width: var(--measure); margin: .7rem auto 0;
+    margin-top: .7rem;
   }
   .slab-tags .tag-pill {
     font-size: .58rem; letter-spacing: .08em; text-transform: uppercase;
@@ -224,7 +227,7 @@
   }
   .slab-links {
     display: flex; flex-wrap: wrap; gap: 1.2rem;
-    max-width: var(--measure); margin: .6rem auto 0;
+    margin-top: .6rem;
   }
   .slab-links a { font-size: .72rem; letter-spacing: .03em; }
 
@@ -289,6 +292,8 @@
     .row { grid-template-columns: 1fr; gap: .2rem; }
     .row-thumb { display: none; }
     .row.row-writing { grid-template-columns: 1fr; }
+    .slab-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .slab-media { height: 12rem; }
   }
 
   /* ── Mobile nav: burger toggle + dropdown menu ── */
@@ -328,7 +333,6 @@
 
     <div class="nav-menu" id="nav-menu">
       <ul class="nav-links">
-        <li><a href="#essays">Essays</a></li>
         <li><a href="#blog">Blog</a></li>
         <li><a href="#speaking">Speaking</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -641,21 +645,21 @@
         <h3><a href="projects/deep-learning-regulated-industries.html">Increasing Deep Learning Utilisation in Regulated Industries</a></h3>
         <p class="hud">MSc Dissertation · University of Bath</p>
       </div>
-    </div>
-    <div class="slab-media">
-      <img src="images/deep-learning-regulated.svg" alt="Neural network diagram beside a shield representing regulated industries" width="640" height="360" loading="lazy" />
-    </div>
-    <div class="shell">
-      <div class="slab-note">
-        <p>Cleaned 2.26 million Lending Club loans down to 1.2 million completed cases and 86 usable features, benchmarked a TensorFlow network against Random Forest, Logistic Regression and XGBoost, then applied LIME and SHAP to make individual decisions defensible to a regulator.</p>
-        <div class="slab-tags">
-          <span class="tag-pill">Python</span>
-          <span class="tag-pill">TensorFlow</span>
-          <span class="tag-pill">Explainable AI</span>
+      <div class="slab-grid">
+        <div class="slab-media">
+          <img src="images/deep-learning-regulated.svg" alt="Neural network diagram beside a shield representing regulated industries" width="640" height="360" loading="lazy" />
         </div>
-        <div class="slab-links">
-          <a href="projects/deep-learning-regulated-industries.html">Case study →</a>
-          <a href="https://github.com/BrandenMillward/how-to-Increase-Deep-Learning-Utilisation-in-Regulated-Industries" target="_blank" rel="noopener">GitHub →</a>
+        <div class="slab-note">
+          <p>Cleaned 2.26 million Lending Club loans down to 1.2 million completed cases and 86 usable features, benchmarked a TensorFlow network against Random Forest, Logistic Regression and XGBoost, then applied LIME and SHAP to make individual decisions defensible to a regulator.</p>
+          <div class="slab-tags">
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">TensorFlow</span>
+            <span class="tag-pill">Explainable AI</span>
+          </div>
+          <div class="slab-links">
+            <a href="projects/deep-learning-regulated-industries.html">Case study →</a>
+            <a href="https://github.com/BrandenMillward/how-to-Increase-Deep-Learning-Utilisation-in-Regulated-Industries" target="_blank" rel="noopener">GitHub →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -667,21 +671,21 @@
         <h3><a href="projects/hybrid-ml.html">Hybrid Machine Learning Method</a></h3>
         <p class="hud">BSc Dissertation</p>
       </div>
-    </div>
-    <div class="slab-media">
-      <img src="images/Hybrid.PNG" alt="Hybrid machine learning algorithm results" width="483" height="539" loading="lazy" />
-    </div>
-    <div class="shell">
-      <div class="slab-note">
-        <p>Investigated and compared Ant Colony Optimisation and Genetic Algorithms, then combined them into a novel hybrid approach for optimisation problems.</p>
-        <div class="slab-tags">
-          <span class="tag-pill">Python</span>
-          <span class="tag-pill">ACO</span>
-          <span class="tag-pill">Genetic Algorithms</span>
+      <div class="slab-grid">
+        <div class="slab-media">
+          <img src="images/Hybrid.PNG" alt="Hybrid machine learning algorithm results" width="483" height="539" loading="lazy" />
         </div>
-        <div class="slab-links">
-          <a href="projects/hybrid-ml.html">Case study →</a>
-          <a href="https://github.com/BrandenMillward/Hybrid-Machine-Learning-Algorithm" target="_blank" rel="noopener">GitHub →</a>
+        <div class="slab-note">
+          <p>Investigated and compared Ant Colony Optimisation and Genetic Algorithms, then combined them into a novel hybrid approach for optimisation problems.</p>
+          <div class="slab-tags">
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">ACO</span>
+            <span class="tag-pill">Genetic Algorithms</span>
+          </div>
+          <div class="slab-links">
+            <a href="projects/hybrid-ml.html">Case study →</a>
+            <a href="https://github.com/BrandenMillward/Hybrid-Machine-Learning-Algorithm" target="_blank" rel="noopener">GitHub →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -693,20 +697,20 @@
         <h3><a href="projects/enigma.html">Enigma Machine Simulation</a></h3>
         <p class="hud">MSc · AI</p>
       </div>
-    </div>
-    <div class="slab-media">
-      <img src="images/Enigma machine.png" alt="Enigma machine simulation" width="807" height="490" loading="lazy" />
-    </div>
-    <div class="shell">
-      <div class="slab-note">
-        <p>Pure code implementation of the Enigma cipher — decoding messages and reverse-engineering machine settings from intercepted ciphertext.</p>
-        <div class="slab-tags">
-          <span class="tag-pill">Python</span>
-          <span class="tag-pill">Cryptography</span>
+      <div class="slab-grid">
+        <div class="slab-media">
+          <img src="images/Enigma machine.png" alt="Enigma machine simulation" width="807" height="490" loading="lazy" />
         </div>
-        <div class="slab-links">
-          <a href="projects/enigma.html">Case study →</a>
-          <a href="https://github.com/BrandenMillward/Masters_Projects/tree/main/Enigma_Simulation" target="_blank" rel="noopener">GitHub →</a>
+        <div class="slab-note">
+          <p>Pure code implementation of the Enigma cipher — decoding messages and reverse-engineering machine settings from intercepted ciphertext.</p>
+          <div class="slab-tags">
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Cryptography</span>
+          </div>
+          <div class="slab-links">
+            <a href="projects/enigma.html">Case study →</a>
+            <a href="https://github.com/BrandenMillward/Masters_Projects/tree/main/Enigma_Simulation" target="_blank" rel="noopener">GitHub →</a>
+          </div>
         </div>
       </div>
     </div>
