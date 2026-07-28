@@ -1,97 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unlocking the Value of AI for Your Business, Ep 2: Key Considerations of AI — Branden Millward</title>
-  <meta name="description" content="The second in a series on AI for business: ethics and bias, data privacy and security, technical considerations, how we interact with AI, and where it's headed." />
-  <meta property="og:title" content="Unlocking the Value of AI for Your Business Series: Ep 2 — Key Considerations of AI" />
-  <meta property="og:description" content="Ethics and bias, data privacy and security, technical considerations, how we interact with AI, and where it's headed." />
-  <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
-  <link rel="stylesheet" href="../assets/css/site.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Unlocking the Value of AI for Your Business, Ep 2: Key Considerations of AI — Branden Millward</title>
+<meta name="description" content="The second in a series on AI for business: ethics and bias, data privacy and security, technical considerations, how we interact with AI, and where it's headed." />
+<meta property="og:title" content="Unlocking the Value of AI for Your Business Series: Ep 2 — Key Considerations of AI" />
+<meta property="og:description" content="Ethics and bias, data privacy and security, technical considerations, how we interact with AI, and where it's headed." />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c16;
+    --bg-rgb: 10, 12, 22;
+    --bg-2: #0f1220;
+    --accent: #8b9dff;
+    --accent-contrast: #0a0c16;
+    --text: #e6e9f5;
+    --muted: #9aa2bd;
+    --faint: #6b7391;
+    --line: rgba(255,255,255,.1);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --shell: 1400px;
+    --pad: clamp(1.4rem, 3vw, 3.25rem);
+    --measure: 60ch;
+    color-scheme: dark;
+  }
+  [data-theme='light'] {
+    --bg: #f5f4f0;
+    --bg-rgb: 245, 244, 240;
+    --bg-2: #ffffff;
+    --accent: #4a5ac9;
+    --accent-contrast: #ffffff;
+    --text: #14151c;
+    --muted: #52566b;
+    --faint: #82869c;
+    --line: rgba(10,12,22,.12);
+    color-scheme: light;
+  }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 1rem;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+  .hud {
+    font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500; line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    background: var(--bg);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease;
+  }
+  .nav-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; padding-block: 1rem;
+  }
+  .nav-name { font-size: .82rem; font-weight: 700; letter-spacing: .18em; color: var(--text); }
+  .nav-name:hover { text-decoration: none; }
+  .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+  .nav-links a.is-active { color: var(--accent); }
+  .nav-menu-cta { display: flex; align-items: center; gap: .9rem; }
+  .nav-actions { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
+  .nav-cta, .theme-toggle {
+    font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--line); border-radius: .25rem;
+    padding: .35rem .6rem; background: none; cursor: pointer; white-space: nowrap;
+  }
+  .nav-cta:hover, .theme-toggle:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    gap: .32rem; width: 1.9rem; height: 1.9rem; border: none; background: none;
+    padding: 0; cursor: pointer; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 1.3rem; height: 2px; background: var(--text);
+    border-radius: 1px; transition: transform .25s ease, opacity .2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: rgba(var(--bg-rgb), .97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: .5rem var(--pad) 1.6rem;
+      max-height: calc(100vh - 100%);
+      overflow-y: auto;
+    }
+    .nav-menu.is-open { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: .9rem 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+    .nav-menu-cta { flex-direction: column; align-items: stretch; gap: .7rem; margin-top: 1.2rem; }
+    .nav-menu-cta .nav-cta { text-align: center; padding: .65rem; }
+  }
+
+  /* ── Post hero ── */
+  .post-hero { padding-block: 7.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  .post-hero .hud a { color: var(--muted); }
+  .post-hero .hud a:hover { color: var(--accent); }
+  .post-hero h1 {
+    font-size: clamp(1.7rem, 3.4vw, 2.7rem); font-weight: 700; line-height: 1.22;
+    letter-spacing: -.01em; margin: .8rem 0 .9rem; max-width: 34ch;
+  }
+  .post-meta { color: var(--faint); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+  .post-meta span + span::before { content: '·'; margin: 0 .6em; color: var(--line); }
+
+  /* ── Post body ── */
+  .post-body { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .measure { max-width: var(--measure); margin-inline: auto; }
+  .post-body h2 {
+    font-size: 1.05rem; font-weight: 700; letter-spacing: .02em; color: var(--text);
+    margin: 2.4rem 0 1rem;
+  }
+  .post-body h2:first-child { margin-top: 0; }
+  .post-body p { color: var(--muted); font-size: .92rem; line-height: 1.8; }
+  .post-body p + p, .post-body ul + p, .post-body p + ul, .post-body img + * { margin-top: 1.4rem; }
+  .post-body strong { color: var(--text); font-weight: 500; }
+  .post-body ul {
+    color: var(--muted); font-size: .92rem; line-height: 1.7; padding-left: 1.3rem;
+    display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem;
+  }
+  .post-body a { color: var(--accent); }
+  .post-body .article-image {
+    width: 100%; border: 1px solid var(--line); border-radius: .4rem; margin: 2rem 0;
+  }
+
+  .post-actions {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--line);
+  }
+  .post-actions a { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ── Footer ── */
+  .foot { padding-block: clamp(4rem, 8vw, 6.5rem) 3rem; border-top: 1px solid var(--line); text-align: center; }
+  .foot-actions { display: flex; gap: 2.2rem; justify-content: center; flex-wrap: wrap; margin: 1.6rem 0 2.6rem; }
+  .foot-actions a { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+  .foot .hud { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
 <body>
 
-  <nav class="site-nav" aria-label="Main navigation">
-    <div class="container">
-      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
       <ul class="nav-links">
-        <li><a href="../index.html#about">About</a></li>
+        <li><a href="index.html" class="is-active">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
         <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
         <li><a href="../index.html#skills">Skills</a></li>
-        <li><a href="index.html" class="active">Blog</a></li>
-        <li><a href="../index.html#events">Events</a></li>
-        <li><a href="../index.html#projects">Projects</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
       </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
-  </nav>
 
-  <header class="page-hero">
-    <div class="container">
-      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
-      <h1>Unlocking the Value of AI for Your Business Series: Ep 2 — Key Considerations of AI</h1>
-      <div class="page-meta">
-        <span>February 2026</span>
-        <span>4 min read</span>
-      </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <article class="article-content">
-    <div class="container">
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
+    <h1>Unlocking the Value of AI for Your Business Series: Ep 2 — Key Considerations of AI</h1>
+    <p class="post-meta"><span>February 2026</span><span>4 min read</span></p>
+  </div>
+</header>
 
-      <h2>The rise of AI</h2>
-      <img src="../images/AI Robot.jpg" alt="The rise of AI, illustrated as a towering AI figure watched by a crowd in a city" class="article-image" width="864" height="1536" loading="lazy" />
-      <p>With the rise of AI, more people and businesses are either adopting or looking to adopt AI solutions to make tasks more efficient or simply make their daily lives easier. There are several things that need to be considered when using AI, such as which tools to use and how to use them in the most efficient way.</p>
-      <p>With the growing use of AI, and the variety of industries adopting it, questions about the ethical implications of how AI is utilised have moved into the spotlight.</p>
-      <p>Initially, it's important to understand the AI tool or model you're using — the purpose it was built for, and what data it was built on.</p>
-      <p>When many people think of AI, they think of Copilot, ChatGPT, and similar tools, treating them as a one-stop shop for AI. In reality, these are a very specific part of AI called Large Language Models (LLMs) — built from massive amounts of text to understand the relationships between tokens (words, grammar, or characters) and predict the correct response. But that's not everything AI has to offer; there are many models, built on a variety of data, for vastly different purposes.</p>
+<article class="post-body">
+  <div class="shell measure">
 
-      <h2>Ethical considerations</h2>
-      <img src="../images/Ethics and governance.jpg" alt="Ethics and governance principles: do no harm, integrity and honesty, fairness and justice, privacy and confidentiality, informed consent, respect and responsibility" class="article-image" width="1414" height="795" loading="lazy" />
-      <p>Understanding this as a principle matters because the datasets used to train a model can carry inherent bias, producing biased or unfair responses. This is widely seen in algorithms used to surface content on social media, where the content you engage with shapes the content you're shown. The same applies to LLMs — if built on biased data, they'll produce biased responses. Being conscious of the source of the data, and what the model has access to, is crucial.</p>
-      <p>As AI increasingly shapes people's daily lives, there's growing scepticism and mistrust about how it's used and what it's used for. That's driving a growing desire for transparency and explainability — understanding how decisions have been made — especially in regulated industries, where organisations are held accountable by both customers and regulators. The ability to explain how a model has been used, and what data it drew on, is only becoming more important. (More on this in Episode 3.)</p>
+    <h2>The rise of AI</h2>
+    <img src="../images/AI Robot.jpg" alt="The rise of AI, illustrated as a towering AI figure watched by a crowd in a city" class="article-image" width="864" height="1536" loading="lazy" />
+    <p>With the rise of AI, more people and businesses are either adopting or looking to adopt AI solutions to make tasks more efficient or simply make their daily lives easier. There are several things that need to be considered when using AI, such as which tools to use and how to use them in the most efficient way.</p>
+    <p>With the growing use of AI, and the variety of industries adopting it, questions about the ethical implications of how AI is utilised have moved into the spotlight.</p>
+    <p>Initially, it's important to understand the AI tool or model you're using — the purpose it was built for, and what data it was built on.</p>
+    <p>When many people think of AI, they think of Copilot, ChatGPT, and similar tools, treating them as a one-stop shop for AI. In reality, these are a very specific part of AI called Large Language Models (LLMs) — built from massive amounts of text to understand the relationships between tokens (words, grammar, or characters) and predict the correct response. But that's not everything AI has to offer; there are many models, built on a variety of data, for vastly different purposes.</p>
 
-      <h2>Data privacy and security</h2>
-      <img src="../images/Security.jpg" alt="Data privacy and security illustrated with locks, shields, and connected devices" class="article-image" width="1536" height="864" loading="lazy" />
-      <p>AI models are trained on massive amounts of data, and the rules and standards for data storage and usage don't change just because AI is involved. Basing an answer on poor information leads to poor results, and the lines get blurred around data ownership — especially with GenAI. Many GenAI models draw on the internet to source information or content used to generate a response, which can cause problems when a model "hallucinates" — producing a response that isn't true.</p>
-      <p>Always ask for references so you can fact-check what a model tells you, or instruct it to say "I don't know" when it isn't sure. We've also all seen generated images with odd artefacts or watermark-like patterns in them — that's because AI models aren't artists; they draw on millions of existing images to generate a new one. This has improved a lot as the technology has developed, but it's worth understanding how the output is actually created.</p>
+    <h2>Ethical considerations</h2>
+    <img src="../images/Ethics and governance.jpg" alt="Ethics and governance principles: do no harm, integrity and honesty, fairness and justice, privacy and confidentiality, informed consent, respect and responsibility" class="article-image" width="1414" height="795" loading="lazy" />
+    <p>Understanding this as a principle matters because the datasets used to train a model can carry inherent bias, producing biased or unfair responses. This is widely seen in algorithms used to surface content on social media, where the content you engage with shapes the content you're shown. The same applies to LLMs — if built on biased data, they'll produce biased responses. Being conscious of the source of the data, and what the model has access to, is crucial.</p>
+    <p>As AI increasingly shapes people's daily lives, there's growing scepticism and mistrust about how it's used and what it's used for. That's driving a growing desire for transparency and explainability — understanding how decisions have been made — especially in regulated industries, where organisations are held accountable by both customers and regulators. The ability to explain how a model has been used, and what data it drew on, is only becoming more important. (More on this in Episode 3.)</p>
 
-      <h2>Technical considerations</h2>
-      <img src="../images/Tech consideration.jpg" alt="Technical considerations: performance and efficiency, scalability, compatibility, reliability, security" class="article-image" width="1536" height="864" loading="lazy" />
-      <p>Now for the fun part. Everyone wants to use AI, but many are unsure where to start or what's possible. It helps to understand what AI can actually be used for — if you haven't read Episode 1 yet, it covers the basics and potential use cases.</p>
-      <p>Beyond that, some important questions to ask: do you have the data and resources to build your own models? Will you partner with external suppliers for agents, and if so, what data were those models trained on? Can an agent be used in combination with your own data? Or do you need to make changes internally before diving into AI at all?</p>
+    <h2>Data privacy and security</h2>
+    <img src="../images/Security.jpg" alt="Data privacy and security illustrated with locks, shields, and connected devices" class="article-image" width="1536" height="864" loading="lazy" />
+    <p>AI models are trained on massive amounts of data, and the rules and standards for data storage and usage don't change just because AI is involved. Basing an answer on poor information leads to poor results, and the lines get blurred around data ownership — especially with GenAI. Many GenAI models draw on the internet to source information or content used to generate a response, which can cause problems when a model "hallucinates" — producing a response that isn't true.</p>
+    <p>Always ask for references so you can fact-check what a model tells you, or instruct it to say "I don't know" when it isn't sure. We've also all seen generated images with odd artefacts or watermark-like patterns in them — that's because AI models aren't artists; they draw on millions of existing images to generate a new one. This has improved a lot as the technology has developed, but it's worth understanding how the output is actually created.</p>
 
-      <h2>How we interact with AI</h2>
-      <img src="../images/How we interact with AI.jpg" alt="How we interact with AI: chatbots, voice assistants, customer support, smart home, content creation, data analysis, healthcare" class="article-image" width="1536" height="864" loading="lazy" />
-      <p>A common question — and fear — is whether AI is going to replace us. My belief is that we're a long way off AI doing everything people do; you only need to see how Alexa, Siri, and Google Home respond to questions to know they aren't all-singing, all-dancing yet. Most models are built to complete a specialist task. The term for an AI that can complete many different types of tasks is Artificial General Intelligence — and we're still many years from that.</p>
-      <p>What I think is the real focus of AI adoption today is augmentation: making things faster, requiring fewer people, or completing large tasks that previously seemed unachievable. I see it as the next move from blacksmiths to factories — production increases, it takes fewer people to achieve it, and larger tasks become possible.</p>
-      <p>But adoption relies on trust and understanding from users on two sides: the trust consumers need in AI-powered products and services to actually use them, and the willingness of users to upskill toward new tools and ways of working. It's the same pattern as those who upskilled to work with machines versus those who didn't — the former didn't lose their jobs, they evolved. More on this in Episode 3.</p>
+    <h2>Technical considerations</h2>
+    <img src="../images/Tech consideration.jpg" alt="Technical considerations: performance and efficiency, scalability, compatibility, reliability, security" class="article-image" width="1536" height="864" loading="lazy" />
+    <p>Now for the fun part. Everyone wants to use AI, but many are unsure where to start or what's possible. It helps to understand what AI can actually be used for — if you haven't read Episode 1 yet, it covers the basics and potential use cases.</p>
+    <p>Beyond that, some important questions to ask: do you have the data and resources to build your own models? Will you partner with external suppliers for agents, and if so, what data were those models trained on? Can an agent be used in combination with your own data? Or do you need to make changes internally before diving into AI at all?</p>
 
-      <h2>The future of AI</h2>
-      <img src="../images/future of ai.jpg" alt="The future of AI, illustrated as a person and a robot looking out over a futuristic city" class="article-image" width="1024" height="576" loading="lazy" />
-      <p>The future of AI keeps changing, but the direction of travel is becoming clearer. For AI to keep growing and remain usable, trust needs to improve across industries and in public opinion. That's driving a branch of AI called Explainable AI, focused on transparency and understanding why an AI made the decision it did. Stay tuned for more on this in Episode 3.</p>
-      <p>Another direction is Agentic AI — a collection of AI agents working together to complete more complex tasks than any single agent could manage alone. That'll be covered in Episode 4, and is a stepping stone toward Artificial General Intelligence.</p>
+    <h2>How we interact with AI</h2>
+    <img src="../images/How we interact with AI.jpg" alt="How we interact with AI: chatbots, voice assistants, customer support, smart home, content creation, data analysis, healthcare" class="article-image" width="1536" height="864" loading="lazy" />
+    <p>A common question — and fear — is whether AI is going to replace us. My belief is that we're a long way off AI doing everything people do; you only need to see how Alexa, Siri, and Google Home respond to questions to know they aren't all-singing, all-dancing yet. Most models are built to complete a specialist task. The term for an AI that can complete many different types of tasks is Artificial General Intelligence — and we're still many years from that.</p>
+    <p>What I think is the real focus of AI adoption today is augmentation: making things faster, requiring fewer people, or completing large tasks that previously seemed unachievable. I see it as the next move from blacksmiths to factories — production increases, it takes fewer people to achieve it, and larger tasks become possible.</p>
+    <p>But adoption relies on trust and understanding from users on two sides: the trust consumers need in AI-powered products and services to actually use them, and the willingness of users to upskill toward new tools and ways of working. It's the same pattern as those who upskilled to work with machines versus those who didn't — the former didn't lose their jobs, they evolved. More on this in Episode 3.</p>
 
-      <div class="article-actions">
-        <a href="index.html" class="btn btn-secondary">← All Posts</a>
-        <a href="unlocking-value-of-ai-ep1.html" class="btn btn-ghost">← Previous post</a>
-        <a href="unlocking-value-of-ai-ep3.html" class="btn btn-ghost">Next post →</a>
-      </div>
+    <h2>The future of AI</h2>
+    <img src="../images/future of ai.jpg" alt="The future of AI, illustrated as a person and a robot looking out over a futuristic city" class="article-image" width="1024" height="576" loading="lazy" />
+    <p>The future of AI keeps changing, but the direction of travel is becoming clearer. For AI to keep growing and remain usable, trust needs to improve across industries and in public opinion. That's driving a branch of AI called Explainable AI, focused on transparency and understanding why an AI made the decision it did. Stay tuned for more on this in Episode 3.</p>
+    <p>Another direction is Agentic AI — a collection of AI agents working together to complete more complex tasks than any single agent could manage alone. That'll be covered in Episode 4, and is a stepping stone toward Artificial General Intelligence.</p>
+
+    <div class="post-actions">
+      <a href="index.html">← All posts</a>
+      <a href="unlocking-value-of-ai-ep1.html">← Previous post</a>
+      <a href="unlocking-value-of-ai-ep3.html">Next post →</a>
     </div>
-  </article>
+  </div>
+</article>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:branden.millward@gmail.com">Email</a>
+      <a href="index.html">Blog</a>
     </div>
-  </footer>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
 
-  <script src="../assets/js/site.js"></script>
+<script>
+(function () {
+  var THEME_KEY = 'site-theme';
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    if (btn) {
+      btn.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+  }
+
+  var saved = localStorage.getItem(THEME_KEY);
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  apply(saved || (prefersLight ? 'light' : 'dark'));
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      apply(next);
+    });
+  }
+})();
+
+(function () {
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+  if (!navToggle || !navMenu) return;
+
+  function closeMenu() {
+    navMenu.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  navToggle.addEventListener('click', function () {
+    var open = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  navMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!navMenu.classList.contains('is-open')) return;
+    if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
+    closeMenu();
+  });
+})();
+</script>
+
 </body>
 </html>

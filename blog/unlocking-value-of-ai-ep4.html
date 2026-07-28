@@ -1,122 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unlocking the Value of AI for Your Business, Ep 4: AI Agents and the Rise of Agentic AI — Branden Millward</title>
-  <meta name="description" content="The fourth in a series on AI for business: what AI agents actually are, how they work, current use cases, and why Agentic AI is the next evolution." />
-  <meta property="og:title" content="Unlocking the Value of AI for Your Business Series: Ep 4 — AI Agents and the Rise of Agentic AI" />
-  <meta property="og:description" content="What AI agents actually are, how they work, current use cases, and why Agentic AI is the next evolution." />
-  <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
-  <link rel="stylesheet" href="../assets/css/site.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Unlocking the Value of AI for Your Business, Ep 4: AI Agents and the Rise of Agentic AI — Branden Millward</title>
+<meta name="description" content="The fourth in a series on AI for business: what AI agents actually are, how they work, current use cases, and why Agentic AI is the next evolution." />
+<meta property="og:title" content="Unlocking the Value of AI for Your Business Series: Ep 4 — AI Agents and the Rise of Agentic AI" />
+<meta property="og:description" content="What AI agents actually are, how they work, current use cases, and why Agentic AI is the next evolution." />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c16;
+    --bg-rgb: 10, 12, 22;
+    --bg-2: #0f1220;
+    --accent: #8b9dff;
+    --accent-contrast: #0a0c16;
+    --text: #e6e9f5;
+    --muted: #9aa2bd;
+    --faint: #6b7391;
+    --line: rgba(255,255,255,.1);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --shell: 1400px;
+    --pad: clamp(1.4rem, 3vw, 3.25rem);
+    --measure: 60ch;
+    color-scheme: dark;
+  }
+  [data-theme='light'] {
+    --bg: #f5f4f0;
+    --bg-rgb: 245, 244, 240;
+    --bg-2: #ffffff;
+    --accent: #4a5ac9;
+    --accent-contrast: #ffffff;
+    --text: #14151c;
+    --muted: #52566b;
+    --faint: #82869c;
+    --line: rgba(10,12,22,.12);
+    color-scheme: light;
+  }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 1rem;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+  .hud {
+    font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500; line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    background: var(--bg);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease;
+  }
+  .nav-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; padding-block: 1rem;
+  }
+  .nav-name { font-size: .82rem; font-weight: 700; letter-spacing: .18em; color: var(--text); }
+  .nav-name:hover { text-decoration: none; }
+  .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+  .nav-links a.is-active { color: var(--accent); }
+  .nav-menu-cta { display: flex; align-items: center; gap: .9rem; }
+  .nav-actions { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
+  .nav-cta, .theme-toggle {
+    font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--line); border-radius: .25rem;
+    padding: .35rem .6rem; background: none; cursor: pointer; white-space: nowrap;
+  }
+  .nav-cta:hover, .theme-toggle:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    gap: .32rem; width: 1.9rem; height: 1.9rem; border: none; background: none;
+    padding: 0; cursor: pointer; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 1.3rem; height: 2px; background: var(--text);
+    border-radius: 1px; transition: transform .25s ease, opacity .2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: rgba(var(--bg-rgb), .97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: .5rem var(--pad) 1.6rem;
+      max-height: calc(100vh - 100%);
+      overflow-y: auto;
+    }
+    .nav-menu.is-open { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: .9rem 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+    .nav-menu-cta { flex-direction: column; align-items: stretch; gap: .7rem; margin-top: 1.2rem; }
+    .nav-menu-cta .nav-cta { text-align: center; padding: .65rem; }
+  }
+
+  /* ── Post hero ── */
+  .post-hero { padding-block: 7.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  .post-hero .hud a { color: var(--muted); }
+  .post-hero .hud a:hover { color: var(--accent); }
+  .post-hero h1 {
+    font-size: clamp(1.7rem, 3.4vw, 2.7rem); font-weight: 700; line-height: 1.22;
+    letter-spacing: -.01em; margin: .8rem 0 .9rem; max-width: 34ch;
+  }
+  .post-meta { color: var(--faint); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+  .post-meta span + span::before { content: '·'; margin: 0 .6em; color: var(--line); }
+
+  /* ── Post body ── */
+  .post-body { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .measure { max-width: var(--measure); margin-inline: auto; }
+  .post-body h2 {
+    font-size: 1.05rem; font-weight: 700; letter-spacing: .02em; color: var(--text);
+    margin: 2.4rem 0 1rem;
+  }
+  .post-body h2:first-child { margin-top: 0; }
+  .post-body p { color: var(--muted); font-size: .92rem; line-height: 1.8; }
+  .post-body p + p, .post-body ul + p, .post-body p + ul, .post-body img + * { margin-top: 1.4rem; }
+  .post-body strong { color: var(--text); font-weight: 500; }
+  .post-body ul {
+    color: var(--muted); font-size: .92rem; line-height: 1.7; padding-left: 1.3rem;
+    display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem;
+  }
+  .post-body a { color: var(--accent); }
+  .post-body .article-image {
+    width: 100%; border: 1px solid var(--line); border-radius: .4rem; margin: 2rem 0;
+  }
+
+  .post-actions {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--line);
+  }
+  .post-actions a { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ── Footer ── */
+  .foot { padding-block: clamp(4rem, 8vw, 6.5rem) 3rem; border-top: 1px solid var(--line); text-align: center; }
+  .foot-actions { display: flex; gap: 2.2rem; justify-content: center; flex-wrap: wrap; margin: 1.6rem 0 2.6rem; }
+  .foot-actions a { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+  .foot .hud { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
 <body>
 
-  <nav class="site-nav" aria-label="Main navigation">
-    <div class="container">
-      <a href="../index.html" class="nav-logo">Branden<span>.</span></a>
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
       <ul class="nav-links">
-        <li><a href="../index.html#about">About</a></li>
+        <li><a href="index.html" class="is-active">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
         <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
         <li><a href="../index.html#skills">Skills</a></li>
-        <li><a href="index.html" class="active">Blog</a></li>
-        <li><a href="../index.html#events">Events</a></li>
-        <li><a href="../index.html#projects">Projects</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
       </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle theme">☀</button>
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
-  </nav>
 
-  <header class="page-hero">
-    <div class="container">
-      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
-      <h1>Unlocking the Value of AI for Your Business Series: Ep 4 — AI Agents and the Rise of Agentic AI</h1>
-      <div class="page-meta">
-        <span>February 2026</span>
-        <span>4 min read</span>
-      </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <article class="article-content">
-    <div class="container">
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
+    <h1>Unlocking the Value of AI for Your Business Series: Ep 4 — AI Agents and the Rise of Agentic AI</h1>
+    <p class="post-meta"><span>February 2026</span><span>4 min read</span></p>
+  </div>
+</header>
 
-      <img src="../images/AI Agent.jpg" alt="AI agents used for conversational tasks, content creation, data analysis, customer service, system integration, and automation" class="article-image" width="1365" height="1024" loading="lazy" />
+<article class="post-body">
+  <div class="shell measure">
 
-      <p>For a while now, organisations have been trying to modernise their data and AI capabilities, yet many either don't know where to start or still feel stuck in a cycle of pilots, POCs, and incremental improvements. As someone who has spent my career looking at what AI can do, helping improve understanding without buzzwords, and guiding enterprises through transformations, I've seen the same patterns — better models, improved speed of data pipelines, and moving to modern platforms. However, there is still a bottleneck in how much a human can do with their time.</p>
-      <p>That's why the shift toward AI agents and Agentic AI feels different. It's not just another technology wave — it's a structural change in how work gets done, improving efficiency within teams to free up their most valuable resources: time and creativity.</p>
+    <img src="../images/AI Agent.jpg" alt="AI agents used for conversational tasks, content creation, data analysis, customer service, system integration, and automation" class="article-image" width="1365" height="1024" loading="lazy" />
 
-      <h2>What we mean by AI agents</h2>
-      <img src="../images/AI agent interaction.png" alt="Diagram of an AI agent's orchestrator drawing on skills, flow, data, and other agents to turn user input into actions" class="article-image" width="635" height="327" loading="lazy" />
-      <p>The true definition is: "AI agents are autonomous systems designed to perceive their environment, make decisions, and take actions to achieve specific goals."</p>
-      <p>But what does that really mean? AI agents are systems that don't just generate outputs — they act based on the information they have access to, just like we do. We're a way off an Artificial General Intelligence that can react to any situation like a human, but within a controlled, specific task, that's what an AI agent is trying to do.</p>
+    <p>For a while now, organisations have been trying to modernise their data and AI capabilities, yet many either don't know where to start or still feel stuck in a cycle of pilots, POCs, and incremental improvements. As someone who has spent my career looking at what AI can do, helping improve understanding without buzzwords, and guiding enterprises through transformations, I've seen the same patterns — better models, improved speed of data pipelines, and moving to modern platforms. However, there is still a bottleneck in how much a human can do with their time.</p>
+    <p>That's why the shift toward AI agents and Agentic AI feels different. It's not just another technology wave — it's a structural change in how work gets done, improving efficiency within teams to free up their most valuable resources: time and creativity.</p>
 
-      <h2>How AI agents work</h2>
-      <p>AI agents can be used to automate repetitive processes and integrate with other systems through APIs or Model Context Protocols (MCPs) — think of MCP like a USB for AI agents. This lets them interpret goals, break them into tasks, make decisions, learn from feedback, and operate either autonomously or semi-autonomously to solve or complete tasks.</p>
-      <p>This moves us beyond the current model of asking Copilot or ChatGPT to help with simple tasks. These agents can use LLM tools like Copilot and ChatGPT as part of a larger process to complete complex tasks.</p>
+    <h2>What we mean by AI agents</h2>
+    <img src="../images/AI agent interaction.png" alt="Diagram of an AI agent's orchestrator drawing on skills, flow, data, and other agents to turn user input into actions" class="article-image" width="635" height="327" loading="lazy" />
+    <p>The true definition is: "AI agents are autonomous systems designed to perceive their environment, make decisions, and take actions to achieve specific goals."</p>
+    <p>But what does that really mean? AI agents are systems that don't just generate outputs — they act based on the information they have access to, just like we do. We're a way off an Artificial General Intelligence that can react to any situation like a human, but within a controlled, specific task, that's what an AI agent is trying to do.</p>
 
-      <h2>What tasks can we use agents for currently?</h2>
-      <img src="../images/where agents are used.png" alt="Agentic AI across various industries: autonomous vehicles, healthcare, finance, and customer service" class="article-image" width="2445" height="1110" loading="lazy" />
-      <p>Agents are being used across a variety of industries to solve the most time-consuming problems, such as:</p>
-      <ul>
-        <li><strong>Healthcare:</strong> as a clinical assistant, to retrieve patient details, draft notes, or schedule appointments</li>
-        <li><strong>HR:</strong> writing job postings, scheduling interviews, and generating onboarding materials</li>
-        <li><strong>Manufacturing:</strong> estimating equipment repair needs from images, optimising delivery routes, detecting product defects</li>
-      </ul>
-      <p>And much, much more. Going forward, the organisations that succeed won't be the ones with the most advanced models — they'll be the ones that understand how to embed agents into real processes, with guardrails, governance, and clarity of purpose, freeing up that all-important resource — time — for their teams to spend on creativity and innovation.</p>
+    <h2>How AI agents work</h2>
+    <p>AI agents can be used to automate repetitive processes and integrate with other systems through APIs or Model Context Protocols (MCPs) — think of MCP like a USB for AI agents. This lets them interpret goals, break them into tasks, make decisions, learn from feedback, and operate either autonomously or semi-autonomously to solve or complete tasks.</p>
+    <p>This moves us beyond the current model of asking Copilot or ChatGPT to help with simple tasks. These agents can use LLM tools like Copilot and ChatGPT as part of a larger process to complete complex tasks.</p>
 
-      <h2>Agentic AI: the next evolution</h2>
-      <p>Agentic AI takes this concept further. It's not just an agent performing tasks — it's an ecosystem of agents collaborating, reasoning, and working together to complete complex tasks.</p>
+    <h2>What tasks can we use agents for currently?</h2>
+    <img src="../images/where agents are used.png" alt="Agentic AI across various industries: autonomous vehicles, healthcare, finance, and customer service" class="article-image" width="2445" height="1110" loading="lazy" />
+    <p>Agents are being used across a variety of industries to solve the most time-consuming problems, such as:</p>
+    <ul>
+      <li><strong>Healthcare:</strong> as a clinical assistant, to retrieve patient details, draft notes, or schedule appointments</li>
+      <li><strong>HR:</strong> writing job postings, scheduling interviews, and generating onboarding materials</li>
+      <li><strong>Manufacturing:</strong> estimating equipment repair needs from images, optimising delivery routes, detecting product defects</li>
+    </ul>
+    <p>And much, much more. Going forward, the organisations that succeed won't be the ones with the most advanced models — they'll be the ones that understand how to embed agents into real processes, with guardrails, governance, and clarity of purpose, freeing up that all-important resource — time — for their teams to spend on creativity and innovation.</p>
 
-      <img src="../images/agentic.png" alt="Diagram of an agent core connected to memory, tools, other agents, actions, environment, planning, goals, and users" class="article-image" width="1200" height="627" loading="lazy" />
+    <h2>Agentic AI: the next evolution</h2>
+    <p>Agentic AI takes this concept further. It's not just an agent performing tasks — it's an ecosystem of agents collaborating, reasoning, and working together to complete complex tasks.</p>
 
-      <p>Agentic AI systems don't just complete a single type of task; they coordinate multiple agents with different roles, update workflows dynamically, and re-evaluate their performance to make improvements. This isn't done by linking into a set of APIs or tools like a single agent, but by connecting to entire enterprise systems securely — which needs clear guidelines and governance, just like spinning up a new team in your business.</p>
-      <p>This is where work I've done on regulated industry AI safety, platform governance, and organisational capability becomes essential. Agentic AI isn't plug and play, and isn't something that someone who dabbles in Copilot or ChatGPT will be able to implement. It requires a clear understanding of what these systems can and can't interact with, who is responsible for their actions, and treating them like a member of the team — or a team in themselves. That starts with a clear architectural understanding of the system, monitoring in place to ensure decisions and actions are understood and appropriate, and transparency throughout the entire lifecycle of the system. Without these, Agentic AI becomes a risk. With them, it becomes a force to propel your business.</p>
+    <img src="../images/agentic.png" alt="Diagram of an agent core connected to memory, tools, other agents, actions, environment, planning, goals, and users" class="article-image" width="1200" height="627" loading="lazy" />
 
-      <h2>Why this matters now</h2>
-      <p>There are three factors in play that make Agentic AI inevitable:</p>
-      <ul>
-        <li><strong>The explosion of enterprise complexity.</strong> Teams are drowning in tools, data, and processes. Agents can orchestrate this complexity in a much faster way than humans are able to, giving back that time resource.</li>
-        <li><strong>The shift from AI as a feature to AI as a collaborator.</strong> We're moving from augmentation to delegation. This changes job design, workflows, and organisational structure.</li>
-        <li><strong>The maturity of the ecosystem.</strong> We now have foundation models capable of reasoning, frameworks like LangChain, MCP, and agent orchestration platforms, cloud-native architectures that support secure autonomy, and governance patterns that keep humans in control.</li>
-      </ul>
-      <p>This is the moment where the technology, the tooling, and the organisational readiness finally align for the businesses that take the chance.</p>
+    <p>Agentic AI systems don't just complete a single type of task; they coordinate multiple agents with different roles, update workflows dynamically, and re-evaluate their performance to make improvements. This isn't done by linking into a set of APIs or tools like a single agent, but by connecting to entire enterprise systems securely — which needs clear guidelines and governance, just like spinning up a new team in your business.</p>
+    <p>This is where work I've done on regulated industry AI safety, platform governance, and organisational capability becomes essential. Agentic AI isn't plug and play, and isn't something that someone who dabbles in Copilot or ChatGPT will be able to implement. It requires a clear understanding of what these systems can and can't interact with, who is responsible for their actions, and treating them like a member of the team — or a team in themselves. That starts with a clear architectural understanding of the system, monitoring in place to ensure decisions and actions are understood and appropriate, and transparency throughout the entire lifecycle of the system. Without these, Agentic AI becomes a risk. With them, it becomes a force to propel your business.</p>
 
-      <h2>Architecting for autonomy</h2>
-      <img src="../images/emerging trends.png" alt="Emerging trends in Agentic AI: robotic systems, personalisation, collaborative agents, and ethical design, with impact across healthcare, finance, education, and manufacturing" class="article-image" width="1536" height="1024" loading="lazy" />
-      <p>While at Cloud Formations, I've helped organisations move from aspiration to adoption. The biggest lesson is simple: Agentic AI succeeds when architecture, governance, and capability uplift move together.</p>
-      <p>In practice, that means designing agent ecosystems that are modular, observable, and governed, so they can be easily understood by users and audited if needed. It means increasing your teams' understanding so they can get the most out of the agents and feel comfortable using them — starting with safe sandboxes for experimentation and testing. It means ensuring your teams can work cross-functionally, since these systems are most effective when linked across multiple areas of the business rather than streamlining just bits and pieces. And it means translating complexity into clear, executive-ready narratives — if you're trying to get teams to use this, or executives to buy into it, you need to be clear about what these systems are doing and how.</p>
-      <p>Agentic AI isn't just a technical challenge. It's an organisational one, and that's where the real transformation happens.</p>
+    <h2>Why this matters now</h2>
+    <p>There are three factors in play that make Agentic AI inevitable:</p>
+    <ul>
+      <li><strong>The explosion of enterprise complexity.</strong> Teams are drowning in tools, data, and processes. Agents can orchestrate this complexity in a much faster way than humans are able to, giving back that time resource.</li>
+      <li><strong>The shift from AI as a feature to AI as a collaborator.</strong> We're moving from augmentation to delegation. This changes job design, workflows, and organisational structure.</li>
+      <li><strong>The maturity of the ecosystem.</strong> We now have foundation models capable of reasoning, frameworks like LangChain, MCP, and agent orchestration platforms, cloud-native architectures that support secure autonomy, and governance patterns that keep humans in control.</li>
+    </ul>
+    <p>This is the moment where the technology, the tooling, and the organisational readiness finally align for the businesses that take the chance.</p>
 
-      <h2>What's next: from agents to autonomous enterprises</h2>
-      <p>We're heading toward organisations where:</p>
-      <ul>
-        <li>Routine work is delegated to agents</li>
-        <li>Humans focus on judgment, creativity, and strategy</li>
-        <li>Systems self-optimise</li>
-        <li>Governance is continuous and embedded</li>
-        <li>AI becomes a core organisational capability, not a bolt-on</li>
-      </ul>
-      <p>This isn't science fiction — it's already emerging in forward-thinking enterprises. The question isn't "Will we adopt Agentic AI?" It's "How quickly can we build the literacy, architecture, and governance to adopt it safely and effectively?" For leaders, architects, and practitioners, this is the moment to shape the future, not react to it.</p>
+    <h2>Architecting for autonomy</h2>
+    <img src="../images/emerging trends.png" alt="Emerging trends in Agentic AI: robotic systems, personalisation, collaborative agents, and ethical design, with impact across healthcare, finance, education, and manufacturing" class="article-image" width="1536" height="1024" loading="lazy" />
+    <p>While at Cloud Formations, I've helped organisations move from aspiration to adoption. The biggest lesson is simple: Agentic AI succeeds when architecture, governance, and capability uplift move together.</p>
+    <p>In practice, that means designing agent ecosystems that are modular, observable, and governed, so they can be easily understood by users and audited if needed. It means increasing your teams' understanding so they can get the most out of the agents and feel comfortable using them — starting with safe sandboxes for experimentation and testing. It means ensuring your teams can work cross-functionally, since these systems are most effective when linked across multiple areas of the business rather than streamlining just bits and pieces. And it means translating complexity into clear, executive-ready narratives — if you're trying to get teams to use this, or executives to buy into it, you need to be clear about what these systems are doing and how.</p>
+    <p>Agentic AI isn't just a technical challenge. It's an organisational one, and that's where the real transformation happens.</p>
 
-      <div class="article-actions">
-        <a href="index.html" class="btn btn-secondary">← All Posts</a>
-        <a href="unlocking-value-of-ai-ep3.html" class="btn btn-ghost">← Previous post</a>
-        <a href="unlocking-value-of-ai-ep5.html" class="btn btn-ghost">Next post →</a>
-      </div>
+    <h2>What's next: from agents to autonomous enterprises</h2>
+    <p>We're heading toward organisations where:</p>
+    <ul>
+      <li>Routine work is delegated to agents</li>
+      <li>Humans focus on judgment, creativity, and strategy</li>
+      <li>Systems self-optimise</li>
+      <li>Governance is continuous and embedded</li>
+      <li>AI becomes a core organisational capability, not a bolt-on</li>
+    </ul>
+    <p>This isn't science fiction — it's already emerging in forward-thinking enterprises. The question isn't "Will we adopt Agentic AI?" It's "How quickly can we build the literacy, architecture, and governance to adopt it safely and effectively?" For leaders, architects, and practitioners, this is the moment to shape the future, not react to it.</p>
+
+    <div class="post-actions">
+      <a href="index.html">← All posts</a>
+      <a href="unlocking-value-of-ai-ep3.html">← Previous post</a>
+      <a href="unlocking-value-of-ai-ep5.html">Next post →</a>
     </div>
-  </article>
+  </div>
+</article>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Branden Millward. All rights reserved.</p>
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:branden.millward@gmail.com">Email</a>
+      <a href="index.html">Blog</a>
     </div>
-  </footer>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
 
-  <script src="../assets/js/site.js"></script>
+<script>
+(function () {
+  var THEME_KEY = 'site-theme';
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    if (btn) {
+      btn.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+  }
+
+  var saved = localStorage.getItem(THEME_KEY);
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  apply(saved || (prefersLight ? 'light' : 'dark'));
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      apply(next);
+    });
+  }
+})();
+
+(function () {
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+  if (!navToggle || !navMenu) return;
+
+  function closeMenu() {
+    navMenu.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  navToggle.addEventListener('click', function () {
+    var open = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  navMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!navMenu.classList.contains('is-open')) return;
+    if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
+    closeMenu();
+  });
+})();
+</script>
+
 </body>
 </html>
