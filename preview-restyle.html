@@ -87,9 +87,11 @@
   }
   .nav-name { font-size: .82rem; font-weight: 700; letter-spacing: .18em; color: var(--text); }
   .nav-name:hover { text-decoration: none; }
+  .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .nav-links a:hover { color: var(--accent); text-decoration: none; }
+  .nav-menu-cta { display: flex; align-items: center; gap: .9rem; }
 
   .nav-actions { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
   .nav-cta,
@@ -108,6 +110,30 @@
   }
   .nav-cta:hover,
   .theme-toggle:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .32rem;
+    width: 1.9rem; height: 1.9rem;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 1.3rem; height: 2px;
+    background: var(--text);
+    border-radius: 1px;
+    transition: transform .25s ease, opacity .2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   /* ── Hero ── */
   .viewport { border-bottom: 1px solid var(--line); padding-block: 6.5rem 3rem; }
@@ -263,13 +289,30 @@
     .row { grid-template-columns: 1fr; gap: .2rem; }
     .row-thumb { display: none; }
     .row.row-writing { grid-template-columns: 1fr; }
-    .nav-links { gap: 1.1rem; }
   }
 
-  @media (max-width: 680px) {
-    .nav-links a { font-size: .62rem; }
-    .nav-links { gap: .85rem; }
-    .nav-cta { display: none; }
+  /* ── Mobile nav: burger toggle + dropdown menu ── */
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: rgba(var(--bg-rgb), .97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: .5rem var(--pad) 1.6rem;
+      max-height: calc(100vh - 100%);
+      overflow-y: auto;
+    }
+    .nav-menu.is-open { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: .9rem 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+    .nav-menu-cta { flex-direction: column; align-items: stretch; gap: .7rem; margin-top: 1.2rem; }
+    .nav-menu-cta .nav-cta { text-align: center; padding: .65rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -282,17 +325,26 @@
 <nav class="nav">
   <div class="shell nav-bar">
     <a href="#" class="nav-name">BRANDEN MILLWARD</a>
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#writing">Writing</a></li>
-      <li><a href="#speaking">Speaking</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#speaking">Speaking</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
     <div class="nav-actions">
-      <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
-      <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
       <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
@@ -442,24 +494,20 @@
 <div class="skills">
   <div class="shell skills-grid">
     <div class="skill-cat">
-      <p class="hud">Languages &amp; Tools</p>
-      <p class="skill-list">Python, R, SQL, Tableau</p>
+      <p class="hud">Agentic &amp; Orchestration</p>
+      <p class="skill-list">n8n, LangChain, LangGraph, AutoGen, Prompt Engineering</p>
     </div>
     <div class="skill-cat">
-      <p class="hud">AI &amp; GenAI</p>
-      <p class="skill-list">Artificial Intelligence, Deep Learning, Machine Learning, LLMs, GenAI, NLP</p>
+      <p class="hud">AI Platforms &amp; Models</p>
+      <p class="skill-list">Claude, OpenAI, Azure OpenAI, RAG</p>
     </div>
     <div class="skill-cat">
-      <p class="hud">Agentic &amp; Prompt Engineering</p>
-      <p class="skill-list">Multi-Agent Orchestration, Prompt Engineering, LangChain, Workflow Automation</p>
+      <p class="hud">Data &amp; Cloud</p>
+      <p class="skill-list">Databricks, Supabase, Snowflake, Power BI, Python, GitHub</p>
     </div>
     <div class="skill-cat">
-      <p class="hud">Architecture &amp; Cloud</p>
-      <p class="skill-list">Enterprise Architecture, ArchiMate, TOGAF, AWS, Azure, Databricks</p>
-    </div>
-    <div class="skill-cat">
-      <p class="hud">AI Strategy &amp; Leadership</p>
-      <p class="skill-list">AI &amp; GenAI Strategy, Responsible AI &amp; Risk, Use-Case Discovery, Stakeholder Management, Public Speaking</p>
+      <p class="hud">Strategy &amp; Governance</p>
+      <p class="skill-list">AI Governance, Transparent AI, TOGAF</p>
     </div>
   </div>
 </div>
@@ -734,6 +782,33 @@
 })();
 
 (function () {
+  // ── Mobile nav toggle ──
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+  if (!navToggle || !navMenu) return;
+
+  function closeMenu() {
+    navMenu.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  navToggle.addEventListener('click', function () {
+    var open = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  navMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!navMenu.classList.contains('is-open')) return;
+    if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
+    closeMenu();
+  });
+})();
+
+(function () {
   // ── Agent-network canvas ──
   const canvas = document.getElementById('net');
   const stage = document.querySelector('.net-stage');
@@ -752,7 +827,11 @@
   }
 
   let ACCENT = currentAccentTriplet();
-  document.addEventListener('theme-change', function () { ACCENT = currentAccentTriplet(); });
+  let THEME = document.documentElement.getAttribute('data-theme') || 'dark';
+  document.addEventListener('theme-change', function (e) {
+    ACCENT = currentAccentTriplet();
+    THEME = e.detail.theme;
+  });
 
   // A web of capabilities feeds each agent; the agents feed the orchestrator,
   // which passes through governance before anything is emitted.
@@ -764,7 +843,7 @@
   // reads as a web rather than parallel lanes.
   const WIRING = {
     2: [[0, 1], [1], [0], [0, 1], [0], [1]],
-    3: [[0, 1], [1], [1, 2], [2], [0, 2], [0, 1, 2]]
+    3: [[0, 1], [1], [1, 2], [0, 1, 2], [0, 2], [0, 1, 2]]
   };
 
   let nodes = [], edges = [], pulses = [], w = 0, h = 0, scale = 1, labelPx = 13;
@@ -832,6 +911,11 @@
       targets.forEach(function (a) { edges.push([nodes[i], nodes[A + a]]); });
     });
     for (let a = 0; a < nAgents; a++) { edges.push([nodes[A + a], nodes[ORCH]]); }
+    // Agents are peers as well as reporting to the orchestrator — wire every
+    // pair so the middle of the network reads as a mesh, not a hub-and-spoke.
+    for (let a = 0; a < nAgents; a++) {
+      for (let b = a + 1; b < nAgents; b++) { edges.push([nodes[A + a], nodes[A + b]]); }
+    }
     edges.push([nodes[ORCH], nodes[GOV]]);
     edges.push([nodes[GOV], nodes[OUT]]);
   }
@@ -840,7 +924,7 @@
   function spawn() {
     if (!edges.length) return;
     const e = edges[Math.floor(Math.random() * edges.length)];
-    pulses.push({ a: e[0], b: e[1], t: 0, sp: 0.006 + Math.random() * 0.008 });
+    pulses.push({ a: e[0], b: e[1], t: 0, sp: 0.009 + Math.random() * 0.012 });
   }
 
   function draw(time) {
@@ -878,7 +962,7 @@
       });
 
       ctx.lineWidth = Math.max(1, scale);
-      ctx.strokeStyle = 'rgba(' + ACCENT + ',0.2)';
+      ctx.strokeStyle = 'rgba(' + ACCENT + ',' + (THEME === 'light' ? 0.35 : 0.2) + ')';
       edges.forEach(function (e) {
         ctx.beginPath();
         ctx.moveTo(e[0].x, e[0].y);
@@ -934,7 +1018,9 @@
 
         const off = (isCore ? 30 : 21) * scale;
         ctx.font = '500 ' + labelPx + 'px "JetBrains Mono", monospace';
-        ctx.fillStyle = s.bright ? 'rgba(230,233,245,0.82)' : 'rgba(230,233,245,0.58)';
+        ctx.fillStyle = THEME === 'light'
+          ? (s.bright ? 'rgba(26,26,46,0.88)' : 'rgba(26,26,46,0.62)')
+          : (s.bright ? 'rgba(230,233,245,0.82)' : 'rgba(230,233,245,0.58)');
         ctx.textAlign = 'center';
         ctx.textBaseline = n.labelBelow ? 'top' : 'alphabetic';
         ctx.fillText(n.label, n.x, n.labelBelow ? n.y + off : n.y - off);
@@ -951,7 +1037,7 @@
     window.addEventListener('resize', layout);
   }
   requestAnimationFrame(draw);
-  if (!reduce) { setInterval(spawn, 620); }
+  if (!reduce) { setInterval(spawn, 150); }
   spawn();
 })();
 </script>
