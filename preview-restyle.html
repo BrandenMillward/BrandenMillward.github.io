@@ -74,7 +74,7 @@
     opacity: 0;
     transition: opacity 1s ease;
   }
-  #bg-net.is-visible { opacity: .12; }
+  #bg-net.is-visible { opacity: .22; }
 
   @media (prefers-reduced-motion: reduce) {
     #bg-net { transition: opacity .4s ease; }
@@ -1085,7 +1085,7 @@
   let ACCENT = currentAccentTriplet();
   document.addEventListener('theme-change', function () { ACCENT = currentAccentTriplet(); });
 
-  const PARALLAX = 0.06;   // fraction of scroll speed the field drifts at
+  const PARALLAX = 0.35;   // fraction of scroll speed the field drifts at
   const LINK_DIST = 150;   // px, max distance for a connection
   const MAX_LINKS = 2;     // per node, keeps the mesh sparse
 
@@ -1110,7 +1110,7 @@
         by: Math.random() * fieldH,
         ph: Math.random() * Math.PI * 2,
         sp: 0.3 + Math.random() * 0.4,
-        amp: 6 + Math.random() * 10
+        amp: 14 + Math.random() * 22
       });
     }
   }
@@ -1127,8 +1127,8 @@
       const offset = scrollY * PARALLAX;
 
       const pts = nodes.map(function (n) {
-        const dx = reduce ? 0 : Math.cos(time * 0.00015 * n.sp + n.ph) * n.amp * 0.6;
-        const dy = reduce ? 0 : Math.sin(time * 0.00018 * n.sp + n.ph) * n.amp;
+        const dx = reduce ? 0 : Math.cos(time * 0.0013 * n.sp + n.ph) * n.amp * 0.6;
+        const dy = reduce ? 0 : Math.sin(time * 0.0016 * n.sp + n.ph) * n.amp;
         return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
       });
 
