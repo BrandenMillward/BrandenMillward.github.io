@@ -63,6 +63,23 @@
 
   .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
 
+  /* ── Background parallax network (ambient, below the fold) ── */
+  #bg-net {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+  }
+  #bg-net.is-visible { opacity: .07; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #bg-net { transition: opacity .4s ease; }
+  }
+
   .hud {
     font-size: .66rem;
     letter-spacing: .16em;
@@ -326,6 +343,8 @@
 </style>
 </head>
 <body>
+
+<canvas id="bg-net" aria-hidden="true"></canvas>
 
 <nav class="nav">
   <div class="shell nav-bar">
@@ -1045,6 +1064,123 @@
   requestAnimationFrame(draw);
   if (!reduce) { setInterval(spawn, 150); }
   spawn();
+})();
+
+(function () {
+  // ── Background parallax neural network ──
+  // A sparse, near-invisible node field fixed behind all content. It stays
+  // hidden over the hero (which has its own canvas) and fades in once the
+  // hero scrolls out of view, drifting slowly and shifting opposite to
+  // scroll at a fraction of its speed for a parallax "deeper layer" feel.
+  const canvas = document.getElementById('bg-net');
+  const hero = document.querySelector('.viewport');
+  if (!canvas || !hero) return;
+  const ctx = canvas.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function currentAccentTriplet() {
+    const hex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const m = hex.replace('#', '');
+    return parseInt(m.substring(0, 2), 16) + ',' + parseInt(m.substring(2, 4), 16) + ',' + parseInt(m.substring(4, 6), 16);
+  }
+  let ACCENT = currentAccentTriplet();
+  document.addEventListener('theme-change', function () { ACCENT = currentAccentTriplet(); });
+
+  const PARALLAX = 0.06;   // fraction of scroll speed the field drifts at
+  const LINK_DIST = 150;   // px, max distance for a connection
+  const MAX_LINKS = 2;     // per node, keeps the mesh sparse
+
+  let w = 0, h = 0, fieldH = 0, nodes = [];
+  let scrollY = window.scrollY || 0, scrollTicking = false;
+  let visible = false, rafId = null;
+
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // The field is taller than the viewport so nodes can wrap through an
+    // off-screen buffer above and below, looping seamlessly as it drifts.
+    fieldH = h * 2.4;
+    const count = Math.max(22, Math.min(56, Math.round((w * fieldH) / 34000)));
+    nodes = [];
+    for (let i = 0; i < count; i++) {
+      nodes.push({
+        bx: Math.random() * w,
+        by: Math.random() * fieldH,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.3 + Math.random() * 0.4,
+        amp: 6 + Math.random() * 10
+      });
+    }
+  }
+
+  function wrapY(rawY) {
+    let v = ((rawY % fieldH) + fieldH) % fieldH;
+    v -= fieldH / 2;
+    return v + h / 2;
+  }
+
+  function draw(time) {
+    if (visible && w && h) {
+      ctx.clearRect(0, 0, w, h);
+      const offset = scrollY * PARALLAX;
+
+      const pts = nodes.map(function (n) {
+        const dx = reduce ? 0 : Math.cos(time * 0.00015 * n.sp + n.ph) * n.amp * 0.6;
+        const dy = reduce ? 0 : Math.sin(time * 0.00018 * n.sp + n.ph) * n.amp;
+        return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
+      });
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + ACCENT + ',0.4)';
+      for (let i = 0; i < pts.length; i++) {
+        let links = 0;
+        for (let j = i + 1; j < pts.length && links < MAX_LINKS; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+          if (Math.sqrt(dx * dx + dy * dy) < LINK_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.stroke();
+            links++;
+          }
+        }
+      }
+
+      ctx.fillStyle = 'rgba(' + ACCENT + ',0.8)';
+      pts.forEach(function (p) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+    rafId = requestAnimationFrame(draw);
+  }
+
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      const show = !entry.isIntersecting;
+      if (show === visible) return;
+      visible = show;
+      canvas.classList.toggle('is-visible', visible);
+    });
+  }, { threshold: 0 });
+  io.observe(hero);
+
+  window.addEventListener('scroll', function () {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(function () {
+      scrollY = window.scrollY || 0;
+      scrollTicking = false;
+    });
+  }, { passive: true });
+
+  window.addEventListener('resize', build);
+  build();
+  rafId = requestAnimationFrame(draw);
 })();
 </script>
 
