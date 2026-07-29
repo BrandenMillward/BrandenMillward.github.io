@@ -74,7 +74,7 @@
     opacity: 0;
     transition: opacity 1s ease;
   }
-  #bg-net.is-visible { opacity: .22; }
+  #bg-net.is-visible { opacity: .32; }
 
   @media (prefers-reduced-motion: reduce) {
     #bg-net { transition: opacity .4s ease; }
@@ -750,7 +750,7 @@
     </div>
     <div class="skill-cat">
       <p class="hud">AI Platforms &amp; Models</p>
-      <p class="skill-list">Claude, OpenAI, Azure OpenAI, OpenRouter, ChatGPT, Codex</p>
+      <p class="skill-list">Claude, OpenAI, Azure OpenAI</p>
     </div>
     <div class="skill-cat">
       <p class="hud">Data &amp; Cloud</p>
@@ -758,7 +758,7 @@
     </div>
     <div class="skill-cat">
       <p class="hud">Strategy &amp; Governance</p>
-      <p class="skill-list">AI Governance, Transparent AI, TOGAF, AI Transformation, AI Training, AI Enablement</p>
+      <p class="skill-list">AI Governance, Transparent AI, TOGAF</p>
     </div>
   </div>
 </div>
@@ -1132,7 +1132,7 @@
         return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
       });
 
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       ctx.strokeStyle = 'rgba(' + ACCENT + ',0.4)';
       for (let i = 0; i < pts.length; i++) {
         let links = 0;
@@ -1151,7 +1151,7 @@
       ctx.fillStyle = 'rgba(' + ACCENT + ',0.8)';
       pts.forEach(function (p) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
     }
