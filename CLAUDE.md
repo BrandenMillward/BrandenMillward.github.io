@@ -51,8 +51,6 @@ changing something on the homepage, check whether the blog pages need the same e
 
 Known consequences of the half-finished migration, worth fixing if asked:
 
-- `projects/*.html` nav links point at `../index.html#about`, `#events`, and `#projects`
-  — anchors that no longer exist on the homepage (see section ids below).
 - Theme choice does not persist across the two systems: the inline scripts use
   `localStorage['site-theme']`, `assets/js/site.js` uses `localStorage['portfolio-theme']`.
 - `assets/sass/**` and `assets/css/noscript.css` are dead. The SASS compiles to
