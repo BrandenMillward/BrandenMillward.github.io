@@ -107,7 +107,7 @@
     opacity: 0;
     transition: opacity 1s ease;
   }
-  #bg-net.is-visible { opacity: .22; }
+  #bg-net.is-visible { opacity: .32; }
 
   @media (prefers-reduced-motion: reduce) {
     #bg-net { transition: opacity .4s ease; }
@@ -1171,7 +1171,7 @@
         return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
       });
 
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       ctx.strokeStyle = 'rgba(' + ACCENT + ',0.4)';
       for (let i = 0; i < pts.length; i++) {
         let links = 0;
@@ -1190,7 +1190,7 @@
       ctx.fillStyle = 'rgba(' + ACCENT + ',0.8)';
       pts.forEach(function (p) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
     }
