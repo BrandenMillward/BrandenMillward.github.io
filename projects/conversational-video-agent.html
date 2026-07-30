@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amazon Web Scraper &amp; Automated Email Alerts — Branden Millward</title>
-<meta name="description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
-<meta property="og:title" content="Amazon Web Scraper &amp; Automated Email Alerts" />
-<meta property="og:description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
+<title>Conversational AI Video Sales Agent — Branden Millward</title>
+<meta name="description" content="A real-time AI video avatar that qualifies prospects in natural conversation, segments them live, and routes each to the right conversion path." />
+<meta property="og:title" content="Conversational AI Video Sales Agent" />
+<meta property="og:description" content="A real-time AI video avatar that qualifies prospects in natural conversation, segments them live, and routes each to the right conversion path." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,48 +215,51 @@
 
 <header class="post-hero">
   <div class="shell">
-    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Amazon Tracker</p>
-    <h1>Amazon Web Scraper &amp; Automated Email Alerts</h1>
-    <p class="post-meta"><span>Automation · Python</span><span>Web Scraping · Scheduled Jobs</span></p>
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Video Agent</p>
+    <h1>Conversational AI Video Sales Agent</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Conversation Design · Guardrails</span></p>
   </div>
 </header>
 
 <article class="post-body">
   <div class="shell article-wrap">
-    <img src="../images/Web Scrapping.jpeg" alt="Web scraping project" class="article-image" width="1591" height="838" loading="lazy" />
+    <img src="../images/video-agent.svg" alt="A video avatar branching a conversation into three segment paths" class="article-image" width="640" height="360" loading="lazy" />
 
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Manually checking Amazon for price drops on a product of interest is tedious. Could a script scrape prices daily and alert me only when a threshold was met?</p>
+        <p>In an automated, low-touch sales funnel, the "book a call" step is where prospects stall. Could a real-time AI video agent hold that conversation instead — qualifying the prospect naturally, working out which segment they belong to, and routing them to the right next step, without a human in the loop?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
-          <li>Built a web scraper to extract product name and price</li>
-          <li>Stored daily snapshots in a CSV file for history</li>
-          <li>Automated daily runs with email alerts on price drops</li>
+          <li>Designed the complete agent persona: identity and role, personality and voice, behavioural rules, and a structured knowledge base</li>
+          <li>Built a multi-objective conversation flow that classifies prospects into <strong>three segments mid-conversation</strong> and drives each toward a different goal — personalised demo, human sales call, or a graceful exit</li>
+          <li>Engineered layered guardrails: disclosure rules, topic boundaries, escalation criteria, and hard behavioural limits for an unsupervised, customer-facing agent</li>
+          <li>Wired conversation outcomes into CRM logging for attribution and follow-up</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>A hands-off price monitoring system that emails a direct product link whenever the price falls below a configured threshold — practical automation with real utility.</p>
+        <p>A fully autonomous, customer-facing conversational agent trusted to run without supervision — the guardrail and objective design is the deliverable, and it is what makes deployment possible at all.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
-          <li>Python</li>
-          <li>Web scraping libraries</li>
-          <li>CSV storage · Email automation</li>
+          <li>Tavus — real-time conversational video</li>
+          <li>Persona · guardrail · objective-flow design</li>
+          <li>CRM integration & attribution schema</li>
         </ul>
       </div>
     </div>
 
-    <h2>Why build this?</h2>
-    <p>This project combines data extraction, persistence, and notification — the same pipeline pattern used in monitoring systems I’ve built professionally. Start with a data source, store history, define a rule, and alert when conditions are met.</p>
+    <h2>Conversation design as engineering</h2>
+    <p>A customer-facing agent with no human in the loop concentrates all the risk into the design phase. Every behaviour has to be specified before the first real conversation: what the agent may claim, when it must disclose it is an AI, how it detects it is out of its depth, and what a graceful failure looks like. The objective flow is effectively a state machine expressed in natural language — with the guardrails as its invariants.</p>
+
+    <h2>Segmentation in the flow of talk</h2>
+    <p>The hardest requirement was segmenting without interrogating. The flow gathers qualifying signals through natural conversation and commits to a track only when confidence is sufficient — mirroring what a skilled human qualifier does, but specified explicitly enough for an AI to execute reliably.</p>
 
     <div class="post-actions">
-      <a href="https://github.com/BrandenMillward/Projects/blob/main/Amazon%20web%20scraper%20and%20automated%20email%20project.ipynb" target="_blank" rel="noopener">View Notebook</a>
       <a href="../index.html#work">← All work</a>
     </div>
   </div>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amazon Web Scraper &amp; Automated Email Alerts — Branden Millward</title>
-<meta name="description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
-<meta property="og:title" content="Amazon Web Scraper &amp; Automated Email Alerts" />
-<meta property="og:description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
+<title>Self-Documenting Repositories — Branden Millward</title>
+<meta name="description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request — then keeps the docs fresh on every push." />
+<meta property="og:title" content="Self-Documenting Repositories" />
+<meta property="og:description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request — then keeps the docs fresh on every push." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,48 +215,51 @@
 
 <header class="post-hero">
   <div class="shell">
-    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Amazon Tracker</p>
-    <h1>Amazon Web Scraper &amp; Automated Email Alerts</h1>
-    <p class="post-meta"><span>Automation · Python</span><span>Web Scraping · Scheduled Jobs</span></p>
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Repo Docs Agent</p>
+    <h1>Self-Documenting Repositories</h1>
+    <p class="post-meta"><span>Automation · 2026</span><span>Map-Reduce LLM Design</span></p>
   </div>
 </header>
 
 <article class="post-body">
   <div class="shell article-wrap">
-    <img src="../images/Web Scrapping.jpeg" alt="Web scraping project" class="article-image" width="1591" height="838" loading="lazy" />
+    <img src="../images/repo-docs.svg" alt="Source files being summarised individually then synthesised into documentation" class="article-image" width="640" height="360" loading="lazy" />
 
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Manually checking Amazon for price drops on a product of interest is tedious. Could a script scrape prices daily and alert me only when a threshold was met?</p>
+        <p>Documentation rots the moment it is written. Could a pipeline read an entire repository, produce accurate README and ARCHITECTURE documents, open a pull request with them — and then keep them current automatically as the code changes?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
-          <li>Built a web scraper to extract product name and price</li>
-          <li>Stored daily snapshots in a CSV file for history</li>
-          <li>Automated daily runs with email alerts on price drops</li>
+          <li>Fetches the repo tree via the GitHub API and filters to meaningful source files</li>
+          <li>Uses a <strong>map-reduce LLM design</strong>: a fast, cheap model summarises each file individually; a stronger model synthesises repo-wide documentation from the summaries — scaling to large repos without giant prompts</li>
+          <li>Runs as a full scan on demand, or incrementally from push and pull-request webhooks, documenting only what changed</li>
+          <li>Creates a fresh branch, commits the generated docs, and opens a pull request — a human always reviews before merge</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>A hands-off price monitoring system that emails a direct product link whenever the price falls below a configured threshold — practical automation with real utility.</p>
+        <p>Repositories that document themselves, with a human approval gate. Where coverage is partial — capped file counts, failed fetches — the pipeline says so explicitly in the output rather than papering over gaps.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
-          <li>Python</li>
-          <li>Web scraping libraries</li>
-          <li>CSV storage · Email automation</li>
+          <li>n8n · GitHub REST API</li>
+          <li>Anthropic API — tiered model usage</li>
+          <li>Webhook triggers · PR automation</li>
         </ul>
       </div>
     </div>
 
-    <h2>Why build this?</h2>
-    <p>This project combines data extraction, persistence, and notification — the same pipeline pattern used in monitoring systems I’ve built professionally. Start with a data source, store history, define a rule, and alert when conditions are met.</p>
+    <h2>Built for the real GitHub</h2>
+    <p>The naive version dies on contact with production: bulk file fetches trip abuse rate limits, transient 502s kill runs, and a silently dropped file corrupts the docs without anyone noticing. The pipeline serialises fetches with pacing, retries every call, continues past individual failures, and — critically — surfaces every failed fetch by name in the generated output, so a gap reads as a gap rather than a fact.</p>
+
+    <h2>Why map-reduce beats one big prompt</h2>
+    <p>Stuffing a whole repo into a single context window is expensive, hits limits on real codebases, and buries the signal. Per-file summarisation with a cheap model costs a fraction as much, parallelises cleanly, and gives the synthesis model exactly the distilled material it needs. The trade-off — cross-file details arrive secondhand — is handled by always giving the synthesis step the full structural file tree alongside the summaries.</p>
 
     <div class="post-actions">
-      <a href="https://github.com/BrandenMillward/Projects/blob/main/Amazon%20web%20scraper%20and%20automated%20email%20project.ipynb" target="_blank" rel="noopener">View Notebook</a>
       <a href="../index.html#work">← All work</a>
     </div>
   </div>

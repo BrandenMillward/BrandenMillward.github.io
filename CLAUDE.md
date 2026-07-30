@@ -38,24 +38,24 @@ build or release step.
 
 ## Architecture
 
-### Two design systems coexist — this is the thing to know first
+### One design system, per-page styles — this is the thing to know first
 
-| Pages | Styling | Behaviour |
-|---|---|---|
-| `index.html`, `blog/index.html`, `blog/*.html` (7 posts) | **Self-contained**: per-page inline `<style>` block, JetBrains Mono, `:root` / `[data-theme='light']` custom properties | Per-page inline `<script>` |
-| `projects/*.html` (6 pages) | Shared `assets/css/site.css` (Inter-based, older restyle) | Shared `assets/js/site.js` |
+Every page (`index.html`, `blog/*.html`, `projects/*.html`) is **self-contained**:
+per-page inline `<style>` block, JetBrains Mono, `:root` / `[data-theme='light']`
+custom properties, and a per-page inline `<script>` for the theme toggle
+(`localStorage['site-theme']`) and mobile nav. There is no shared stylesheet in use.
 
-The restyled pages do **not** link `assets/css/site.css`. A site-wide visual change
-therefore means editing several inline `<style>` blocks, not one stylesheet. When
-changing something on the homepage, check whether the blog pages need the same edit.
+A site-wide visual change therefore means editing several inline `<style>` blocks,
+not one stylesheet. When changing something on the homepage, check whether the blog
+and project pages need the same edit. The 10 `projects/*.html` pages share an
+identical style/nav/footer skeleton — keep them in lockstep when editing one.
 
-Known consequences of the half-finished migration, worth fixing if asked:
+Dead files, kept only as history — nothing references them; safe to delete:
 
-- Theme choice does not persist across the two systems: the inline scripts use
-  `localStorage['site-theme']`, `assets/js/site.js` uses `localStorage['portfolio-theme']`.
-- `assets/sass/**` and `assets/css/noscript.css` are dead. The SASS compiles to
-  `assets/css/main.css`, which no longer exists and is referenced by zero pages. Editing
-  SASS changes nothing.
+- `assets/css/site.css` and `assets/js/site.js` (the pre-migration Inter-based
+  project-page styling; the last pages using them were migrated in 2026-07)
+- `assets/sass/**` and `assets/css/noscript.css`. The SASS compiles to
+  `assets/css/main.css`, which no longer exists and is referenced by zero pages.
 
 ### Homepage section ids
 

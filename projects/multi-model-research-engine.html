@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amazon Web Scraper &amp; Automated Email Alerts — Branden Millward</title>
-<meta name="description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
-<meta property="og:title" content="Amazon Web Scraper &amp; Automated Email Alerts" />
-<meta property="og:description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
+<title>Multi-Model Company Research Engine — Branden Millward</title>
+<meta name="description" content="An API that turns a single company name into a comprehensive research report by orchestrating seven parallel AI agents across six model providers." />
+<meta property="og:title" content="Multi-Model Company Research Engine" />
+<meta property="og:description" content="An API that turns a single company name into a comprehensive research report by orchestrating seven parallel AI agents across six model providers." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,48 +215,51 @@
 
 <header class="post-hero">
   <div class="shell">
-    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Amazon Tracker</p>
-    <h1>Amazon Web Scraper &amp; Automated Email Alerts</h1>
-    <p class="post-meta"><span>Automation · Python</span><span>Web Scraping · Scheduled Jobs</span></p>
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Research Engine</p>
+    <h1>Multi-Model Company Research Engine</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Multi-Agent Orchestration</span></p>
   </div>
 </header>
 
 <article class="post-body">
   <div class="shell article-wrap">
-    <img src="../images/Web Scrapping.jpeg" alt="Web scraping project" class="article-image" width="1591" height="838" loading="lazy" />
+    <img src="../images/research-engine.svg" alt="Seven agent nodes fanning out from one input and merging into a single report" class="article-image" width="640" height="360" loading="lazy" />
 
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Manually checking Amazon for price drops on a product of interest is tedious. Could a script scrape prices daily and alert me only when a threshold was met?</p>
+        <p>Company research for sales and strategy is slow, manual, and inconsistent — an analyst can spend days assembling market position, competitors, personas, and brand signals for a single prospect. Could an orchestrated network of AI agents produce a comprehensive, consistent report in minutes, from nothing but a company name?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
-          <li>Built a web scraper to extract product name and price</li>
-          <li>Stored daily snapshots in a CSV file for history</li>
-          <li>Automated daily runs with email alerts on price drops</li>
+          <li>Designed a research brief stage that infers 13 structured research fields from a single company name</li>
+          <li>Fanned the brief out to <strong>seven parallel agents</strong>, each on the model best suited to its task: Gemini for market and SEO analysis, Perplexity deep-research for competitor intelligence, GPT for buyer personas, Claude for brand documentation, Grok for social signals, DeepSeek for performance data, and a dedicated agent for lateral, non-obvious signals</li>
+          <li>Merged all agent outputs into a nine-section, fact-tagged report with deterministic section splitting</li>
+          <li>Exposed the whole pipeline as an authenticated API: submit a job via webhook, poll a result endpoint for structured, sectioned JSON</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>A hands-off price monitoring system that emails a direct product link whenever the price falls below a configured threshold — practical automation with real utility.</p>
+        <p>A production research API that returns in ~20 minutes what previously took days. Per-agent retries and graceful degradation mean one flaky provider costs a single report section, not the whole run.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
-          <li>Python</li>
-          <li>Web scraping libraries</li>
-          <li>CSV storage · Email automation</li>
+          <li>n8n (orchestration)</li>
+          <li>OpenRouter + 6 model providers</li>
+          <li>Webhook API · header auth · job store</li>
         </ul>
       </div>
     </div>
 
-    <h2>Why build this?</h2>
-    <p>This project combines data extraction, persistence, and notification — the same pipeline pattern used in monitoring systems I’ve built professionally. Start with a data source, store history, define a rule, and alert when conditions are met.</p>
+    <h2>Why multi-model, not one model</h2>
+    <p>No single model is best at everything. Deep-research models excel at competitor digging but are slow; fast models handle structured extraction cheaply; some models have distinctive strengths in social or market analysis. Routing each research dimension to the model best suited to it produced measurably better sections than any single-model version — and made the system resilient, because providers fail independently.</p>
+
+    <h2>Hard-won lessons</h2>
+    <p>The interesting engineering was in the failure modes: provider-side content filters silently rewriting entity names in prompts, web-search flags that only work on concrete model IDs, and orchestration triggers hijacked by leftover test nodes. Each one is invisible until it corrupts a run — the fix was defensive design throughout: retries on every agent, deterministic parsing, and a job store that makes every run inspectable after the fact.</p>
 
     <div class="post-actions">
-      <a href="https://github.com/BrandenMillward/Projects/blob/main/Amazon%20web%20scraper%20and%20automated%20email%20project.ipynb" target="_blank" rel="noopener">View Notebook</a>
       <a href="../index.html#work">← All work</a>
     </div>
   </div>

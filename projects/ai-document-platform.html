@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amazon Web Scraper &amp; Automated Email Alerts — Branden Millward</title>
-<meta name="description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
-<meta property="og:title" content="Amazon Web Scraper &amp; Automated Email Alerts" />
-<meta property="og:description" content="A hands-off price monitoring system: daily scraping, CSV history, and automated email alerts on price drops." />
+<title>AI Document Generation Platform — Branden Millward</title>
+<meta name="description" content="A web app converting raw source material into polished customer-facing documentation — re-architected as an async job system to survive generations that outlive serverless timeouts." />
+<meta property="og:title" content="AI Document Generation Platform" />
+<meta property="og:description" content="A web app converting raw source material into polished customer-facing documentation — re-architected as an async job system to survive generations that outlive serverless timeouts." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,48 +215,52 @@
 
 <header class="post-hero">
   <div class="shell">
-    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Amazon Tracker</p>
-    <h1>Amazon Web Scraper &amp; Automated Email Alerts</h1>
-    <p class="post-meta"><span>Automation · Python</span><span>Web Scraping · Scheduled Jobs</span></p>
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Document Platform</p>
+    <h1>AI Document Generation Platform</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Async Architecture</span></p>
   </div>
 </header>
 
 <article class="post-body">
   <div class="shell article-wrap">
-    <img src="../images/Web Scrapping.jpeg" alt="Web scraping project" class="article-image" width="1591" height="838" loading="lazy" />
+    <img src="../images/doc-platform.svg" alt="A document flowing through an asynchronous pipeline of API, worker, and job store" class="article-image" width="640" height="360" loading="lazy" />
 
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Manually checking Amazon for price drops on a product of interest is tedious. Could a script scrape prices daily and alert me only when a threshold was met?</p>
+        <p>Converting raw source material — plain text, PDFs, Word documents — into polished, customer-facing documentation is repetitive skilled work. An LLM can do it well, but real-world inputs (60,000+ character PDFs) produce generations lasting 6–7 minutes: far past any serverless request timeout, so a naive implementation drops the connection mid-generation.</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
-          <li>Built a web scraper to extract product name and price</li>
-          <li>Stored daily snapshots in a CSV file for history</li>
-          <li>Automated daily runs with email alerts on price drops</li>
+          <li>Started with synchronous streaming; measured real workloads and found output length, not model choice, drives generation time — and no serverless tier survives the worst case</li>
+          <li>Re-architected as an <strong>async job system</strong>: the serverless front end extracts content and images, writes a job row to Postgres, and hands off to a worker</li>
+          <li>Ran generation on a long-lived container worker with no request timeout, writing progress and results back to the job store</li>
+          <li>Had the browser poll a lightweight status endpoint — the user watches progress instead of a hanging request</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>A hands-off price monitoring system that emails a direct product link whenever the price falls below a configured threshold — practical automation with real utility.</p>
+        <p>Large documents that previously failed at the platform timeout now complete reliably, with live progress. The redesign cost nothing in the common case and made the worst case routine.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
-          <li>Python</li>
-          <li>Web scraping libraries</li>
-          <li>CSV storage · Email automation</li>
+          <li>Next.js · serverless front end</li>
+          <li>Container worker (long-lived, no timeout)</li>
+          <li>Supabase — Postgres job store with RLS</li>
+          <li>Anthropic API</li>
         </ul>
       </div>
     </div>
 
-    <h2>Why build this?</h2>
-    <p>This project combines data extraction, persistence, and notification — the same pipeline pattern used in monitoring systems I’ve built professionally. Start with a data source, store history, define a rule, and alert when conditions are met.</p>
+    <h2>The architecture decision</h2>
+    <p>Three options were on the table: stay serverless and cap input size, move to edge functions, or add a container worker. Measuring the real worst case — 400+ seconds of generation — eliminated the first two immediately: both platforms enforce wall-clock limits the workload simply exceeds. The container worker was the only design that survives the data, not the demo.</p>
+
+    <h2>What this generalises to</h2>
+    <p>Any LLM product with unbounded output length eventually meets this wall. "Be concise" prompting does not reliably bound output; model choice barely moves throughput. The durable answer is architectural: decouple the request from the generation, persist the job, and let the client poll. This pattern has since become my default for long-running AI work.</p>
 
     <div class="post-actions">
-      <a href="https://github.com/BrandenMillward/Projects/blob/main/Amazon%20web%20scraper%20and%20automated%20email%20project.ipynb" target="_blank" rel="noopener">View Notebook</a>
       <a href="../index.html#work">← All work</a>
     </div>
   </div>

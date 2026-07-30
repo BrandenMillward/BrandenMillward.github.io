@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Seven agent nodes fanning out from one input and merging into a single report">
+  <rect width="640" height="360" fill="#0f1220"/>
+
+  <g stroke="#8b9dff" stroke-width="1" opacity="0.35">
+    <line x1="110" y1="180" x2="300" y2="45"/>
+    <line x1="110" y1="180" x2="300" y2="90"/>
+    <line x1="110" y1="180" x2="300" y2="135"/>
+    <line x1="110" y1="180" x2="300" y2="180"/>
+    <line x1="110" y1="180" x2="300" y2="225"/>
+    <line x1="110" y1="180" x2="300" y2="270"/>
+    <line x1="110" y1="180" x2="300" y2="315"/>
+    <line x1="300" y1="45" x2="500" y2="180"/>
+    <line x1="300" y1="90" x2="500" y2="180"/>
+    <line x1="300" y1="135" x2="500" y2="180"/>
+    <line x1="300" y1="180" x2="500" y2="180"/>
+    <line x1="300" y1="225" x2="500" y2="180"/>
+    <line x1="300" y1="270" x2="500" y2="180"/>
+    <line x1="300" y1="315" x2="500" y2="180"/>
+  </g>
+
+  <circle cx="110" cy="180" r="10" fill="#8b9dff"/>
+  <text x="110" y="212" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" letter-spacing="2">INPUT</text>
+
+  <g fill="#8b9dff" opacity="0.85">
+    <circle cx="300" cy="45" r="7"/>
+    <circle cx="300" cy="90" r="7"/>
+    <circle cx="300" cy="135" r="7"/>
+    <circle cx="300" cy="180" r="7"/>
+    <circle cx="300" cy="225" r="7"/>
+    <circle cx="300" cy="270" r="7"/>
+    <circle cx="300" cy="315" r="7"/>
+  </g>
+  <text x="300" y="24" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" letter-spacing="2">7 AGENTS</text>
+
+  <circle cx="500" cy="180" r="12" fill="none" stroke="#8b9dff" stroke-width="2"/>
+  <circle cx="500" cy="180" r="5" fill="#8b9dff"/>
+  <g stroke="#8b9dff" stroke-width="2" opacity="0.7" stroke-linecap="round">
+    <line x1="545" y1="150" x2="600" y2="150"/>
+    <line x1="545" y1="170" x2="590" y2="170"/>
+    <line x1="545" y1="190" x2="600" y2="190"/>
+    <line x1="545" y1="210" x2="580" y2="210"/>
+  </g>
+  <text x="500" y="216" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" letter-spacing="2">REPORT</text>
+</svg>
