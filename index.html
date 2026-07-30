@@ -166,7 +166,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: .32rem;
+    : .32rem;
     width: 1.9rem; height: 1.9rem;
     border: none;
     background: none;
@@ -194,8 +194,8 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     grid-template-rows: auto auto;
-    column-gap: clamp(2rem, 4vw, 4.5rem);
-    row-gap: clamp(1.6rem, 3vw, 2.6rem);
+    column-: clamp(2rem, 4vw, 4.5rem);
+    row-: clamp(1.6rem, 3vw, 2.6rem);
     align-items: start;
   }
   .hero-copy  { grid-column: 1; grid-row: 1; align-self: end; }
@@ -223,7 +223,7 @@
   }
 
   /* Network panel */
-  .hero-net { display: flex; flex-direction: column; gap: .9rem; }
+  .hero-net { display: flex; flex-direction: column; : .9rem; }
   .net-head { border-top: 1px solid var(--line); padding-top: 1rem; }
   .net-head .big { font-size: .92rem; font-weight: 700; letter-spacing: .1em; color: var(--text); }
   .net-stage { position: relative; width: 100%; aspect-ratio: 1 / 0.82; min-height: 20rem;
@@ -255,12 +255,12 @@
   .showcase { border-top: 1px solid var(--line); background: transparent; }
   .slab { border-bottom: 1px solid var(--line); background: transparent; }
   .slab-head { display: flex; align-items: baseline; justify-content: space-between;
-               gap: 1.5rem; flex-wrap: wrap; padding-block: .75rem; }
+               : 1.5rem; flex-wrap: wrap; padding-block: .75rem; }
   .slab-head h3 { font-size: .88rem; font-weight: 700; letter-spacing: .02em; }
   .slab-head h3 a { color: var(--text); }
   .slab-head h3 a:hover { color: var(--accent); }
   .slab-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem;
+    display: grid; grid-template-columns: 1fr 1fr; : 1.75rem;
     align-items: center; padding-block: .4rem 1.3rem;
   }
   .slab-media { border-radius: .4rem; overflow: hidden; background: var(--bg); height: 14rem; }
@@ -445,15 +445,15 @@
     <p class="lede">Most organisations don't have an AI problem. They have a trust problem.</p>
 
     <div class="measure body">
-      <p>The models are good enough. They have been for a while. What stops an AI system reaching production in a bank, an insurer, or a national infrastructure programme is rarely accuracy — it's that nobody can explain what the thing did, or say who is accountable when it is wrong.</p>
+      <p>The models have been good enough for a while now. What stops an AI system reaching production in a bank, an insurer, or a national infrastructure programme is rarely accuracy. It's that nobody can explain what the thing did or say who is accountable when it gets something wrong.</p>
 
-      <p>That gap is where I've spent my career. I started as an analyst at Capital One building models nobody acted on, learned the hard way that <strong>a model nobody trusts is an expensive calculation</strong>, and spent the years since moving up the stack — through platform governance at Experian, transformation at the Post Office, and AI strategy consulting at Cloud Formations — to the point where the architecture, the explainability, and the organisational change are all one job.</p>
+      <p>I've spent my career in that gap. I started as an analyst at Capital One building models nobody acted on, in a team restricted to basic models because anything more complex was seen as unexplainable. That perception was wrong, but it didn't matter: I learned the hard way that <strong>a model nobody trusts is an expensive calculation</strong>. Since then I've moved up the stack: transformation at the Post Office, platform governance at Experian, AI strategy consulting at Cloud Formations. Somewhere along the way the architecture, the explainability and the organisational change stopped being separate jobs.</p>
 
-      <p>Today I'm an <strong>AI Orchestration Architect at Intent HQ</strong>. I design agent networks: the roles each agent plays, how they hand work to each other, the prompts and protocols that hold it together, and the guardrails that stop it drifting. The viewport above is a live sketch of that idea — nodes passing messages, an orchestrator holding the middle.</p>
+      <p>Today I'm an <strong>AI Orchestration Architect at Intent HQ</strong>. I design agent networks: which role each agent plays, how they hand work to each other, the prompts and protocols that hold it together, and the guardrails that stop it drifting. The aim is to make the business AI-native. The agents take on everything that doesn't need a specialist, so the team can spend their time on the parts only they can do. The viewport above is a live sketch of that idea, nodes passing messages around an orchestrator in the middle.</p>
 
-      <p>My MSc dissertation asked whether explainability techniques could close the deep learning trust gap in regulated industries, using 2.26 million real credit decisions. The answer was yes, and the finding has shaped everything since: <strong>the barrier to adoption is auditability, not capability</strong>.</p>
+      <p>My MSc dissertation asked whether explainability techniques could close the deep learning trust gap in regulated industries, using 2.26 million real credit decisions. The answer was yes, and it has shaped everything since: <strong>the barrier to adoption is auditability, not capability</strong>.</p>
 
-      <p>I write and speak about this a lot — most recently at SQLBits 2026 — because the hardest part of this work has never been the technology.</p>
+      <p>I write and speak about this a lot, most recently at SQLBits 2026, because the hardest part of this work has never been the technology.</p>
     </div>
   </div>
 </section>
