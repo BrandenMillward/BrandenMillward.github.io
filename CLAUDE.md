@@ -8,10 +8,6 @@ Branden Millward's personal site — portfolio, blog, and project write-ups — 
 GitHub Pages at <https://brandenmillward.github.io>. Topic focus is AI orchestration,
 machine learning, and data.
 
-> `README.md` is stale. It describes an HTML5 UP / jQuery / SASS template with
-> `assets/css/main.css`, `elements.html`, and `generic.html` — none of which exist any
-> more. Trust this file and the source, not the README.
-
 ## Tech stack
 
 Hand-written static HTML, CSS, and vanilla JS. No framework, no bundler, no
@@ -50,12 +46,9 @@ not one stylesheet. When changing something on the homepage, check whether the b
 and project pages need the same edit. The 10 `projects/*.html` pages share an
 identical style/nav/footer skeleton — keep them in lockstep when editing one.
 
-Dead files, kept only as history — nothing references them; safe to delete:
-
-- `assets/css/site.css` and `assets/js/site.js` (the pre-migration Inter-based
-  project-page styling; the last pages using them were migrated in 2026-07)
-- `assets/sass/**` and `assets/css/noscript.css`. The SASS compiles to
-  `assets/css/main.css`, which no longer exists and is referenced by zero pages.
+The old template-derived styling (`assets/**`, `index.html.bak`,
+`preview-restyle.html`, and the template's `LICENSE.txt`) was deleted in the
+2026-07 cleanup — recover from git history if ever needed.
 
 ### Homepage section ids
 
@@ -78,11 +71,10 @@ frequently — expect requests about their visibility.
 
 ### Branch model
 
-`main` is live. `restyle-preview` carries `preview-restyle.html`, the full-page design
-prototype; design work happens there and is hand-carried into `main`'s real pages.
-The two branches' `index.html` and `blog/*` have diverged by thousands of lines — never
-assume a file matches across branches, always check the branch you're on.
-`index.html.bak` on `main` is the pre-restyle homepage, kept as a reference.
+`main` is live. The old `restyle-preview` branch carried `preview-restyle.html`,
+the design prototype for the restyle — the restyle has long since shipped to `main`
+and that branch is stale; don't assume any file matches across branches. Design
+work now happens directly on `main`'s real pages.
 
 ## Image pipeline
 
