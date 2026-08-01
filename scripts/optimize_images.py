@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 import sys
+import urllib.parse
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 RASTER_EXTS = {".jpg", ".jpeg", ".png", ".gif"}
@@ -45,7 +46,13 @@ def convert_to_webp(src: pathlib.Path) -> pathlib.Path | None:
 def update_html_references(original_rel: str, webp_rel: str) -> None:
     original_rel = original_rel.replace("\\", "/")
     webp_rel = webp_rel.replace("\\", "/")
-    marker = f'srcset="{webp_rel}"'
+
+    # srcset splits its value on whitespace, so a filename containing spaces
+    # ("presenting sqlbits 2026.webp") silently breaks the source and the
+    # browser falls back to the full-size original. src has no such rule,
+    # which is why only this side needs encoding.
+    webp_srcset = urllib.parse.quote(webp_rel)
+    marker = f'srcset="{webp_srcset}"'
 
     pattern = re.compile(
         r'<img\s+([^>]*?)src="' + re.escape(original_rel) + r'"([^>]*?)\s*/?>'
@@ -61,7 +68,7 @@ def update_html_references(original_rel: str, webp_rel: str) -> None:
             img_tag = f'<img {pre}src="{original_rel}"{post} />'
             return (
                 "<picture>\n"
-                f'              <source srcset="{webp_rel}" type="image/webp" />\n'
+                f'              <source srcset="{webp_srcset}" type="image/webp" />\n'
                 f"              {img_tag}\n"
                 "            </picture>"
             )

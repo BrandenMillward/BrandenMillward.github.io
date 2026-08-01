@@ -11,6 +11,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <style>
   :root {
     --bg: #0a0c16;
@@ -20,7 +31,7 @@
     --accent-contrast: #0a0c16;
     --text: #e6e9f5;
     --muted: #9aa2bd;
-    --faint: #6b7391;
+    --faint: #7b83a3;
     --line: rgba(255,255,255,.1);
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --shell: 1400px;
@@ -36,11 +47,11 @@
     --accent-contrast: #ffffff;
     --text: #14151c;
     --muted: #52566b;
-    --faint: #82869c;
+    --faint: #63677c;
     --line: rgba(10,12,22,.12);
     color-scheme: light;
   }
-  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; scroll-padding-top: 5rem; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
@@ -56,6 +67,26 @@
   a:hover { text-decoration: underline; text-underline-offset: 4px; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+
+  #main { scroll-margin-top: 5rem; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+  }
+  .skip-link:focus {
+    left: var(--pad); top: .6rem;
+    background: var(--bg-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: .25rem;
+    padding: .9rem 1rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+
+  /* Target size: narrow viewports and any touch pointer. Desktop keeps the
+     nav's deliberate proportions, which already clear the 24px AA floor. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
+    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
+  }
   .hud {
     font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
     color: var(--faint); font-weight: 500; line-height: 1.6;
@@ -170,6 +201,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav class="nav">
   <div class="shell nav-bar">
     <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
@@ -198,6 +231,8 @@
   </div>
 </nav>
 
+<main id="main">
+
 <header class="post-hero">
   <div class="shell">
     <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
@@ -209,13 +244,19 @@
 <article class="post-body">
   <div class="shell measure">
 
-    <img src="../images/AI Agent.jpg" alt="AI agents used for conversational tasks, content creation, data analysis, customer service, system integration, and automation" class="article-image" width="1365" height="1024" loading="lazy" />
+    <picture>
+      <source srcset="../images/AI%20Agent.webp" type="image/webp" />
+      <img src="../images/AI Agent.jpg" alt="AI agents used for conversational tasks, content creation, data analysis, customer service, system integration, and automation" class="article-image" width="1365" height="1024" decoding="async" loading="eager" fetchpriority="high" />
+    </picture>
 
     <p>For a while now, organisations have been trying to modernise their data and AI capabilities, yet many either don't know where to start or still feel stuck in a cycle of pilots, POCs, and incremental improvements. As someone who has spent my career looking at what AI can do, helping improve understanding without buzzwords, and guiding enterprises through transformations, I've seen the same patterns — better models, improved speed of data pipelines, and moving to modern platforms. However, there is still a bottleneck in how much a human can do with their time.</p>
     <p>That's why the shift toward AI agents and Agentic AI feels different. It's not just another technology wave — it's a structural change in how work gets done, improving efficiency within teams to free up their most valuable resources: time and creativity.</p>
 
     <h2>What we mean by AI agents</h2>
-    <img src="../images/AI agent interaction.png" alt="Diagram of an AI agent's orchestrator drawing on skills, flow, data, and other agents to turn user input into actions" class="article-image" width="635" height="327" loading="lazy" />
+    <picture>
+      <source srcset="../images/AI%20agent%20interaction.webp" type="image/webp" />
+      <img src="../images/AI agent interaction.png" alt="Diagram of an AI agent's orchestrator drawing on skills, flow, data, and other agents to turn user input into actions" class="article-image" width="635" height="327" loading="lazy" decoding="async" />
+    </picture>
     <p>The true definition is: "AI agents are autonomous systems designed to perceive their environment, make decisions, and take actions to achieve specific goals."</p>
     <p>But what does that really mean? AI agents are systems that don't just generate outputs — they act based on the information they have access to, just like we do. We're a way off an Artificial General Intelligence that can react to any situation like a human, but within a controlled, specific task, that's what an AI agent is trying to do.</p>
 
@@ -224,7 +265,10 @@
     <p>This moves us beyond the current model of asking Copilot or ChatGPT to help with simple tasks. These agents can use LLM tools like Copilot and ChatGPT as part of a larger process to complete complex tasks.</p>
 
     <h2>What tasks can we use agents for currently?</h2>
-    <img src="../images/where agents are used.png" alt="Agentic AI across various industries: autonomous vehicles, healthcare, finance, and customer service" class="article-image" width="2445" height="1110" loading="lazy" />
+    <picture>
+      <source srcset="../images/where%20agents%20are%20used.webp" type="image/webp" />
+      <img src="../images/where agents are used.png" alt="Agentic AI across various industries: autonomous vehicles, healthcare, finance, and customer service" class="article-image" width="2445" height="1110" loading="lazy" decoding="async" />
+    </picture>
     <p>Agents are being used across a variety of industries to solve the most time-consuming problems, such as:</p>
     <ul>
       <li><strong>Healthcare:</strong> as a clinical assistant, to retrieve patient details, draft notes, or schedule appointments</li>
@@ -236,7 +280,10 @@
     <h2>Agentic AI: the next evolution</h2>
     <p>Agentic AI takes this concept further. It's not just an agent performing tasks — it's an ecosystem of agents collaborating, reasoning, and working together to complete complex tasks.</p>
 
-    <img src="../images/agentic.png" alt="Diagram of an agent core connected to memory, tools, other agents, actions, environment, planning, goals, and users" class="article-image" width="1200" height="627" loading="lazy" />
+    <picture>
+      <source srcset="../images/agentic.webp" type="image/webp" />
+      <img src="../images/agentic.png" alt="Diagram of an agent core connected to memory, tools, other agents, actions, environment, planning, goals, and users" class="article-image" width="1200" height="627" loading="lazy" decoding="async" />
+    </picture>
 
     <p>Agentic AI systems don't just complete a single type of task; they coordinate multiple agents with different roles, update workflows dynamically, and re-evaluate their performance to make improvements. This isn't done by linking into a set of APIs or tools like a single agent, but by connecting to entire enterprise systems securely — which needs clear guidelines and governance, just like spinning up a new team in your business.</p>
     <p>This is where work I've done on regulated industry AI safety, platform governance, and organisational capability becomes essential. Agentic AI isn't plug and play, and isn't something that someone who dabbles in Copilot or ChatGPT will be able to implement. It requires a clear understanding of what these systems can and can't interact with, who is responsible for their actions, and treating them like a member of the team — or a team in themselves. That starts with a clear architectural understanding of the system, monitoring in place to ensure decisions and actions are understood and appropriate, and transparency throughout the entire lifecycle of the system. Without these, Agentic AI becomes a risk. With them, it becomes a force to propel your business.</p>
@@ -251,7 +298,10 @@
     <p>This is the moment where the technology, the tooling, and the organisational readiness finally align for the businesses that take the chance.</p>
 
     <h2>Architecting for autonomy</h2>
-    <img src="../images/emerging trends.png" alt="Emerging trends in Agentic AI: robotic systems, personalisation, collaborative agents, and ethical design, with impact across healthcare, finance, education, and manufacturing" class="article-image" width="1536" height="1024" loading="lazy" />
+    <picture>
+      <source srcset="../images/emerging%20trends.webp" type="image/webp" />
+      <img src="../images/emerging trends.png" alt="Emerging trends in Agentic AI: robotic systems, personalisation, collaborative agents, and ethical design, with impact across healthcare, finance, education, and manufacturing" class="article-image" width="1536" height="1024" loading="lazy" decoding="async" />
+    </picture>
     <p>While at Cloud Formations, I've helped organisations move from aspiration to adoption. The biggest lesson is simple: Agentic AI succeeds when architecture, governance, and capability uplift move together.</p>
     <p>In practice, that means designing agent ecosystems that are modular, observable, and governed, so they can be easily understood by users and audited if needed. It means increasing your teams' understanding so they can get the most out of the agents and feel comfortable using them — starting with safe sandboxes for experimentation and testing. It means ensuring your teams can work cross-functionally, since these systems are most effective when linked across multiple areas of the business rather than streamlining just bits and pieces. And it means translating complexity into clear, executive-ready narratives — if you're trying to get teams to use this, or executives to buy into it, you need to be clear about what these systems are doing and how.</p>
     <p>Agentic AI isn't just a technical challenge. It's an organisational one, and that's where the real transformation happens.</p>
@@ -274,6 +324,8 @@
     </div>
   </div>
 </article>
+
+</main>
 
 <footer class="foot" id="contact">
   <div class="shell">
@@ -324,11 +376,13 @@
   function closeMenu() {
     navMenu.classList.remove('is-open');
     navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
   }
 
   navToggle.addEventListener('click', function () {
     var open = navMenu.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
 
   navMenu.querySelectorAll('a').forEach(function (a) {
@@ -339,6 +393,12 @@
     if (!navMenu.classList.contains('is-open')) return;
     if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
     closeMenu();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !navMenu.classList.contains('is-open')) return;
+    closeMenu();
+    navToggle.focus();
   });
 })();
 </script>

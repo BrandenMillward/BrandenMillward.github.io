@@ -11,6 +11,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <style>
   :root {
     --bg: #0a0c16;
@@ -20,7 +31,7 @@
     --accent-contrast: #0a0c16;
     --text: #e6e9f5;
     --muted: #9aa2bd;
-    --faint: #6b7391;
+    --faint: #7b83a3;
     --line: rgba(255,255,255,.1);
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --shell: 1400px;
@@ -36,11 +47,11 @@
     --accent-contrast: #ffffff;
     --text: #14151c;
     --muted: #52566b;
-    --faint: #82869c;
+    --faint: #63677c;
     --line: rgba(10,12,22,.12);
     color-scheme: light;
   }
-  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; scroll-padding-top: 5rem; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
@@ -56,6 +67,26 @@
   a:hover { text-decoration: underline; text-underline-offset: 4px; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+
+  #main { scroll-margin-top: 5rem; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+  }
+  .skip-link:focus {
+    left: var(--pad); top: .6rem;
+    background: var(--bg-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: .25rem;
+    padding: .9rem 1rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+
+  /* Target size: narrow viewports and any touch pointer. Desktop keeps the
+     nav's deliberate proportions, which already clear the 24px AA floor. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
+    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
+  }
   .hud {
     font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
     color: var(--faint); font-weight: 500; line-height: 1.6;
@@ -185,6 +216,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav class="nav">
   <div class="shell nav-bar">
     <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
@@ -212,6 +245,8 @@
     </div>
   </div>
 </nav>
+
+<main id="main">
 
 <header class="post-hero">
   <div class="shell">
@@ -266,6 +301,8 @@
   </div>
 </article>
 
+</main>
+
 <footer class="foot" id="contact">
   <div class="shell">
     <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
@@ -315,11 +352,13 @@
   function closeMenu() {
     navMenu.classList.remove('is-open');
     navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
   }
 
   navToggle.addEventListener('click', function () {
     var open = navMenu.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
 
   navMenu.querySelectorAll('a').forEach(function (a) {
@@ -330,6 +369,12 @@
     if (!navMenu.classList.contains('is-open')) return;
     if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
     closeMenu();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !navMenu.classList.contains('is-open')) return;
+    closeMenu();
+    navToggle.focus();
   });
 })();
 </script>

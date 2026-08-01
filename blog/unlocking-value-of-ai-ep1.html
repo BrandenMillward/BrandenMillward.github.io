@@ -11,6 +11,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <style>
   :root {
     --bg: #0a0c16;
@@ -20,7 +31,7 @@
     --accent-contrast: #0a0c16;
     --text: #e6e9f5;
     --muted: #9aa2bd;
-    --faint: #6b7391;
+    --faint: #7b83a3;
     --line: rgba(255,255,255,.1);
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --shell: 1400px;
@@ -36,11 +47,11 @@
     --accent-contrast: #ffffff;
     --text: #14151c;
     --muted: #52566b;
-    --faint: #82869c;
+    --faint: #63677c;
     --line: rgba(10,12,22,.12);
     color-scheme: light;
   }
-  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; scroll-padding-top: 5rem; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
@@ -56,6 +67,26 @@
   a:hover { text-decoration: underline; text-underline-offset: 4px; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+
+  #main { scroll-margin-top: 5rem; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+  }
+  .skip-link:focus {
+    left: var(--pad); top: .6rem;
+    background: var(--bg-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: .25rem;
+    padding: .9rem 1rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+
+  /* Target size: narrow viewports and any touch pointer. Desktop keeps the
+     nav's deliberate proportions, which already clear the 24px AA floor. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
+    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
+  }
   .hud {
     font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
     color: var(--faint); font-weight: 500; line-height: 1.6;
@@ -170,6 +201,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav class="nav">
   <div class="shell nav-bar">
     <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
@@ -198,6 +231,8 @@
   </div>
 </nav>
 
+<main id="main">
+
 <header class="post-hero">
   <div class="shell">
     <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
@@ -212,7 +247,10 @@
     <p>For many organisations, Artificial Intelligence (AI) can seem complex, expensive, and out of reach. Yet, when approached with the right strategy, AI can become one of the most powerful enablers of growth and innovation.</p>
     <p>At Cloud Formations, we help businesses bridge the gap between curiosity and desire into capabilities, transforming AI from an abstract concept into tangible value.</p>
 
-    <img src="../images/AI Evolution.png" alt="Evolution from legacy to AI, illustrated as early man evolving into a robot" class="article-image" width="1024" height="1024" loading="lazy" />
+    <picture>
+      <source srcset="../images/AI%20Evolution.webp" type="image/webp" />
+      <img src="../images/AI Evolution.png" alt="Evolution from legacy to AI, illustrated as early man evolving into a robot" class="article-image" width="1024" height="1024" decoding="async" loading="eager" fetchpriority="high" />
+    </picture>
 
     <h2>Understanding the basics: what AI really is</h2>
     <p>Artificial Intelligence refers to computer systems that can perform tasks traditionally requiring human intelligence, such as reasoning, problem-solving, and decision-making.</p>
@@ -224,7 +262,10 @@
       <li><strong>Computer Vision (CV):</strong> AI that interprets visual data, powering everything from facial recognition to autonomous vehicles</li>
     </ul>
 
-    <img src="../images/AI Umbrella.png" alt="AI as an umbrella term covering Machine Learning, Deep Learning, Natural Language Processing, and Computer Vision" class="article-image" width="1024" height="1024" loading="lazy" />
+    <picture>
+      <source srcset="../images/AI%20Umbrella.webp" type="image/webp" />
+      <img src="../images/AI Umbrella.png" alt="AI as an umbrella term covering Machine Learning, Deep Learning, Natural Language Processing, and Computer Vision" class="article-image" width="1024" height="1024" loading="lazy" decoding="async" />
+    </picture>
 
     <p>From streaming services to virtual assistants, AI is already embedded in daily life, often in ways people don't even notice. These four sub-categories are used in various ways across industries, and in many situations, in conjunction with each other.</p>
 
@@ -238,12 +279,18 @@
     </ul>
     <p><strong>Deep Learning (DL)</strong> covers techniques that are as close as we currently are to mimicking the human brain — complex neural networks that replicate how signals are sent and processed between layers, adjusting values to change outcomes.</p>
 
-    <img src="../images/Deep Learning.png" alt="Example of a deep neural network with input, hidden, and output layers" class="article-image" width="1750" height="775" loading="lazy" />
+    <picture>
+      <source srcset="../images/Deep%20Learning.webp" type="image/webp" />
+      <img src="../images/Deep Learning.png" alt="Example of a deep neural network with input, hidden, and output layers" class="article-image" width="1750" height="775" loading="lazy" decoding="async" />
+    </picture>
 
     <p><strong>Natural Language Processing (NLP)</strong> is the use of Machine Learning to enable computers to understand and communicate with human language. It's one of the fastest-growing and most widely used areas of AI, and a key component in the development of Generative AI, given how easy it is for users to enter — they simply write prompts in plain language. Using Deep Learning techniques, Large Language Models (LLMs) have been trained on vast quantities of text data to understand questions (user inputs) and produce responses in natural language (output) that a user can understand.</p>
     <p><strong>Computer Vision (CV)</strong> is another use of Machine Learning that enables computers to derive information from images, videos, and other visual inputs. It works by converting images into individual pixels, assigning each a value, and looking for patterns across those values — requiring vast amounts of visual examples to identify the features that differentiate elements within an image.</p>
 
-    <img src="../images/Computer vision.png" alt="Example of computer vision converting an image into pixel values" class="article-image" width="1537" height="450" loading="lazy" />
+    <picture>
+      <source srcset="../images/Computer%20vision.webp" type="image/webp" />
+      <img src="../images/Computer vision.png" alt="Example of computer vision converting an image into pixel values" class="article-image" width="1537" height="450" loading="lazy" decoding="async" />
+    </picture>
 
     <h2>How AI evolved</h2>
     <p>AI has progressed from theoretical discussions in the 1950s to real-world transformation today.</p>
@@ -281,6 +328,8 @@
     </div>
   </div>
 </article>
+
+</main>
 
 <footer class="foot" id="contact">
   <div class="shell">
@@ -331,11 +380,13 @@
   function closeMenu() {
     navMenu.classList.remove('is-open');
     navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
   }
 
   navToggle.addEventListener('click', function () {
     var open = navMenu.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
 
   navMenu.querySelectorAll('a').forEach(function (a) {
@@ -346,6 +397,12 @@
     if (!navMenu.classList.contains('is-open')) return;
     if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
     closeMenu();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !navMenu.classList.contains('is-open')) return;
+    closeMenu();
+    navToggle.focus();
   });
 })();
 </script>

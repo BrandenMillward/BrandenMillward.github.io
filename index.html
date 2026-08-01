@@ -40,6 +40,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <style>
   :root {
     --bg: #0a0c16;
@@ -49,7 +60,7 @@
     --accent-contrast: #0a0c16;
     --text: #e6e9f5;
     --muted: #9aa2bd;
-    --faint: #6b7391;
+    --faint: #7b83a3;
     --line: rgba(255,255,255,.1);
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -67,7 +78,7 @@
     --accent-contrast: #ffffff;
     --text: #14151c;
     --muted: #52566b;
-    --faint: #82869c;
+    --faint: #63677c;
     --line: rgba(10,12,22,.12);
     color-scheme: light;
   }
@@ -75,6 +86,7 @@
   html {
     font-size: clamp(16px, 0.42vw + 13px, 23px);
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -95,6 +107,26 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+
+  #main { scroll-margin-top: 5rem; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+  }
+  .skip-link:focus {
+    left: var(--pad); top: .6rem;
+    background: var(--bg-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: .25rem;
+    padding: .9rem 1rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+
+  /* Target size: narrow viewports and any touch pointer. Desktop keeps the
+     nav's deliberate proportions, which already clear the 24px AA floor. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
+    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
+  }
 
   /* ── Background parallax network (ambient, below the fold) ── */
   #bg-net {
@@ -166,7 +198,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    : .32rem;
+    gap: .32rem;
     width: 1.9rem; height: 1.9rem;
     border: none;
     background: none;
@@ -194,8 +226,8 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     grid-template-rows: auto auto;
-    column-: clamp(2rem, 4vw, 4.5rem);
-    row-: clamp(1.6rem, 3vw, 2.6rem);
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+    row-gap: clamp(1.6rem, 3vw, 2.6rem);
     align-items: start;
   }
   .hero-copy  { grid-column: 1; grid-row: 1; align-self: end; }
@@ -255,7 +287,7 @@
   .showcase { border-top: 1px solid var(--line); background: transparent; }
   .slab { border-bottom: 1px solid var(--line); background: transparent; }
   .slab-head { display: flex; align-items: baseline; justify-content: space-between;
-               : 1.5rem; flex-wrap: wrap; padding-block: .75rem; }
+               gap: 1.5rem; flex-wrap: wrap; padding-block: .75rem; }
   .slab-head h3 { font-size: .88rem; font-weight: 700; letter-spacing: .02em; }
   .slab-head h3 a { color: var(--text); }
   .slab-head h3 a:hover { color: var(--accent); }
@@ -377,6 +409,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <canvas id="bg-net" aria-hidden="true"></canvas>
 
 <nav class="nav">
@@ -407,6 +441,8 @@
   </div>
 </nav>
 
+<main id="main">
+
 <header class="viewport">
   <div class="hero-grid shell">
 
@@ -417,7 +453,10 @@
     </div>
 
     <figure class="hero-photo">
-      <img src="images/presenting sqlbits 2026.jpg" alt="Branden Millward presenting on deep learning at SQLBits 2026" width="1206" height="1159" />
+      <picture>
+        <source srcset="images/presenting%20sqlbits%202026.webp" type="image/webp" />
+        <img src="images/presenting sqlbits 2026.jpg" alt="Branden Millward presenting on deep learning at SQLBits 2026" width="1206" height="1159" decoding="async" loading="eager" fetchpriority="high" />
+      </picture>
       <figcaption class="hud">SQLBits 2026</figcaption>
     </figure>
 
@@ -427,7 +466,7 @@
       </div>
 
       <div class="net-stage">
-        <canvas id="net" aria-hidden="true"></canvas>
+        <canvas id="net" role="img" aria-label="Diagram of an agent network: six capabilities — retrieval, analysis, tools, memory, skills and guardrails — feed into three agents, which pass work to an orchestrator, then through governance before anything is emitted as output."></canvas>
       </div>
     </div>
 
@@ -440,7 +479,7 @@
   </div>
 </div>
 
-<section class="editorial" id="essays">
+<section class="editorial" id="essays" aria-label="About Branden Millward">
   <div class="shell">
     <p class="lede">Most organisations don't have an AI problem. They have a trust problem.</p>
 
@@ -458,9 +497,11 @@
   </div>
 </section>
 
-<div class="section-mark" id="blog">
+<section id="blog" aria-labelledby="h-writing">
+
+<div class="section-mark">
   <p class="hud">Writing</p>
-  <h2>WHAT I'VE WRITTEN</h2>
+  <h2 id="h-writing">WHAT I'VE WRITTEN</h2>
 </div>
 
 <div class="list">
@@ -505,9 +546,13 @@
   </div>
 </div>
 
-<div class="section-mark" id="speaking">
+</section>
+
+<section id="speaking" aria-labelledby="h-speaking">
+
+<div class="section-mark">
   <p class="hud">Speaking &amp; podcasts</p>
-  <h2>WHERE I'VE TALKED</h2>
+  <h2 id="h-speaking">WHERE I'VE TALKED</h2>
 </div>
 
 <div class="list">
@@ -522,14 +567,14 @@
 
     <a class="row-link" href="https://youtu.be/K80XlTNrlM4" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="https://img.youtube.com/vi/K80XlTNrlM4/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" /></span>
+        <span class="row-thumb"><img src="https://img.youtube.com/vi/K80XlTNrlM4/mqdefault.jpg" alt="" width="320" height="180" loading="lazy" decoding="async" /></span>
         <p class="when">Jul 2026</p><p class="what">AI101 Podcast</p><p class="tag">Podcast</p>
       </div>
     </a>
 
     <a class="row-link" href="https://sqlbits.com/attend/the-agenda-2026/thursday/#Unlocking_The_Value_Of_AI_For_Your_Business-Where_To_Start" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/presenting sqlbits 2026.jpg" alt="" width="1206" height="1159" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/presenting%20sqlbits%202026.webp" type="image/webp" /><img src="images/presenting sqlbits 2026.jpg" alt="" width="1206" height="1159" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Apr 2026</p><p class="what">SQLBits — Unlocking the Value of AI</p><p class="tag">Conference</p>
       </div>
     </a>
@@ -550,28 +595,28 @@
 
     <a class="row-link" href="https://www.meetup.com/data-toboggan/events/312487887/" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/data-toboggan.jpg" alt="" width="1206" height="682" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/data-toboggan.webp" type="image/webp" /><img src="images/data-toboggan.jpg" alt="" width="1206" height="682" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Jan 2026</p><p class="what">Data Toboggan</p><p class="tag">207 attendees</p>
       </div>
     </a>
 
     <a class="row-link" href="https://www.meetup.com/stoke-on-tech/events/311518349/" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/stoke-on-tech.jpg" alt="" width="1206" height="1206" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/stoke-on-tech.webp" type="image/webp" /><img src="images/stoke-on-tech.jpg" alt="" width="1206" height="1206" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Nov 2025</p><p class="what">Stoke-on-Tech</p><p class="tag">Meetup</p>
       </div>
     </a>
 
     <a class="row-link" href="https://www.meetup.com/belfast-microsoft-fabric-power-bi-meetup/events/310649359/" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/belfast-data-meetup.jpg" alt="" width="1600" height="1200" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/belfast-data-meetup.webp" type="image/webp" /><img src="images/belfast-data-meetup.jpg" alt="" width="1600" height="1200" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Oct 2025</p><p class="what">Belfast Data Meet-up</p><p class="tag">Meetup</p>
       </div>
     </a>
 
     <a class="row-link" href="https://www.meetup.com/sheffield-data-analytics-user-group/events/308865625/?eventOrigin=your_events" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/sheffield-data-meetup.jpg" alt="" width="1206" height="687" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/sheffield-data-meetup.webp" type="image/webp" /><img src="images/sheffield-data-meetup.jpg" alt="" width="1206" height="687" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Jul 2025</p><p class="what">Sheffield Data Meet-up</p><p class="tag">Meetup</p>
       </div>
     </a>
@@ -585,7 +630,7 @@
 
     <a class="row-link" href="https://www.meetup.com/eastmidlandsdata/events/305735607/?eventOrigin=group_events_list" target="_blank" rel="noopener">
       <div class="row">
-        <span class="row-thumb"><img src="images/east-midlands-data.jpg" alt="" width="3024" height="4032" loading="lazy" /></span>
+        <span class="row-thumb"><picture><source srcset="images/east-midlands-data.webp" type="image/webp" /><img src="images/east-midlands-data.jpg" alt="" width="3024" height="4032" loading="lazy" decoding="async" /></picture></span>
         <p class="when">Apr 2025</p><p class="what">East Midlands Data</p><p class="tag">Meetup</p>
       </div>
     </a>
@@ -593,9 +638,13 @@
   </div>
 </div>
 
-<div class="section-mark" id="experience">
+</section>
+
+<section id="experience" aria-labelledby="h-career">
+
+<div class="section-mark">
   <p class="hud">Career</p>
-  <h2>WHERE I'VE WORKED</h2>
+  <h2 id="h-career">WHERE I'VE WORKED</h2>
 </div>
 
 <div class="xp">
@@ -690,9 +739,13 @@
   </div>
 </div>
 
-<div class="section-mark" id="work">
+</section>
+
+<section id="work" aria-labelledby="h-work">
+
+<div class="section-mark">
   <p class="hud">Selected work</p>
-  <h2>WHAT I'VE BUILT</h2>
+  <h2 id="h-work">WHAT I'VE BUILT</h2>
 </div>
 
 <div class="showcase">
@@ -852,9 +905,13 @@
 
 </div>
 
-<div class="section-mark" id="skills">
+</section>
+
+<section id="skills" aria-labelledby="h-skills">
+
+<div class="section-mark">
   <p class="hud">Skills</p>
-  <h2>TOOLS &amp; DOMAINS</h2>
+  <h2 id="h-skills">TOOLS &amp; DOMAINS</h2>
 </div>
 
 <div class="skills">
@@ -877,6 +934,10 @@
     </div>
   </div>
 </div>
+
+</section>
+
+</main>
 
 <footer class="foot" id="contact">
   <div class="shell">
@@ -930,11 +991,13 @@
   function closeMenu() {
     navMenu.classList.remove('is-open');
     navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
   }
 
   navToggle.addEventListener('click', function () {
     var open = navMenu.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
 
   navMenu.querySelectorAll('a').forEach(function (a) {
@@ -945,6 +1008,12 @@
     if (!navMenu.classList.contains('is-open')) return;
     if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
     closeMenu();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !navMenu.classList.contains('is-open')) return;
+    closeMenu();
+    navToggle.focus();
   });
 })();
 
@@ -1067,7 +1136,7 @@
     pulses.push({ a: e[0], b: e[1], t: 0, sp: 0.009 + Math.random() * 0.012 });
   }
 
-  function draw(time) {
+  function render(time) {
     if (w && h) {
       ctx.clearRect(0, 0, w, h);
 
@@ -1167,7 +1236,6 @@
         ctx.textBaseline = 'alphabetic';
       });
     }
-    requestAnimationFrame(draw);
   }
 
   layout();
@@ -1176,9 +1244,37 @@
   } else {
     window.addEventListener('resize', layout);
   }
-  requestAnimationFrame(draw);
-  if (!reduce) { setInterval(spawn, 150); }
+  // Only animate while the stage is on screen and the tab is in front.
+  let onScreen = true, rafId = null, spawnTimer = null;
+
+  function running() { return onScreen && !document.hidden; }
+
+  function start() {
+    if (rafId === null) rafId = requestAnimationFrame(draw);
+    if (!reduce && spawnTimer === null) spawnTimer = setInterval(spawn, 150);
+  }
+  function stop() {
+    if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+    if (spawnTimer !== null) { clearInterval(spawnTimer); spawnTimer = null; }
+  }
+  function sync() { running() ? start() : stop(); }
+
+  function draw(time) {
+    rafId = null;
+    render(time);
+    if (running()) rafId = requestAnimationFrame(draw);
+  }
+
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(function (entries) {
+      onScreen = entries[0].isIntersecting;
+      sync();
+    }, { rootMargin: '200px' }).observe(stage);
+  }
+  document.addEventListener('visibilitychange', sync);
+
   spawn();
+  sync();
 })();
 
 (function () {
@@ -1206,7 +1302,7 @@
 
   let w = 0, h = 0, fieldH = 0, nodes = [];
   let scrollY = window.scrollY || 0, scrollTicking = false;
-  let visible = true, rafId = null;
+  let rafId = null;
 
   function build() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1237,9 +1333,12 @@
   }
 
   function draw(time) {
-    if (visible && w && h) {
+    rafId = null;
+    if (w && h) {
       ctx.clearRect(0, 0, w, h);
-      const offset = scrollY * PARALLAX;
+      // Scroll-coupled parallax is the motion class that provokes vestibular
+      // symptoms, so it goes with the drift, not without it.
+      const offset = reduce ? 0 : scrollY * PARALLAX;
 
       const pts = nodes.map(function (n) {
         const dx = reduce ? 0 : Math.cos(time * 0.0013 * n.sp + n.ph) * n.amp * 0.6;
@@ -1270,7 +1369,15 @@
         ctx.fill();
       });
     }
-    rafId = requestAnimationFrame(draw);
+    if (!document.hidden) rafId = requestAnimationFrame(draw);
+  }
+
+  function sync() {
+    if (document.hidden) {
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+    } else if (rafId === null) {
+      rafId = requestAnimationFrame(draw);
+    }
   }
 
   canvas.classList.add('is-visible');
@@ -1284,9 +1391,17 @@
     });
   }, { passive: true });
 
-  window.addEventListener('resize', build);
+  // Debounced: resize fires continuously while a mobile address bar animates.
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(build, 150);
+  });
+
+  document.addEventListener('visibilitychange', sync);
+
   build();
-  rafId = requestAnimationFrame(draw);
+  sync();
 })();
 </script>
 

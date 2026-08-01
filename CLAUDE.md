@@ -41,10 +41,30 @@ per-page inline `<style>` block, JetBrains Mono, `:root` / `[data-theme='light']
 custom properties, and a per-page inline `<script>` for the theme toggle
 (`localStorage['site-theme']`) and mobile nav. There is no shared stylesheet in use.
 
-A site-wide visual change therefore means editing several inline `<style>` blocks,
+A site-wide visual change therefore means editing all 19 inline `<style>` blocks,
 not one stylesheet. When changing something on the homepage, check whether the blog
-and project pages need the same edit. The 10 `projects/*.html` pages share an
-identical style/nav/footer skeleton — keep them in lockstep when editing one.
+and project pages need the same edit.
+
+To keep that tractable, four regions are **byte-identical across all 18 blog and
+project pages**, with `index.html` the single deliberate exception (it carries
+`--shell: 2400px` and the homepage-only hero/canvas rules):
+
+1. the head boot script that resolves `data-theme` before first paint — identical
+   across all 19, no exception,
+2. the token block, `:root {` down to `.hud {`,
+3. the nav CSS block,
+4. the bottom `<script>` (theme toggle + mobile nav).
+
+Verify with a hash over those four regions after any edit that touches them. That
+invariant is what would make a later extraction into `assets/css/base.css` +
+`assets/js/base.js` a mechanical, hash-checkable lift rather than a judgement call.
+It was deliberately deferred: splitting `index.html`'s inline block is the one change
+that can silently break the highest-traffic page on a site with no tests and no staging.
+
+Careful with find-and-replace across these files. A `gap` → `` replacement without a
+word boundary once shipped `: .32rem`, `column-:` and `row-:` to production, which the
+CSS parser drops silently — the hero grid and burger icon lost their spacing and
+nothing errored.
 
 The old template-derived styling (`assets/**`, `index.html.bak`,
 `preview-restyle.html`, and the template's `LICENSE.txt`) was deleted in the
@@ -53,7 +73,9 @@ The old template-derived styling (`assets/**`, `index.html.bak`,
 ### Homepage section ids
 
 `#essays`, `#blog`, `#speaking`, `#experience`, `#work`, `#skills`, `#contact`.
-Most are on `div.section-mark` anchors rather than the `<section>` elements themselves.
+Each is now on a real `<section aria-labelledby>` wrapping the `div.section-mark`
+heading and its content block, so landmark navigation exposes them. Everything from
+the hero to the skills grid sits inside `<main id="main">`; `#bg-net` stays outside it.
 
 ### Homepage inline script
 
@@ -68,6 +90,15 @@ those, not by line number, since this file gets edited often:
 
 Node count, opacity, drift speed, and line weight in these two canvases are tuned
 frequently — expect requests about their visibility.
+
+Both loops are lifecycle-managed, and this is easy to undo by accident:
+`render()` only paints, `draw()` owns scheduling, `sync()` decides whether to run.
+The hero canvas stops when its stage scrolls out of view (`IntersectionObserver`) and
+when the tab is hidden; the background canvas stops on `visibilitychange`. Add a
+`requestAnimationFrame` that reschedules unconditionally and you reintroduce a loop
+that repaints forever in a background tab. Under `prefers-reduced-motion` the
+background canvas also pins its parallax offset to 0 — the drift *and* the scroll
+coupling must both go, not just the drift.
 
 ### Branch model
 
@@ -84,10 +115,20 @@ It diffs the push range, converts new/changed `.jpg/.jpeg/.png/.gif` to WebP wit
 `scripts/optimize_images.py`, which rewrites matching `<img src="…">` into a `<picture>`
 with a WebP `<source>` and the original as fallback, and commits with `[skip ci]`.
 
-Two behaviours that surprise people:
+Four behaviours that surprise people:
 
 - The script only rewrites HTML at the repo **root** (`REPO_ROOT.glob("*.html")`).
-  Images used only in `blog/` or `projects/` pages get converted but never re-referenced.
+  Images used only in `blog/` or `projects/` pages get converted but never re-referenced,
+  so their `<picture>` markup is hand-written and the workflow will not maintain it.
+- It converts but never **resizes**. WebP alone does not fix a 3024×4032 source rendered
+  at 51px. There is no `cwebp`, ImageMagick or working Python on the dev box — `sharp`
+  installed into a scratch dir is the route, and note `sharp` holds a handle on a path
+  source, so read to a Buffer first if you mean to overwrite in place.
+- `srcset` splits its value on whitespace, so filenames containing spaces must be
+  percent-encoded there; `src` has no such rule. Get this wrong and the browser silently
+  ignores the `<source>` and serves the full-size original. The script does this now, and
+  its "already wrapped" marker matches the encoded form — hand-written `<picture>` markup
+  must encode the same way or the workflow will wrap it a second time.
 - The bot pushes a follow-up commit to `main`, so pull after adding images.
 
 ## Page conventions
