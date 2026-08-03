@@ -1,7 +1,7 @@
 # brandenmillward.github.io
 
 Branden Millward's personal site — portfolio, blog, and project case studies —
-served by GitHub Pages at <https://brandenmillward.github.io>.
+served by GitHub Pages at <https://brandenmillward.com>.
 
 Hand-written static HTML, CSS, and vanilla JS. No framework, no build step:
 every page carries its own inline `<style>` and `<script>`, themed with CSS

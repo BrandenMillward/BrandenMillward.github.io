@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project overview
 
 Branden Millward's personal site — portfolio, blog, and project write-ups — served by
-GitHub Pages at <https://brandenmillward.github.io>. Topic focus is AI orchestration,
+GitHub Pages at <https://brandenmillward.com>. Topic focus is AI orchestration,
 machine learning, and data.
 
 ## Tech stack
