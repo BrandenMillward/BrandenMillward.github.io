@@ -1,0 +1,55 @@
+/* Project case-study pages. Loads after base.css. */
+  /* ── Case-study hero ── */
+  .post-hero { padding-block: 7.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  .post-hero .hud a { color: var(--muted); }
+  .post-hero .hud a:hover { color: var(--accent); }
+  .post-hero h1 {
+    /* Weight, leading and tracking come from base.css — see post.css. */
+    font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+    margin: .8rem 0 .9rem; max-width: 34ch;
+  }
+  .post-meta { color: var(--faint); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+  .post-meta span + span::before { content: '·'; margin: 0 .6em; color: var(--line); }
+
+  /* ── Case-study body ── */
+  .post-body { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .article-wrap { max-width: 52rem; margin-inline: auto; }
+  .post-body h2 {
+    font-size: 1.05rem; color: var(--text);
+    margin: 2.4rem 0 1rem;
+  }
+  /* Same reasoning as post.css: serif reads smaller than the mono it replaced. */
+  .post-body p { color: var(--text); font-size: 1rem; line-height: 1.62; }
+  .post-body p + p { margin-top: 1.4rem; }
+  .post-body strong { color: var(--text); font-weight: 500; }
+  .article-image {
+    width: 100%; border: 1px solid var(--line); border-radius: .4rem; margin-bottom: 2.2rem;
+  }
+
+  .case-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .case-block {
+    border: 1px solid var(--line); border-radius: .4rem; padding: 1.1rem 1.2rem 1.2rem;
+    background: rgba(var(--bg-rgb), .4);
+  }
+  .case-block .hud { display: block; margin-bottom: .55rem; }
+  .case-block p { color: var(--muted); font-size: .92rem; line-height: 1.6; }
+  .case-block ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+  .case-block li {
+    color: var(--muted); font-size: .84rem; line-height: 1.6;
+    padding-left: 1.15rem; position: relative;
+  }
+  .case-block li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: .72rem; }
+
+  @media (max-width: 760px) {
+    .case-grid { grid-template-columns: 1fr; }
+  }
+
+  .post-actions {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--line);
+  }
+  .post-actions a { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+

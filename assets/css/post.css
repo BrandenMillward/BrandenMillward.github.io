@@ -1,0 +1,42 @@
+/* Blog post pages. Loads after base.css. */
+  /* ── Post hero ── */
+  .post-hero { padding-block: 7.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  .post-hero .hud a { color: var(--muted); }
+  .post-hero .hud a:hover { color: var(--accent); }
+  .post-hero h1 {
+    /* Weight, leading and tracking come from base.css so every heading on the site reads
+       the same. Only size, measure and margin are page-type decisions. */
+    font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+    margin: .8rem 0 .9rem; max-width: 34ch;
+  }
+  .post-meta { color: var(--faint); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+  .post-meta span + span::before { content: '·'; margin: 0 .6em; color: var(--line); }
+
+  /* ── Post body ── */
+  .post-body { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .measure { max-width: var(--measure); margin-inline: auto; }
+  .post-body h2 {
+    font-size: 1.05rem; color: var(--text);
+    margin: 2.4rem 0 1rem;
+  }
+  .post-body h2:first-child { margin-top: 0; }
+  /* Serif runs optically smaller than the mono this replaced, so the size goes up and the
+     leading comes down — 1.8 was tuned for monospace and reads loose on Newsreader. */
+  .post-body p { color: var(--text); font-size: 1rem; line-height: 1.62; }
+  .post-body p + p, .post-body ul + p, .post-body p + ul, .post-body img + * { margin-top: 1.4rem; }
+  .post-body strong { color: var(--text); font-weight: 500; }
+  .post-body ul {
+    color: var(--text); font-size: 1rem; line-height: 1.62; padding-left: 1.3rem;
+    display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem;
+  }
+  .post-body a { color: var(--accent); }
+  .post-body .article-image {
+    width: 100%; border: 1px solid var(--line); border-radius: .4rem; margin: 2rem 0;
+  }
+
+  .post-actions {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--line);
+  }
+  .post-actions a { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+

@@ -1,0 +1,173 @@
+/* Shared base for brandenmillward.com — tokens, elements, nav, footer. Linked by all 19 pages.
+   Page-type blocks live in post.css / case-study.css; those two reuse the same .post-hero and
+   .post-body class names with different rules, so they must NOT be merged into one file. */
+  :root {
+    --bg: #0a0c16;
+    --bg-rgb: 10, 12, 22;
+    --bg-2: #0f1220;
+    --accent: #8b9dff;
+    --accent-soft: rgba(139,157,255,.10);   /* accent at fill strength; must be re-stated per theme */
+    --accent-contrast: #0a0c16;
+    /* A second semantic colour, reserved for the accountability layer — guardrails, governance,
+       human-in-the-loop. It is never decorative: if it appears, it means a human stays answerable
+       for what happens there. Restate per theme, like --accent-soft. */
+    --accountable: #e0a458;
+    --accountable-soft: rgba(224,164,88,.12);
+    --text: #e6e9f5;
+    --muted: #9aa2bd;
+    --faint: #7b83a3;
+    --line: rgba(255,255,255,.1);
+    /* Three registers, three jobs. Display carries the headline voice, body carries the
+       argument, mono is reserved for data and labels — dates, tags, agent/node names, code.
+       Mono was previously the body face too, which is what made long prose hard to read. */
+    --display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+    --body: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* An editorial measure, not the viewport. At the old 2400px the ledgers stretched a date
+       and its title to opposite ends of a wide monitor, which is a table pretending to be a list. */
+    --shell: 1240px;
+    --pad: clamp(1.4rem, 3vw, 3.25rem);
+    --measure: 60ch;
+    color-scheme: dark;
+  }
+  [data-theme='light'] {
+    --bg: #f5f4f0;
+    --bg-rgb: 245, 244, 240;
+    --bg-2: #ffffff;
+    --accent: #4a5ac9;
+    --accent-soft: rgba(74,90,201,.10);
+    --accent-contrast: #ffffff;
+    --accountable: #8a5410;                  /* darkened: the dark-mode ochre fails AA on paper */
+    --accountable-soft: rgba(138,84,16,.10);
+    --text: #14151c;
+    --muted: #52566b;
+    --faint: #63677c;
+    --line: rgba(10,12,22,.12);
+    color-scheme: light;
+  }
+  html { font-size: clamp(16px, 0.42vw + 13px, 23px); scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Display register. Archivo is variable on both weight and width — the headlines run
+     slightly narrow so long titles hold their line without dropping in size. */
+  h1, h2, h3, h4 {
+    font-family: var(--display);
+    font-stretch: 92%;
+    font-weight: 600;
+    letter-spacing: -.015em;
+    line-height: 1.14;
+  }
+
+  /* Utility register: anything that is data or a label rather than prose. */
+  .hud, .tag, .tag-pill, .when, .post-meta, .stack-line, .net-head,
+  .skill-list, .nav-name, .nav-links a, .nav-cta, .theme-toggle, .skip-link,
+  code, kbd, pre, time {
+    font-family: var(--mono);
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
+
+  #main { scroll-margin-top: 5rem; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+  }
+  .skip-link:focus {
+    left: var(--pad); top: .6rem;
+    background: var(--bg-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: .25rem;
+    padding: .9rem 1rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+
+  /* Target size: narrow viewports and any touch pointer. Desktop keeps the
+     nav's deliberate proportions, which already clear the 24px AA floor. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
+    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
+  }
+  .hud {
+    font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500; line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    background: var(--bg);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease;
+  }
+  .nav-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; padding-block: 1rem;
+  }
+  .nav-name { font-size: .82rem; font-weight: 700; letter-spacing: .18em; color: var(--text); }
+  .nav-name:hover { text-decoration: none; }
+  .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+  .nav-links a.is-active { color: var(--accent); }
+  .nav-menu-cta { display: flex; align-items: center; gap: .9rem; }
+  .nav-actions { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
+  .nav-cta, .theme-toggle {
+    font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--line); border-radius: .25rem;
+    padding: .35rem .6rem; background: none; cursor: pointer; white-space: nowrap;
+  }
+  .nav-cta:hover, .theme-toggle:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    gap: .32rem; width: 1.9rem; height: 1.9rem; border: none; background: none;
+    padding: 0; cursor: pointer; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 1.3rem; height: 2px; background: var(--text);
+    border-radius: 1px; transition: transform .25s ease, opacity .2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: rgba(var(--bg-rgb), .97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: .5rem var(--pad) 1.6rem;
+      max-height: calc(100vh - 100%);
+      overflow-y: auto;
+    }
+    .nav-menu.is-open { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: .9rem 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+    .nav-menu-cta { flex-direction: column; align-items: stretch; gap: .7rem; margin-top: 1.2rem; }
+    .nav-menu-cta .nav-cta { text-align: center; padding: .65rem; }
+  }
+
+  /* ── Footer ── */
+  .foot { padding-block: clamp(4rem, 8vw, 6.5rem) 3rem; border-top: 1px solid var(--line); text-align: center; }
+  .foot-actions { display: flex; gap: 2.2rem; justify-content: center; flex-wrap: wrap; margin: 1.6rem 0 2.6rem; }
+  .foot-actions a { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+  .foot .hud { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }

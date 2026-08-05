@@ -39,7 +39,7 @@
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
 <script>
 /* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
    if the two ever disagree the page flashes the wrong theme. */
@@ -51,175 +51,15 @@
   } catch (e) {}
 })();
 </script>
+<link rel="stylesheet" href="assets/css/base.css">
 <style>
-  :root {
-    --bg: #0a0c16;
-    --bg-rgb: 10, 12, 22;
-    --bg-2: #0f1220;
-    --accent: #8b9dff;
-    --accent-contrast: #0a0c16;
-    --text: #e6e9f5;
-    --muted: #9aa2bd;
-    --faint: #7b83a3;
-    --line: rgba(255,255,255,.1);
-    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-
-    --shell: 2400px;              /* effectively full width, held off the edges by --pad */
-    --pad: clamp(1.4rem, 3vw, 3.25rem);
-    --measure: 60ch;
-    color-scheme: dark;
-  }
-
-  [data-theme='light'] {
-    --bg: #f5f4f0;
-    --bg-rgb: 245, 244, 240;
-    --bg-2: #ffffff;
-    --accent: #4a5ac9;
-    --accent-contrast: #ffffff;
-    --text: #14151c;
-    --muted: #52566b;
-    --faint: #63677c;
-    --line: rgba(10,12,22,.12);
-    color-scheme: light;
-  }
-
-  html {
-    font-size: clamp(16px, 0.42vw + 13px, 23px);
-    scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 1rem;
-    line-height: 1.8;
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-
-  img { max-width: 100%; height: auto; display: block; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-  .shell { width: min(100% - (var(--pad) * 2), var(--shell)); margin-inline: auto; }
-
-  #main { scroll-margin-top: 5rem; }
-
-  .skip-link {
-    position: absolute; left: -9999px; top: 0; z-index: 200;
-  }
-  .skip-link:focus {
-    left: var(--pad); top: .6rem;
-    background: var(--bg-2); color: var(--text);
-    border: 1px solid var(--line); border-radius: .25rem;
-    padding: .9rem 1rem;
-    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  }
-
+  /* The homepage used to override --shell to 2400px. It no longer does: one shell width for
+     all 19 pages, set in base.css. That removes the last deliberate exception in the token block. */
   /* Target size: narrow viewports and any touch pointer. Desktop keeps the
      nav's deliberate proportions, which already clear the 24px AA floor. */
-  @media (max-width: 768px), (pointer: coarse) {
-    .theme-toggle, .nav-toggle { min-height: 2.75rem; min-width: 2.75rem; }
-    .nav-name, .foot-actions a, .post-actions a { display: inline-block; padding-block: .8rem; }
-  }
-
-  /* ── Background parallax network (ambient, below the fold) ── */
-  #bg-net {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-  #bg-net.is-visible { opacity: .32; }
-
-  @media (prefers-reduced-motion: reduce) {
-    #bg-net { transition: opacity .4s ease; }
-  }
-
-  .hud {
-    font-size: .66rem;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--faint);
-    font-weight: 500;
-    line-height: 1.6;
-  }
-
   /* ── Nav ── */
-  .nav {
-    position: fixed; inset: 0 0 auto 0; z-index: 100;
-    background: var(--bg);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-    transition: background 0.3s ease;
-  }
-  .nav-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1.5rem;
-    padding-block: 1rem;
-  }
-  .nav-name { font-size: .82rem; font-weight: 700; letter-spacing: .18em; color: var(--text); }
-  .nav-name:hover { text-decoration: none; }
-  .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .nav-links a:hover { color: var(--accent); text-decoration: none; }
-  .nav-menu-cta { display: flex; align-items: center; gap: .9rem; }
-
-  .nav-actions { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
-  .nav-cta,
-  .theme-toggle {
-    font-family: var(--mono);
-    font-size: .64rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border: 1px solid var(--line);
-    border-radius: .25rem;
-    padding: .35rem .6rem;
-    background: none;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .nav-cta:hover,
-  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
-
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: .32rem;
-    width: 1.9rem; height: 1.9rem;
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 1.3rem; height: 2px;
-    background: var(--text);
-    border-radius: 1px;
-    transition: transform .25s ease, opacity .2s ease;
-  }
-  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
   /* ── Hero ── */
   .viewport { position: relative; z-index: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: 6.5rem 3rem; }
-
   /* Desktop: headline then photo stacked in the left column, network filling
      the right. Mobile re-orders to network → headline → photo. */
   .hero-grid {
@@ -233,14 +73,11 @@
   .hero-copy  { grid-column: 1; grid-row: 1; align-self: end; }
   .hero-photo { grid-column: 1; grid-row: 2; }
   .hero-net   { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
-
   .hero-copy h1 {
     font-size: clamp(2.2rem, 3.9vw, 4rem);
-    font-weight: 700; line-height: 1.14; letter-spacing: -.02em;
     margin: .8rem 0 1.2rem;
   }
   .hero-copy .sub { color: var(--muted); font-size: .92rem; line-height: 1.75; max-width: 48ch; }
-
   .hero-photo {
     border: 1px solid var(--line);
     border-radius: .5rem;
@@ -253,20 +90,85 @@
     padding: .7rem .9rem;
     background: linear-gradient(to top, rgba(var(--bg-rgb), .92), rgba(var(--bg-rgb), 0));
   }
-
   /* Network panel */
-  .hero-net { display: flex; flex-direction: column; : .9rem; }
+  .hero-net { display: flex; flex-direction: column; gap: .9rem; }
   .net-head { border-top: 1px solid var(--line); padding-top: 1rem; }
   .net-head .big { font-size: .92rem; font-weight: 700; letter-spacing: .1em; color: var(--text); }
-  .net-stage { position: relative; width: 100%; aspect-ratio: 1 / 0.82; min-height: 20rem;
-               border-bottom: 1px solid var(--line); }
-  #net { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .net-sub { color: var(--muted); font-size: .78rem; line-height: 1.5; margin-top: .5rem; max-width: 46ch; }
+  .net-stage { position: relative; width: 100%; border-bottom: 1px solid var(--line);
+               padding-block: .4rem 1rem; overflow-x: auto; }
+  /* Bounded at both ends. The cap stops the panel spanning the full 2400px shell in the
+     single-column layout, which blew the diagram up to ~880px. The floor stops it shrinking
+     until the tap targets fall under 24px; below that the diagram scrolls inside .net-stage
+     rather than dragging the whole page sideways. */
+  .net-figure { position: relative; width: 100%; min-width: 22.5rem; max-width: 34rem; margin-inline: auto; }
+  .net-svg { width: 100%; height: auto; display: block; overflow: visible; }
 
+  /* The interaction layer is real <button>s positioned over the drawing, in percentages taken
+     straight from the viewBox so they track the SVG at any size. This is not decoration: an
+     SVG <g> with tabindex becomes document.activeElement but fires no focus event and never
+     matches :focus, so a focused node could not be styled at all. Real buttons restore native
+     focus, keyboard activation and screen-reader semantics; the SVG is left as role="img". */
+  .net-hit {
+    position: absolute; margin: 0; padding: 0;
+    background: none; border: 0; border-radius: 3px;
+    color: transparent; font-size: 1px; overflow: hidden;
+    cursor: pointer;
+  }
+  .net-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Wires read as structure, not decoration: one bus fans work out, one fans it back in. */
+  .net-wires path { fill: none; stroke: var(--line); stroke-width: 1; }
+  .net-wires .net-stubs path { stroke: var(--line); }
+
+  .net-svg .node rect {
+    fill: none; stroke: var(--line); stroke-width: 1;
+    transition: stroke .18s ease, fill .18s ease;
+  }
+  .net-svg .node text {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em;
+    fill: var(--muted); text-anchor: middle; transition: fill .18s ease;
+  }
+  /* Weighting is the argument: the spine that does the work (agents, orchestrator) and the
+     layer that makes it accountable (guardrails, governance) sit forward; the capabilities
+     feeding them sit back. */
+  .net-svg .node-core rect, .net-svg .node-ctl rect { stroke: var(--muted); }
+  .net-svg .node-core text, .net-svg .node-ctl text { fill: var(--text); }
+  .net-svg .node-out rect { stroke: var(--muted); stroke-dasharray: 3 2; }
+
+  /* The control layer is the only place the second colour appears — the point being that
+     guardrails and governance are a different kind of thing, not another box in the flow. */
+  .net-svg .node-ctl rect { stroke: var(--accountable); }
+  .net-svg .node-ctl text { fill: var(--accountable); }
+  .net-svg .node-ctl.is-hot rect,
+  .net-svg .node-ctl.is-active rect { stroke: var(--accountable); fill: var(--accountable-soft); }
+  .net-svg .node-ctl.is-hot text,
+  .net-svg .node-ctl.is-active text { fill: var(--accountable); }
+
+  /* The <g>s are painted only — hover and focus arrive as classes from the button layer. */
+  .net-svg .node.is-hot rect,
+  .net-svg .node.is-active rect { stroke: var(--accent); fill: var(--accent-soft); }
+  .net-svg .node.is-hot text,
+  .net-svg .node.is-active text { fill: var(--accent); }
+  .net-svg .node.is-hot rect { stroke-width: 2; }
+
+  /* The SVG scales with its column, so label text scales too — at the widths where the panel
+     is narrow it fell to ~7px. These bumps hold rendered labels at roughly 11px or better.
+     Numbers are viewBox units: rendered px = value x (panel width / 400). */
+  @media (max-width: 700px) {
+    .net-svg .node text { font-size: 13px; letter-spacing: .03em; }
+  }
+  @media (min-width: 901px) and (max-width: 1200px) {
+    .net-svg .node text { font-size: 11px; letter-spacing: .05em; }
+  }
+
+  .net-detail { padding-top: .9rem; min-height: 5.5rem; }
+  .net-detail .hud { color: var(--accent); margin-bottom: .35rem; }
+  #net-detail-body { color: var(--muted); font-size: .8rem; line-height: 1.55; max-width: 52ch; }
   /* ── Tech stack strip ── */
   .stack { border-bottom: 1px solid var(--line); padding-block: 1.15rem; }
   .stack-line { text-align: center; color: var(--muted); font-size: .76rem; letter-spacing: .05em; }
   .stack-line .dot { color: var(--accent); margin: 0 .2em; }
-
   /* ── Editorial ── */
   .editorial { padding-block: clamp(5rem, 9vw, 8rem); }
   .measure { max-width: var(--measure); margin-inline: auto; }
@@ -275,24 +177,22 @@
     line-height: 1.5; text-align: center; letter-spacing: -.01em;
     margin: 0 auto clamp(3rem, 6vw, 5rem); color: var(--text); max-width: 28ch;
   }
-  .editorial .body p { color: var(--muted); }
+  .editorial .body p { color: var(--text); }
   .editorial .body p + p { margin-top: 1.6rem; }
   .editorial strong { color: var(--text); font-weight: 500; }
-
   .section-mark { text-align: center; padding-block: clamp(4rem, 8vw, 7rem) clamp(1.8rem, 3vw, 3rem); }
   .section-mark .hud { display: block; margin-bottom: .5rem; }
-  .section-mark h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: .1em; }
-
+  .section-mark h2 { font-size: 1.1rem; letter-spacing: .1em; }
   /* ── Showcase ── */
   .showcase { border-top: 1px solid var(--line); background: transparent; }
   .slab { border-bottom: 1px solid var(--line); background: transparent; }
   .slab-head { display: flex; align-items: baseline; justify-content: space-between;
                gap: 1.5rem; flex-wrap: wrap; padding-block: .75rem; }
-  .slab-head h3 { font-size: .88rem; font-weight: 700; letter-spacing: .02em; }
+  .slab-head h3 { font-size: .88rem; }
   .slab-head h3 a { color: var(--text); }
   .slab-head h3 a:hover { color: var(--accent); }
   .slab-grid {
-    display: grid; grid-template-columns: 1fr 1fr; : 1.75rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem;
     align-items: center; padding-block: .4rem 1.3rem;
   }
   .slab-media { border-radius: .4rem; overflow: hidden; background: var(--bg); height: 14rem; }
@@ -312,7 +212,6 @@
     margin-top: .6rem;
   }
   .slab-links a { font-size: .72rem; letter-spacing: .03em; }
-
   /* ── Skills ── */
   .skills { border-top: 1px solid var(--line); padding-block: clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 5rem); }
   .skills-grid {
@@ -322,7 +221,6 @@
   }
   .skill-cat .hud { margin-bottom: .55rem; }
   .skill-list { color: var(--text); font-size: .85rem; line-height: 1.7; }
-
   /* ── Experience (expanded ledger) ── */
   .xp { border-top: 1px solid var(--line); }
   .xp-row { padding-block: 1.5rem; border-bottom: 1px solid var(--line); }
@@ -333,7 +231,6 @@
   .xp-bullets li { color: var(--muted); font-size: .82rem; line-height: 1.6; padding-left: 1.15rem; position: relative; }
   .xp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: .72rem; }
   .xp-subhead { padding-top: 2.2rem; padding-bottom: .6rem; }
-
   /* ── Ledger (Writing / Speaking) ── */
   .list { border-top: 1px solid var(--line); }
   .row { display: grid; grid-template-columns: 2.75rem 8rem 1fr auto; gap: 1.25rem;
@@ -344,32 +241,25 @@
   .row .what { color: var(--text); font-size: 1rem; }
   .row-link:hover .what { color: var(--accent); }
   .row .tag { color: var(--faint); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-
   .row-thumb {
     width: 2.75rem; height: 2.75rem; border-radius: .25rem; overflow: hidden;
     background: var(--bg-2); flex-shrink: 0;
   }
   .row-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
   .row.row-writing { grid-template-columns: 8rem 1fr auto; align-items: start; }
   .row-writing .what-wrap .what { margin-bottom: .3rem; }
   .row-writing .dek { color: var(--faint); font-size: .78rem; line-height: 1.55; max-width: 54ch; }
-
   /* ── Footer ── */
-  .foot { padding-block: clamp(4rem, 8vw, 6.5rem) 3rem; border-top: 1px solid var(--line); text-align: center; }
-  .foot-actions { display: flex; gap: 2.2rem; justify-content: center; flex-wrap: wrap; margin: 1.6rem 0 2.6rem; }
-  .foot-actions a { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
-  .foot .hud { display: block; }
-
   /* Single column: copy and photo first, network below. */
   @media (max-width: 1000px) {
-    .hero-grid { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 2.5rem; }
+    /* minmax(0, 1fr), not 1fr: a bare 1fr floors at the column's min-content, which let the
+       hero photo push the track wider than the grid and scrolled the page sideways by 2px. */
+    .hero-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: 2.5rem; }
     .hero-net   { grid-column: auto; grid-row: auto; order: 1; align-self: auto; }
     .hero-copy  { grid-column: auto; grid-row: auto; order: 2; align-self: auto; }
     .hero-photo { grid-column: auto; grid-row: auto; order: 3; }
     .net-stage { aspect-ratio: 1 / 1; min-height: 21rem; }
   }
-
   @media (max-width: 760px) {
     .row { grid-template-columns: 1fr; gap: .2rem; }
     .row-thumb { display: none; }
@@ -377,41 +267,12 @@
     .slab-grid { grid-template-columns: 1fr; gap: 1rem; }
     .slab-media { height: 12rem; }
   }
-
   /* ── Mobile nav: burger toggle + dropdown menu ── */
-  @media (max-width: 768px) {
-    .nav-toggle { display: flex; }
-    .nav-menu {
-      display: none;
-      position: absolute;
-      top: 100%; left: 0; right: 0;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      background: rgba(var(--bg-rgb), .97);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-      padding: .5rem var(--pad) 1.6rem;
-      max-height: calc(100vh - 100%);
-      overflow-y: auto;
-    }
-    .nav-menu.is-open { display: flex; }
-    .nav-links { flex-direction: column; gap: 0; }
-    .nav-links a { display: block; padding: .9rem 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
-    .nav-menu-cta { flex-direction: column; align-items: stretch; gap: .7rem; margin-top: 1.2rem; }
-    .nav-menu-cta .nav-cta { text-align: center; padding: .65rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-  }
 </style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
-
-<canvas id="bg-net" aria-hidden="true"></canvas>
 
 <nav class="nav">
   <div class="shell nav-bar">
@@ -463,10 +324,102 @@
     <div class="hero-net">
       <div class="net-head">
         <p class="big">How agent networks fit together</p>
+        <p class="net-sub">The architecture I design, and where I have built each part.
+          Select any layer.</p>
       </div>
 
       <div class="net-stage">
-        <canvas id="net" role="img" aria-label="Diagram of an agent network: six capabilities — retrieval, analysis, tools, memory, skills and guardrails — feed into three agents, which pass work to an orchestrator, then through governance before anything is emitted as output."></canvas>
+        <div class="net-figure">
+        <svg class="net-svg" viewBox="0 0 400 325" role="img" focusable="false"
+             aria-label="The reference architecture for an agent network: retrieval, memory, tools and skills feed a layer of agents; the agents hand work to an orchestrator; the orchestrator passes everything through guardrails and governance before any output is emitted. Select a layer for where Branden has built it.">
+        <g class="net-wires" aria-hidden="true">
+          <!-- capabilities converge onto the agent layer -->
+          <path d="M117.5 40 V96  M282.5 40 V96  M117.5 82 V96  M282.5 82 V96" />
+          <path d="M117.5 96 H282.5" />
+          <path d="M200 96 V110" />
+          <!-- agents hand to the orchestrator -->
+          <path d="M200 142 V164" />
+          <!-- orchestrator passes through the control layer -->
+          <path d="M200 196 V208" />
+          <path d="M117.5 208 H282.5" />
+          <path d="M117.5 208 V218  M282.5 208 V218" />
+          <!-- control layer converges on the output -->
+          <path d="M117.5 248 V266  M282.5 248 V266" />
+          <path d="M117.5 266 H282.5" />
+          <path d="M200 266 V280" />
+        </g>
+
+        <g class="node node-cap">
+          <rect x="40" y="10" width="155" height="30" rx="4" />
+          <text x="117.5" y="28.5">RETRIEVAL</text>
+        </g>
+        <g class="node node-cap">
+          <rect x="205" y="10" width="155" height="30" rx="4" />
+          <text x="282.5" y="28.5">MEMORY</text>
+        </g>
+        <g class="node node-cap">
+          <rect x="40" y="52" width="155" height="30" rx="4" />
+          <text x="117.5" y="70.5">TOOLS</text>
+        </g>
+        <g class="node node-cap">
+          <rect x="205" y="52" width="155" height="30" rx="4" />
+          <text x="282.5" y="70.5">SKILLS</text>
+        </g>
+        <g class="node node-core">
+          <rect x="40" y="110" width="320" height="32" rx="4" />
+          <text x="200" y="129.5">AGENTS · ROLES & HANDOFFS</text>
+        </g>
+        <g class="node node-core">
+          <rect x="40" y="164" width="320" height="32" rx="4" />
+          <text x="200" y="183.5">ORCHESTRATOR · PROTOCOLS</text>
+        </g>
+        <g class="node node-ctl">
+          <rect x="40" y="218" width="155" height="30" rx="4" />
+          <text x="117.5" y="236.5">GUARDRAILS</text>
+        </g>
+        <g class="node node-ctl">
+          <rect x="205" y="218" width="155" height="30" rx="4" />
+          <text x="282.5" y="236.5">GOVERNANCE</text>
+        </g>
+        <g class="node node-out">
+          <rect x="40" y="280" width="320" height="32" rx="4" />
+          <text x="200" y="299.5">OUTPUT · MEASURED</text>
+        </g>
+        </svg>
+          <button type="button" class="net-hit" data-i="0"
+                  style="left:10.000%;top:3.077%;width:38.750%;height:9.231%"
+                  data-label="Retrieval — grounding" data-body="Agents are only as good as what they can see. In the Multi-Model Research Engine, seven agents each retrieve a different dimension — market, competitors, personas, brand, social, performance — across six providers, because no single model is best at all of them.">Retrieval: grounding</button>
+          <button type="button" class="net-hit" data-i="1"
+                  style="left:51.250%;top:3.077%;width:38.750%;height:9.231%"
+                  data-label="Memory — prompt & agent libraries" data-body="At Intent HQ I build and maintain centralised, versioned prompt and agent libraries for multi-step, multi-agent workflows. The versioning is the point: without it you cannot tell which change moved the outcome.">Memory: prompt & agent libraries</button>
+          <button type="button" class="net-hit" data-i="2"
+                  style="left:10.000%;top:16.000%;width:38.750%;height:9.231%"
+                  data-label="Tools — the ability to act" data-body="An agent that cannot act is a chatbot. Self-Documenting Repositories reads a GitHub repository, synthesises README and ARCHITECTURE docs with a stronger model, and opens a pull request — then keeps them fresh on every push.">Tools: the ability to act</button>
+          <button type="button" class="net-hit" data-i="3"
+                  style="left:51.250%;top:16.000%;width:38.750%;height:9.231%"
+                  data-label="Skills — capability and people" data-body="Two halves. Choosing what the platform can do — evaluating and selecting tools for the AI stack — and making sure people can use it: I lead AI skills training with learning plans pitched at a range of experience levels.">Skills: capability and people</button>
+          <button type="button" class="net-hit" data-i="4"
+                  style="left:10.000%;top:33.846%;width:80.000%;height:9.846%"
+                  data-label="Agents — roles and handoffs" data-body="The layer I design at Intent HQ: agent networks with defined roles, capabilities and interaction logic. The hard part was never the model — it is deciding who does what, and how work is handed over between them.">Agents: roles and handoffs</button>
+          <button type="button" class="net-hit" data-i="5"
+                  style="left:10.000%;top:50.462%;width:80.000%;height:9.846%"
+                  data-label="Orchestrator — protocols" data-body="The coordinator that routes work and holds the protocol together. In the research engine that is an n8n pipeline fanning a 13-field brief out to seven parallel agents, then merging them back deterministically.">Orchestrator: protocols</button>
+          <button type="button" class="net-hit" data-i="6"
+                  style="left:10.000%;top:67.077%;width:38.750%;height:9.231%"
+                  data-label="Guardrails — bounded behaviour" data-body="The constraints that stop a system drifting. The conversational video agent has every behaviour specified by layered guardrails — how it qualifies a prospect, how it segments them live, and how it exits gracefully.">Guardrails: bounded behaviour</button>
+          <button type="button" class="net-hit" data-i="7"
+                  style="left:51.250%;top:67.077%;width:38.750%;height:9.231%"
+                  data-label="Governance — accountability" data-body="The barrier to adoption is auditability, not capability. At Experian I owned the security and risk posture of a national ML platform; my MSc tested whether explainable AI could close the deep-learning trust gap, across 2.26 million real credit decisions.">Governance: accountability</button>
+          <button type="button" class="net-hit" data-i="8"
+                  style="left:10.000%;top:86.154%;width:80.000%;height:9.846%"
+                  data-label="Output — measured, not assumed" data-body="A model nobody trusts is an expensive calculation. I monitor agent behaviour in production, run experiments, and tie improvements to measurable business outcomes — the same discipline that produced roughly £250k NPV from forecasting models at Capital One.">Output: measured, not assumed</button>
+        </div>
+      </div>
+
+      <div class="net-detail" aria-live="polite">
+        <p class="hud" id="net-detail-label">Nine layers, one accountable system</p>
+        <p id="net-detail-body">Most organisations do not have an AI problem, they have a trust problem. Every layer
+      here exists so that someone can say what the system did and who is answerable for it.</p>
       </div>
     </div>
 
@@ -475,7 +428,7 @@
 
 <div class="stack">
   <div class="shell">
-    <p class="stack-line">Python<span class="dot">·</span>n8n<span class="dot">·</span>Claude<span class="dot">·</span>Databricks<span class="dot">·</span>OpenAI<span class="dot">·</span>AI Strategy<span class="dot">·</span>AI Transformation</p>
+    <p class="stack-line">Python<span class="dot">·</span><wbr>n8n<span class="dot">·</span><wbr>Claude<span class="dot">·</span><wbr>Databricks<span class="dot">·</span><wbr>OpenAI<span class="dot">·</span><wbr>AI Strategy<span class="dot">·</span><wbr>AI Transformation</p>
   </div>
 </div>
 
@@ -953,455 +906,53 @@
   </div>
 </footer>
 
+<script src="assets/js/base.js" defer></script>
 <script>
 (function () {
-  // ── Theme toggle ──
-  var THEME_KEY = 'site-theme';
-  var root = document.documentElement;
-  var btn = document.querySelector('.theme-toggle');
+  // ── Hero diagram ──
+  // The hero used to be an ambient particle canvas. It is now a real diagram of a system
+  // Branden built, so it is inline SVG: indexable, keyboard-reachable, and it renders
+  // without JS. This script only adds the detail panel on top of that.
+  var svg = document.querySelector('.net-svg');
+  var label = document.getElementById('net-detail-label');
+  var body = document.getElementById('net-detail-body');
+  if (!svg || !label || !body) return;
 
-  function apply(theme) {
-    root.setAttribute('data-theme', theme);
-    if (btn) {
-      btn.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
-      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  var nodes = svg.querySelectorAll('.node');
+  var hits = document.querySelectorAll('.net-hit');
+  var restLabel = label.textContent;
+  var restBody = body.textContent;
+  var active = null;
+
+  function nodeFor(hit) { return nodes[+hit.getAttribute('data-i')]; }
+
+  function show(hit) {
+    if (active) active.classList.remove('is-active');
+    active = hit ? nodeFor(hit) : null;
+    if (!hit) {
+      label.textContent = restLabel;
+      body.textContent = restBody;
+      return;
     }
-    document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: theme } }));
+    active.classList.add('is-active');
+    label.textContent = hit.getAttribute('data-label');
+    body.textContent = hit.getAttribute('data-body');
   }
 
-  var saved = localStorage.getItem(THEME_KEY);
-  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-  apply(saved || (prefersLight ? 'light' : 'dark'));
-
-  if (btn) {
-    btn.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem(THEME_KEY, next);
-      apply(next);
+  Array.prototype.forEach.call(hits, function (hit) {
+    // Buttons handle Enter and Space natively, so click is the only activation to bind.
+    hit.addEventListener('click', function () { show(hit); });
+    ['mouseenter', 'focus'].forEach(function (t) {
+      hit.addEventListener(t, function () { nodeFor(hit).classList.add('is-hot'); });
     });
-  }
-})();
-
-(function () {
-  // ── Mobile nav toggle ──
-  var navToggle = document.getElementById('nav-toggle');
-  var navMenu = document.getElementById('nav-menu');
-  if (!navToggle || !navMenu) return;
-
-  function closeMenu() {
-    navMenu.classList.remove('is-open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.setAttribute('aria-label', 'Open menu');
-  }
-
-  navToggle.addEventListener('click', function () {
-    var open = navMenu.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
-
-  navMenu.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!navMenu.classList.contains('is-open')) return;
-    if (navMenu.contains(e.target) || navToggle.contains(e.target)) return;
-    closeMenu();
+    ['mouseleave', 'blur'].forEach(function (t) {
+      hit.addEventListener(t, function () { nodeFor(hit).classList.remove('is-hot'); });
+    });
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape' || !navMenu.classList.contains('is-open')) return;
-    closeMenu();
-    navToggle.focus();
+    if (e.key === 'Escape' && active) show(null);
   });
-})();
-
-(function () {
-  // ── Agent-network canvas ──
-  const canvas = document.getElementById('net');
-  const stage = document.querySelector('.net-stage');
-  if (!canvas || !stage) return;
-  const ctx = canvas.getContext('2d');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const enableMagnet = !reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  function currentAccentTriplet() {
-    const hex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-    const m = hex.replace('#', '');
-    const r = parseInt(m.substring(0, 2), 16);
-    const g = parseInt(m.substring(2, 4), 16);
-    const b = parseInt(m.substring(4, 6), 16);
-    return r + ',' + g + ',' + b;
-  }
-
-  let ACCENT = currentAccentTriplet();
-  let THEME = document.documentElement.getAttribute('data-theme') || 'dark';
-  document.addEventListener('theme-change', function (e) {
-    ACCENT = currentAccentTriplet();
-    THEME = e.detail.theme;
-  });
-
-  // A web of capabilities feeds each agent; the agents feed the orchestrator,
-  // which passes through governance before anything is emitted.
-  // x = position along the flow, y = spread across it (both normalised 0–1).
-  const CAPS = ['RETRIEVAL', 'ANALYSIS', 'TOOLS', 'MEMORY', 'SKILLS', 'GUARDRAILS'];
-  const CAP_Y = [0.12, 0.272, 0.424, 0.576, 0.728, 0.88];
-
-  // Which agents each capability wires into — kept balanced so the left side
-  // reads as a web rather than parallel lanes.
-  const WIRING = {
-    2: [[0, 1], [1], [0], [0, 1], [0], [1]],
-    3: [[0, 1], [1], [1, 2], [0, 1, 2], [0, 2], [0, 1, 2]]
-  };
-
-  let nodes = [], edges = [], pulses = [], w = 0, h = 0, scale = 1, labelPx = 13;
-  let mouseX = null, mouseY = null;
-
-  if (enableMagnet) {
-    stage.addEventListener('mousemove', function (e) {
-      const rect = stage.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    });
-    stage.addEventListener('mouseleave', function () {
-      mouseX = null; mouseY = null;
-    });
-  }
-
-  function layout() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = stage.clientWidth; h = stage.clientHeight;
-    if (!w || !h) return;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-    scale = rootPx / 16;
-    labelPx = Math.max(10, Math.round(12 * scale));
-
-    // Narrow stages run the flow top-to-bottom instead of left-to-right, and
-    // drop to two agents so the labels still have room.
-    const vertical = w < 620;
-    const nAgents = vertical ? 2 : 3;
-    const agentY = nAgents === 2 ? [0.30, 0.70] : [0.22, 0.50, 0.78];
-
-    const defs = [];
-    CAPS.forEach(function (label, i) {
-      defs.push({ label: label, kind: 'cap', idx: i, x: vertical ? 0.14 : 0.09, y: CAP_Y[i] });
-    });
-    agentY.forEach(function (y, i) {
-      defs.push({ label: 'AGENT 0' + (i + 1), kind: 'agent', idx: i, x: 0.40, y: y });
-    });
-    defs.push({ label: 'ORCHESTRATOR', kind: 'core', x: 0.62, y: 0.50 });
-    defs.push({ label: 'GOVERNANCE',   kind: 'gov',  x: 0.78, y: 0.50 });
-    defs.push({ label: 'OUTPUT',       kind: 'out',  x: 0.95, y: 0.50 });
-
-    nodes = defs.map(function (s) {
-      return {
-        label: s.label, kind: s.kind,
-        // In vertical mode capability labels alternate above/below the node so
-        // six of them fit across a phone-width stage.
-        labelBelow: vertical && s.kind === 'cap' && s.idx % 2 === 1,
-        bx: (vertical ? s.y : s.x) * w,
-        by: (vertical ? s.x : s.y) * h,
-        x: 0, y: 0, mx: 0, my: 0,
-        ph: Math.random() * Math.PI * 2,
-        sp: 0.4 + Math.random() * 0.5,
-        amp: s.kind === 'core' ? 1.5 : 3
-      };
-    });
-
-    const A = CAPS.length, ORCH = A + nAgents, GOV = ORCH + 1, OUT = GOV + 1;
-    const wiring = WIRING[nAgents];
-
-    edges = [];
-    wiring.forEach(function (targets, i) {
-      targets.forEach(function (a) { edges.push([nodes[i], nodes[A + a]]); });
-    });
-    for (let a = 0; a < nAgents; a++) { edges.push([nodes[A + a], nodes[ORCH]]); }
-    // Agents are peers as well as reporting to the orchestrator — wire every
-    // pair so the middle of the network reads as a mesh, not a hub-and-spoke.
-    for (let a = 0; a < nAgents; a++) {
-      for (let b = a + 1; b < nAgents; b++) { edges.push([nodes[A + a], nodes[A + b]]); }
-    }
-    edges.push([nodes[ORCH], nodes[GOV]]);
-    edges.push([nodes[GOV], nodes[OUT]]);
-  }
-
-  // Always travels in the direction of the flow, never back up it.
-  function spawn() {
-    if (!edges.length) return;
-    const e = edges[Math.floor(Math.random() * edges.length)];
-    pulses.push({ a: e[0], b: e[1], t: 0, sp: 0.009 + Math.random() * 0.012 });
-  }
-
-  function render(time) {
-    if (w && h) {
-      ctx.clearRect(0, 0, w, h);
-
-      nodes.forEach(function (n) {
-        if (reduce) { n.x = n.bx; n.y = n.by; return; }
-
-        // Idle drift around the node's resting position.
-        n.x = n.bx + Math.sin(time * 0.0004 * n.sp + n.ph) * n.amp * scale;
-        n.y = n.by + Math.cos(time * 0.0005 * n.sp + n.ph) * n.amp * scale;
-
-        if (enableMagnet) {
-          // A gentle magnetic repulsion layered on top of the idle drift —
-          // nodes near the cursor ease away from it, and ease back to their
-          // drift position once the cursor moves off or leaves the stage.
-          let tx = 0, ty = 0;
-          if (mouseX !== null) {
-            const dx = n.x - mouseX, dy = n.y - mouseY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const radius = 90 * scale;
-            if (dist > 0.01 && dist < radius) {
-              const falloff = 1 - dist / radius;
-              const strength = 16 * scale * falloff * falloff;
-              tx = (dx / dist) * strength;
-              ty = (dy / dist) * strength;
-            }
-          }
-          n.mx += (tx - n.mx) * 0.12;
-          n.my += (ty - n.my) * 0.12;
-          n.x += n.mx;
-          n.y += n.my;
-        }
-      });
-
-      ctx.lineWidth = Math.max(1, scale);
-      ctx.strokeStyle = 'rgba(' + ACCENT + ',' + (THEME === 'light' ? 0.35 : 0.2) + ')';
-      edges.forEach(function (e) {
-        ctx.beginPath();
-        ctx.moveTo(e[0].x, e[0].y);
-        ctx.lineTo(e[1].x, e[1].y);
-        ctx.stroke();
-      });
-
-      for (let i = pulses.length - 1; i >= 0; i--) {
-        const p = pulses[i];
-        p.t += p.sp;
-        if (p.t >= 1) { pulses.splice(i, 1); continue; }
-        const x = p.a.x + (p.b.x - p.a.x) * p.t;
-        const y = p.a.y + (p.b.y - p.a.y) * p.t;
-        const fade = Math.sin(p.t * Math.PI);
-        const glow = 13 * scale;
-        const g = ctx.createRadialGradient(x, y, 0, x, y, glow);
-        g.addColorStop(0, 'rgba(' + ACCENT + ',' + (0.85 * fade) + ')');
-        g.addColorStop(1, 'rgba(' + ACCENT + ',0)');
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(x, y, glow, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = 'rgba(' + ACCENT + ',' + fade + ')';
-        ctx.beginPath(); ctx.arc(x, y, 2.4 * scale, 0, Math.PI * 2); ctx.fill();
-      }
-
-      const SIZES = {
-        cap:   { rad: 5,  halo: 26, bright: false },
-        agent: { rad: 7.5, halo: 38, bright: true },
-        core:  { rad: 10, halo: 52, bright: true },
-        gov:   { rad: 8,  halo: 42, bright: true },
-        out:   { rad: 8,  halo: 42, bright: true }
-      };
-
-      nodes.forEach(function (n) {
-        const s = SIZES[n.kind] || SIZES.cap;
-        const isCore = n.kind === 'core';
-        const rad = s.rad * scale;
-        const haloR = s.halo * scale;
-
-        const halo = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, haloR);
-        halo.addColorStop(0, 'rgba(' + ACCENT + ',' + (isCore ? 0.24 : s.bright ? 0.18 : 0.12) + ')');
-        halo.addColorStop(1, 'rgba(' + ACCENT + ',0)');
-        ctx.fillStyle = halo;
-        ctx.beginPath(); ctx.arc(n.x, n.y, haloR, 0, Math.PI * 2); ctx.fill();
-
-        ctx.fillStyle = s.bright ? 'rgb(' + ACCENT + ')' : 'rgba(' + ACCENT + ',0.72)';
-        ctx.beginPath(); ctx.arc(n.x, n.y, rad, 0, Math.PI * 2); ctx.fill();
-
-        if (isCore) {
-          ctx.strokeStyle = 'rgba(' + ACCENT + ',0.45)';
-          ctx.lineWidth = Math.max(1, scale);
-          ctx.beginPath(); ctx.arc(n.x, n.y, 19 * scale, 0, Math.PI * 2); ctx.stroke();
-        }
-
-        const off = (isCore ? 30 : 21) * scale;
-        ctx.font = '500 ' + labelPx + 'px "JetBrains Mono", monospace';
-        ctx.fillStyle = THEME === 'light'
-          ? (s.bright ? 'rgba(26,26,46,0.88)' : 'rgba(26,26,46,0.62)')
-          : (s.bright ? 'rgba(230,233,245,0.82)' : 'rgba(230,233,245,0.58)');
-        ctx.textAlign = 'center';
-        ctx.textBaseline = n.labelBelow ? 'top' : 'alphabetic';
-        ctx.fillText(n.label, n.x, n.labelBelow ? n.y + off : n.y - off);
-        ctx.textBaseline = 'alphabetic';
-      });
-    }
-  }
-
-  layout();
-  if (window.ResizeObserver) {
-    new ResizeObserver(layout).observe(stage);
-  } else {
-    window.addEventListener('resize', layout);
-  }
-  // Only animate while the stage is on screen and the tab is in front.
-  let onScreen = true, rafId = null, spawnTimer = null;
-
-  function running() { return onScreen && !document.hidden; }
-
-  function start() {
-    if (rafId === null) rafId = requestAnimationFrame(draw);
-    if (!reduce && spawnTimer === null) spawnTimer = setInterval(spawn, 150);
-  }
-  function stop() {
-    if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
-    if (spawnTimer !== null) { clearInterval(spawnTimer); spawnTimer = null; }
-  }
-  function sync() { running() ? start() : stop(); }
-
-  function draw(time) {
-    rafId = null;
-    render(time);
-    if (running()) rafId = requestAnimationFrame(draw);
-  }
-
-  if (window.IntersectionObserver) {
-    new IntersectionObserver(function (entries) {
-      onScreen = entries[0].isIntersecting;
-      sync();
-    }, { rootMargin: '200px' }).observe(stage);
-  }
-  document.addEventListener('visibilitychange', sync);
-
-  spawn();
-  sync();
-})();
-
-(function () {
-  // ── Background parallax neural network ──
-  // A sparse, low-opacity node field fixed behind all content, drifting
-  // slowly and shifting opposite to scroll at a fraction of its speed for
-  // a parallax "deeper layer" feel. The hero has its own opaque background
-  // and canvas, so this one is visible from the top of the page onward.
-  const canvas = document.getElementById('bg-net');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function currentAccentTriplet() {
-    const hex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-    const m = hex.replace('#', '');
-    return parseInt(m.substring(0, 2), 16) + ',' + parseInt(m.substring(2, 4), 16) + ',' + parseInt(m.substring(4, 6), 16);
-  }
-  let ACCENT = currentAccentTriplet();
-  document.addEventListener('theme-change', function () { ACCENT = currentAccentTriplet(); });
-
-  const PARALLAX = 0.35;   // fraction of scroll speed the field drifts at
-  const LINK_DIST = 150;   // px, max distance for a connection
-  const MAX_LINKS = 2;     // per node, keeps the mesh sparse
-
-  let w = 0, h = 0, fieldH = 0, nodes = [];
-  let scrollY = window.scrollY || 0, scrollTicking = false;
-  let rafId = null;
-
-  function build() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = window.innerWidth; h = window.innerHeight;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    // The field is taller than the viewport so nodes can wrap through an
-    // off-screen buffer above and below, looping seamlessly as it drifts.
-    fieldH = h * 2.4;
-    const count = Math.max(22, Math.min(56, Math.round((w * fieldH) / 34000)));
-    nodes = [];
-    for (let i = 0; i < count; i++) {
-      nodes.push({
-        bx: Math.random() * w,
-        by: Math.random() * fieldH,
-        ph: Math.random() * Math.PI * 2,
-        sp: 0.3 + Math.random() * 0.4,
-        amp: 14 + Math.random() * 22
-      });
-    }
-  }
-
-  function wrapY(rawY) {
-    let v = ((rawY % fieldH) + fieldH) % fieldH;
-    v -= fieldH / 2;
-    return v + h / 2;
-  }
-
-  function draw(time) {
-    rafId = null;
-    if (w && h) {
-      ctx.clearRect(0, 0, w, h);
-      // Scroll-coupled parallax is the motion class that provokes vestibular
-      // symptoms, so it goes with the drift, not without it.
-      const offset = reduce ? 0 : scrollY * PARALLAX;
-
-      const pts = nodes.map(function (n) {
-        const dx = reduce ? 0 : Math.cos(time * 0.0013 * n.sp + n.ph) * n.amp * 0.6;
-        const dy = reduce ? 0 : Math.sin(time * 0.0016 * n.sp + n.ph) * n.amp;
-        return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
-      });
-
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = 'rgba(' + ACCENT + ',0.4)';
-      for (let i = 0; i < pts.length; i++) {
-        let links = 0;
-        for (let j = i + 1; j < pts.length && links < MAX_LINKS; j++) {
-          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-          if (Math.sqrt(dx * dx + dy * dy) < LINK_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
-            ctx.stroke();
-            links++;
-          }
-        }
-      }
-
-      ctx.fillStyle = 'rgba(' + ACCENT + ',0.8)';
-      pts.forEach(function (p) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
-    if (!document.hidden) rafId = requestAnimationFrame(draw);
-  }
-
-  function sync() {
-    if (document.hidden) {
-      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
-    } else if (rafId === null) {
-      rafId = requestAnimationFrame(draw);
-    }
-  }
-
-  canvas.classList.add('is-visible');
-
-  window.addEventListener('scroll', function () {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    requestAnimationFrame(function () {
-      scrollY = window.scrollY || 0;
-      scrollTicking = false;
-    });
-  }, { passive: true });
-
-  // Debounced: resize fires continuously while a mobile address bar animates.
-  let resizeTimer = null;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(build, 150);
-  });
-
-  document.addEventListener('visibilitychange', sync);
-
-  build();
-  sync();
 })();
 </script>
 
