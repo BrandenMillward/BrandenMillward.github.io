@@ -57,6 +57,25 @@
      all 19 pages, set in base.css. That removes the last deliberate exception in the token block. */
   /* Target size: narrow viewports and any touch pointer. Desktop keeps the
      nav's deliberate proportions, which already clear the 24px AA floor. */
+  /* ── Background parallax network (ambient, below the fold) ── */
+  /* Lifecycle-managed on purpose: render() only paints, draw() owns scheduling,
+     sync() decides whether to run. It stops on visibilitychange, so it does not
+     repaint forever in a background tab. Under reduced motion the parallax offset
+     pins to 0 — the drift AND the scroll coupling both have to go, not just drift. */
+  #bg-net {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  #bg-net.is-visible { opacity: .32; }
+  @media (prefers-reduced-motion: reduce) {
+    #bg-net { transition: opacity .4s ease; }
+  }
   /* ── Nav ── */
   /* ── Hero ── */
   .viewport { position: relative; z-index: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: 6.5rem 3rem; }
@@ -273,6 +292,8 @@
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
+
+<canvas id="bg-net" aria-hidden="true"></canvas>
 
 <nav class="nav">
   <div class="shell nav-bar">
@@ -953,6 +974,133 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && active) show(null);
   });
+})();
+
+(function () {
+  // ── Background parallax neural network ──
+  // A sparse, low-opacity node field fixed behind all content, drifting
+  // slowly and shifting opposite to scroll at a fraction of its speed for
+  // a parallax "deeper layer" feel. The hero has its own opaque background
+  // and canvas, so this one is visible from the top of the page onward.
+  const canvas = document.getElementById('bg-net');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function currentAccentTriplet() {
+    const hex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const m = hex.replace('#', '');
+    return parseInt(m.substring(0, 2), 16) + ',' + parseInt(m.substring(2, 4), 16) + ',' + parseInt(m.substring(4, 6), 16);
+  }
+  let ACCENT = currentAccentTriplet();
+  document.addEventListener('theme-change', function () { ACCENT = currentAccentTriplet(); });
+
+  const PARALLAX = 0.35;   // fraction of scroll speed the field drifts at
+  const LINK_DIST = 150;   // px, max distance for a connection
+  const MAX_LINKS = 2;     // per node, keeps the mesh sparse
+
+  let w = 0, h = 0, fieldH = 0, nodes = [];
+  let scrollY = window.scrollY || 0, scrollTicking = false;
+  let rafId = null;
+
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // The field is taller than the viewport so nodes can wrap through an
+    // off-screen buffer above and below, looping seamlessly as it drifts.
+    fieldH = h * 2.4;
+    const count = Math.max(22, Math.min(56, Math.round((w * fieldH) / 34000)));
+    nodes = [];
+    for (let i = 0; i < count; i++) {
+      nodes.push({
+        bx: Math.random() * w,
+        by: Math.random() * fieldH,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.3 + Math.random() * 0.4,
+        amp: 14 + Math.random() * 22
+      });
+    }
+  }
+
+  function wrapY(rawY) {
+    let v = ((rawY % fieldH) + fieldH) % fieldH;
+    v -= fieldH / 2;
+    return v + h / 2;
+  }
+
+  function draw(time) {
+    rafId = null;
+    if (w && h) {
+      ctx.clearRect(0, 0, w, h);
+      // Scroll-coupled parallax is the motion class that provokes vestibular
+      // symptoms, so it goes with the drift, not without it.
+      const offset = reduce ? 0 : scrollY * PARALLAX;
+
+      const pts = nodes.map(function (n) {
+        const dx = reduce ? 0 : Math.cos(time * 0.0013 * n.sp + n.ph) * n.amp * 0.6;
+        const dy = reduce ? 0 : Math.sin(time * 0.0016 * n.sp + n.ph) * n.amp;
+        return { x: n.bx + dx, y: wrapY(n.by - offset) + dy };
+      });
+
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(' + ACCENT + ',0.4)';
+      for (let i = 0; i < pts.length; i++) {
+        let links = 0;
+        for (let j = i + 1; j < pts.length && links < MAX_LINKS; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+          if (Math.sqrt(dx * dx + dy * dy) < LINK_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.stroke();
+            links++;
+          }
+        }
+      }
+
+      ctx.fillStyle = 'rgba(' + ACCENT + ',0.8)';
+      pts.forEach(function (p) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+    if (!document.hidden) rafId = requestAnimationFrame(draw);
+  }
+
+  function sync() {
+    if (document.hidden) {
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+    } else if (rafId === null) {
+      rafId = requestAnimationFrame(draw);
+    }
+  }
+
+  canvas.classList.add('is-visible');
+
+  window.addEventListener('scroll', function () {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(function () {
+      scrollY = window.scrollY || 0;
+      scrollTicking = false;
+    });
+  }, { passive: true });
+
+  // Debounced: resize fires continuously while a mobile address bar animates.
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(build, 150);
+  });
+
+  document.addEventListener('visibilitychange', sync);
+
+  build();
+  sync();
 })();
 </script>
 

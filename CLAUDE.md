@@ -81,11 +81,6 @@ CSS parser drops silently — the hero grid and burger icon lost their spacing a
 nothing errored. Grep for `column-:`, `row-:` and `[a-z-]\+:\s*;` after any bulk edit;
 note the ternary at `index.html`'s canvas colour logic is a legitimate `:` match.
 
-Careful with find-and-replace across these files. A `gap` → `` replacement without a
-word boundary once shipped `: .32rem`, `column-:` and `row-:` to production, which the
-CSS parser drops silently — the hero grid and burger icon lost their spacing and
-nothing errored.
-
 The old template-derived styling (the *previous* `assets/**`, `index.html.bak`,
 `preview-restyle.html`, and the template's `LICENSE.txt`) was deleted in the
 2026-07 cleanup — recover from git history if ever needed. The current `assets/`
@@ -103,16 +98,19 @@ the hero to the skills grid sits inside `<main id="main">`.
 Theme toggle and mobile nav live in `assets/js/base.js`. Only **one** IIFE remains inline in
 `index.html`, marked `// ── Hero diagram ──`: it wires the `.net-svg` diagram to its detail panel.
 
-**There are no `<canvas>` elements left on the site** (2026-08). Both went:
+**The hero particle canvas (`#net`) is gone** (2026-08) — replaced by the inline SVG diagram,
+which has no animation loop. **The parallax background (`#bg-net`) stays**: it was removed and
+then deliberately reinstated.
 
-- the hero particle canvas (`#net`) became an inline SVG of the agent-network architecture
-- the full-page parallax background (`#bg-net`) was deleted outright, ~127 lines of it
+That one canvas is the only `requestAnimationFrame` loop on the site, and its lifecycle is easy
+to undo by accident: `render()` only paints, `draw()` owns scheduling, `sync()` decides whether
+to run, and it stops on `visibilitychange`. Add a `requestAnimationFrame` that reschedules
+unconditionally and it repaints forever in a background tab. Under `prefers-reduced-motion` it
+also pins the parallax offset to 0 — the drift *and* the scroll coupling must both go.
 
-So there is **no `requestAnimationFrame` loop anywhere**, and none of the old lifecycle
-machinery (`render`/`draw`/`sync`, `IntersectionObserver`, `visibilitychange`) survives. If you
-reintroduce an animation, you reintroduce that whole problem — a loop that repaints forever in
-a background tab, and a `prefers-reduced-motion` path that has to kill drift *and* scroll
-coupling, not just drift.
+Note you cannot verify it paints from the Browser pane: `requestAnimationFrame` never fires
+there (measured 0 frames in 700ms), so the canvas reads as blank and mid-transition. Check it
+in a real browser.
 
 The hero diagram is the reference architecture Branden designs — retrieval, memory, tools and
 skills feeding an agent layer, then an orchestrator, then guardrails and governance, then
