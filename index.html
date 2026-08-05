@@ -214,8 +214,12 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem;
     align-items: center; padding-block: .4rem 1.3rem;
   }
-  .slab-media { border-radius: .4rem; overflow: hidden; background: var(--bg); height: 14rem; }
-  .slab-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* The covers are transparent line art now, not opaque tiles, so the box needs its own
+     hairline to read as a frame — matching .article-image and .hero-photo. And `contain`,
+     not `cover`: cropping was invisible on a filled tile but lops the ends off line art. */
+  .slab-media { border: 1px solid var(--line); border-radius: .4rem; overflow: hidden;
+                background: var(--bg-2); height: 14rem; }
+  .slab-media img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .slab-note p { color: var(--muted); font-size: .88rem; }
   .slab-tags {
     display: flex; flex-wrap: wrap; gap: .4rem;
