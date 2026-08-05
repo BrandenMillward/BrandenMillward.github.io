@@ -15,17 +15,31 @@
     document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: theme } }));
   }
 
-  var saved = localStorage.getItem(THEME_KEY);
-  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-  apply(saved || (prefersLight ? 'light' : 'dark'));
+  // The OS preference is the default. localStorage only ever holds a deliberate override.
+  var mq = window.matchMedia('(prefers-color-scheme: light)');
+  function systemTheme() { return mq.matches ? 'light' : 'dark'; }
+
+  apply(localStorage.getItem(THEME_KEY) || systemTheme());
 
   if (btn) {
     btn.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem(THEME_KEY, next);
+      // Toggling back to whatever the OS is asking for clears the override rather than
+      // pinning the same value — so there is a way back to following the system, which a
+      // plain two-state toggle otherwise locks you out of permanently.
+      if (next === systemTheme()) localStorage.removeItem(THEME_KEY);
+      else localStorage.setItem(THEME_KEY, next);
       apply(next);
     });
   }
+
+  // Follow the OS live while no override is set — covers a phone flipping to dark at sunset
+  // with the page already open.
+  var onSystemChange = function () {
+    if (!localStorage.getItem(THEME_KEY)) apply(systemTheme());
+  };
+  if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+  else if (mq.addListener) mq.addListener(onSystemChange);   // Safari < 14
 })();
 
 (function () {
