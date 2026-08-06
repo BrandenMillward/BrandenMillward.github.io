@@ -1,39 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A document flowing through an asynchronous pipeline of API, worker, and job store">
-  <rect width="640" height="360" fill="#0f1220"/>
 
-  <g fill="none" stroke="#8b9dff" stroke-width="2">
+
+  <g fill="none" stroke="#696fb4" stroke-width="2">
     <path d="M 60 120 L 130 120 L 130 240 L 60 240 Z"/>
     <path d="M 108 120 L 108 142 L 130 142"/>
   </g>
-  <g stroke="#8b9dff" stroke-width="2" opacity="0.6" stroke-linecap="round">
+  <g stroke="#696fb4" stroke-width="2" opacity="0.6" stroke-linecap="round">
     <line x1="75" y1="165" x2="115" y2="165"/>
     <line x1="75" y1="185" x2="108" y2="185"/>
     <line x1="75" y1="205" x2="115" y2="205"/>
   </g>
-  <text x="95" y="270" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" letter-spacing="2">SOURCE</text>
 
-  <line x1="150" y1="180" x2="205" y2="180" stroke="#8b9dff" stroke-width="1" opacity="0.5"/>
+  <line x1="150" y1="180" x2="205" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
-  <rect x="215" y="150" width="90" height="60" rx="6" fill="none" stroke="#8b9dff" stroke-width="2"/>
-  <text x="260" y="186" fill="#8b9dff" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" letter-spacing="1">API</text>
-  <text x="260" y="240" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">ENQUEUE</text>
+  <rect x="215" y="150" width="90" height="60" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
 
-  <line x1="305" y1="180" x2="360" y2="180" stroke="#8b9dff" stroke-width="1" opacity="0.5"/>
+  <line x1="305" y1="180" x2="360" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
-  <g fill="none" stroke="#8b9dff" stroke-width="2">
+  <g fill="none" stroke="#696fb4" stroke-width="2">
     <ellipse cx="405" cy="140" rx="38" ry="11"/>
     <path d="M 367 140 L 367 205 A 38 11 0 0 0 443 205 L 443 140"/>
   </g>
-  <text x="405" y="245" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">JOB STORE</text>
 
-  <line x1="443" y1="175" x2="500" y2="175" stroke="#8b9dff" stroke-width="1" opacity="0.5"/>
+  <line x1="443" y1="175" x2="500" y2="175" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
-  <rect x="510" y="145" width="90" height="60" rx="6" fill="none" stroke="#8b9dff" stroke-width="2"/>
-  <circle cx="537" cy="175" r="9" fill="none" stroke="#8b9dff" stroke-width="2"/>
-  <path d="M 537 168 L 537 175 L 543 179" fill="none" stroke="#8b9dff" stroke-width="2" stroke-linecap="round"/>
-  <text x="572" y="181" fill="#8b9dff" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">∞</text>
-  <text x="555" y="235" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">WORKER · NO TIMEOUT</text>
+  <rect x="510" y="145" width="90" height="60" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <circle cx="537" cy="175" r="9" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <path d="M 537 168 L 537 175 L 543 179" fill="none" stroke="#696fb4" stroke-width="2" stroke-linecap="round"/>
 
-  <path d="M 555 145 C 555 100, 405 90, 320 90 C 285 90, 268 110, 262 148" fill="none" stroke="#8b9dff" stroke-width="1" stroke-dasharray="4 5" opacity="0.55"/>
-  <text x="405" y="72" fill="#9aa2bd" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="2">POLL STATUS</text>
+  <path d="M 555 145 C 555 100, 405 90, 320 90 C 285 90, 268 110, 262 148" fill="none" stroke="#6b7391" stroke-width="1" stroke-dasharray="4 5" opacity="0.9"/>
 </svg>

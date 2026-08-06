@@ -1,2 +1,6 @@
 .claude/
 .DS_Store
+
+# files/ is served publicly — anything committed there is downloadable from the live site.
+# The CV is deliberate; working spreadsheets are not, so keep them out by default.
+files/*.xlsx

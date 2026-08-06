@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A scatter of observations with a fitted regression line and its residuals marked">
+  <g fill="none" stroke="#6b7391" stroke-width="1.5">
+    <line x1="96" y1="60" x2="96" y2="286"/>
+    <line x1="96" y1="286" x2="556" y2="286"/>
+  </g>
+  <g stroke="#6b7391" stroke-width="1" opacity="0.35">
+    <line x1="96" y1="230" x2="556" y2="230"/>
+    <line x1="96" y1="174" x2="556" y2="174"/>
+    <line x1="96" y1="118" x2="556" y2="118"/>
+  </g>
+
+  <line x1="120" y1="256" x2="536" y2="94" stroke="#696fb4" stroke-width="2.5"/>
+
+  <g stroke="#6b7391" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.85">
+    <line x1="176" y1="212" x2="176" y2="234"/>
+    <line x1="248" y1="184" x2="248" y2="162"/>
+    <line x1="320" y1="156" x2="320" y2="182"/>
+    <line x1="392" y1="128" x2="392" y2="110"/>
+    <line x1="464" y1="100" x2="464" y2="124"/>
+  </g>
+  <g fill="#696fb4">
+    <circle cx="176" cy="234" r="5"/><circle cx="248" cy="162" r="5"/>
+    <circle cx="320" cy="182" r="5"/><circle cx="392" cy="110" r="5"/>
+    <circle cx="464" cy="124" r="5"/>
+  </g>
+  <g fill="none" stroke="#6b7391" stroke-width="1.5" opacity="0.8">
+    <circle cx="212" cy="196" r="4"/><circle cx="284" cy="200" r="4"/>
+    <circle cx="356" cy="140" r="4"/><circle cx="428" cy="152" r="4"/>
+    <circle cx="500" cy="96" r="4"/>
+  </g>
+</svg>
