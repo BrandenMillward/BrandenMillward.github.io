@@ -37,21 +37,21 @@ build or release step.
 ### One design system, per-page styles — this is the thing to know first
 
 The shared layer was extracted in 2026-08. A site-wide visual change is now **one
-file**, not 19. Every page links:
+file**, not 17. Every page links:
 
 - `assets/css/base.css` — tokens, `[data-theme='light']`, base elements, nav, footer.
-  Linked by all 19 pages. `--shell` is `1240px` here and **no page overrides it** — the
+  Linked by all 17 pages. `--shell` is `1240px` here and **no page overrides it** — the
   homepage's old `2400px` full-bleed is gone, so the token block now has no per-page exceptions.
   `--accountable` (ochre) is a second semantic colour reserved for the accountability layer:
   guardrails, governance, human-in-the-loop. It is never decorative — if it appears, it means a
   human stays answerable for what happens there. Like `--accent-soft` it must be restated in
   `[data-theme='light']`, where it is darkened to clear AA on paper.
 - `assets/js/base.js` — theme toggle (`localStorage['site-theme']`) and mobile nav.
-  Linked by all 19, `defer`.
+  Linked by all 17, `defer`.
 
 Two page-type stylesheets load *after* `base.css`:
 
-- `assets/css/post.css` — the 7 `blog/*` post pages
+- `assets/css/post.css` — the 5 `blog/*` post pages
 - `assets/css/case-study.css` — the 10 `projects/*` pages
 
 **Do not merge those two into `base.css`.** They both style `.post-hero` and
@@ -63,7 +63,7 @@ different components (row height, thumbnails, dek scoping), so each keeps its le
 What stays inline, and why:
 
 - the head boot script resolving `data-theme` before first paint — must stay inline in
-  all 19 heads or the page flashes the wrong theme. It mirrors `base.js`; if the two
+  all 17 heads or the page flashes the wrong theme. It mirrors `base.js`; if the two
   ever disagree, that flash is the symptom.
 - `index.html`: the homepage-only hero, diagram,
   showcase, skills, experience and ledger rules.
@@ -73,7 +73,8 @@ The extraction was verified by diffing *effective* CSS (linked + inline, last-wi
 against the pre-extraction pages: 19/19 identical, 0 modified, 0 removed, 0 newly
 applying rules — plus a computed-style diff over 606 live elements across the three
 page types, also zero. Re-run that comparison against `git show HEAD:<file>` after any
-change that moves rules between files.
+change that moves rules between files. (That check ran when the site was 19 pages; the
+two July 2026 blog posts were deleted afterwards, hence 17 today.)
 
 Careful with find-and-replace across these files. A `gap` → `` replacement without a
 word boundary once shipped `: .32rem`, `column-:` and `row-:` to production, which the
@@ -172,5 +173,5 @@ Four behaviours that surprise people:
 
 Every page carries its own `<title>`, `<meta name="description">`, and OG tags; the
 homepage also has a JSON-LD `Person` block. Adding a page means adding its URL to
-`sitemap.xml`, which is an explicit hand-maintained list (15 entries currently).
+`sitemap.xml`, which is an explicit hand-maintained list (17 entries currently).
 `robots.txt` points at the sitemap. `files/Branden Millward_CV.pdf` is linked from the site.
