@@ -5,8 +5,21 @@ one asset cannot serve both, and the difference is not cosmetic.
 
 | File | Size | Where it is read |
 |---|---|---|
-| `social-card.html` | 1200×627 | `og:image`, seen in a LinkedIn or X feed at about **550px** |
+| `social-card.html` | 1600×836 | `og:image`, and X. About **550px** wide in a feed |
+| `portrait-card.html` | 1200×1500 | uploaded as a native LinkedIn image. 4:5 takes far more vertical space in the feed |
 | `inline-card.html` | 1400×440 | inside the article, displayed at the **60ch measure**, about 700px |
+
+**LinkedIn no longer renders large link previews.** A shared URL gets a compact
+card, a thumbnail beside the title, whatever the image is. Confirmed by testing
+1200×627 and 1600×836: both compact, in a clean composer, after a Post Inspector
+re-scrape. The Post Inspector still shows the old large format, so it disagrees
+with what actually posts; trust the composer. To get a full-width image on
+LinkedIn, upload `portrait-card.png` as a native image and leave the URL in the
+body text. `og:image` still matters for every other platform, and for anyone
+pasting the link elsewhere.
+
+Portrait can carry the citation lines that the social card cannot: at 1200 wide
+displayed near 550px, 28px mono lands around 13px.
 
 ## The two rules that matter
 
@@ -32,7 +45,8 @@ a viewport about **87px shorter**, so render taller and crop the surplus off.
 ```bash
 CHROME=/path/to/chrome   # or: chromium, google-chrome
 
-# social card: 627 tall viewport needs a 714 window
+# social card 1600x836: render at dsf 1.3333 in a 714 window, crop to 836
+# portrait card 1200x1500: 1500 tall viewport needs a 1587 window
 "$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
   --virtual-time-budget=4000 --window-size=1200,714 \
   --screenshot=raw.png "file://$PWD/social-card.html"
