@@ -1,6 +1,6 @@
 # Post cards
 
-Two images per post, doing two different jobs. They are separate files because
+Three images per post, doing three different jobs. They are separate files because
 one asset cannot serve both, and the difference is not cosmetic.
 
 | File | Size | Where it is read |
@@ -21,7 +21,7 @@ pasting the link elsewhere.
 Portrait can carry the citation lines that the social card cannot: at 1200 wide
 displayed near 550px, 28px mono lands around 13px.
 
-## The two rules that matter
+## The rules that matter
 
 **Size the type for where it is read, not for the canvas.** A feed halves a
 1200px card, so 14px mono lands near 6px and is a grey smear. The social card
@@ -42,19 +42,25 @@ Headless Chromium, because the site has no build step and this needs real font
 rendering. Chrome sizes its screenshot from `--window-size` but lays out against
 a viewport about **87px shorter**, so render taller and crop the surplus off.
 
+The sources are laid out at CSS sizes; the device scale factor is what makes the
+social card come out at 1600 wide from a 1200px layout.
+
 ```bash
 CHROME=/path/to/chrome   # or: chromium, google-chrome
+R="--headless --disable-gpu --hide-scrollbars --virtual-time-budget=4000"
 
-# social card 1600x836: render at dsf 1.3333 in a 714 window, crop to 836
-# portrait card 1200x1500: 1500 tall viewport needs a 1587 window
-"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
-  --virtual-time-budget=4000 --window-size=1200,714 \
+# social 1600x836   layout 1200x627, dsf 1.3333, window 627+87=714, crop 627*1.3333
+"$CHROME" $R --force-device-scale-factor=1.3333 --window-size=1200,714 \
   --screenshot=raw.png "file://$PWD/social-card.html"
-python3 crop-png.py raw.png ../../images/<slug>-social.png 627
+python3 crop-png.py raw.png ../../images/<slug>-social-1600.png 836
 
-# in-article card: 440 tall viewport needs a 527 window
-"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
-  --virtual-time-budget=4000 --window-size=1400,527 \
+# portrait 1200x1500   window 1500+87=1587
+"$CHROME" $R --force-device-scale-factor=1 --window-size=1200,1587 \
+  --screenshot=raw.png "file://$PWD/portrait-card.html"
+python3 crop-png.py raw.png ../../images/<slug>-portrait.png 1500
+
+# in-article 1400x440   window 440+87=527
+"$CHROME" $R --force-device-scale-factor=1 --window-size=1400,527 \
   --screenshot=raw.png "file://$PWD/inline-card.html"
 python3 crop-png.py raw.png ../../images/<slug>-inline.png 440
 ```
