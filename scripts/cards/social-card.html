@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Site tokens, taken from assets/css/base.css. The card has to sit next to the
+     post it links to, so nothing here is invented. */
+  :root {
+    --bg: #0a0c16;
+    --bg-2: #0f1220;
+    --accent: #8b9dff;
+    --accountable: #e0a458;
+    --text: #e6e9f5;
+    --muted: #9aa2bd;
+    --faint: #7b83a3;
+    --line: rgba(255,255,255,.1);
+    --display: 'Archivo', ui-sans-serif, system-ui, 'DejaVu Sans', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 627px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    display: flex;
+    flex-direction: column;
+    padding: 58px 68px 52px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 22px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  h1 {
+    font-size: 62px; font-weight: 700; line-height: 1.06; letter-spacing: -.015em;
+    margin-top: 20px; max-width: 20ch;
+  }
+  h1 .hold { color: var(--accent); }
+
+  /* An explicit spacer rather than margin-top:auto on the rule. The auto margin
+     absorbed the free space but still let the block after it overflow the fixed
+     627px, which silently pushed the footer off the bottom of the render. */
+  .spacer { flex: 1 1 auto; min-height: 0; }
+  .rule { height: 1px; background: var(--line); flex: 0 0 auto; }
+
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 30px; flex: 0 0 auto; }
+  .col { padding-right: 34px; }
+  .col + .col { padding-left: 34px; border-left: 1px solid var(--line); }
+
+  .who {
+    font-family: var(--mono);
+    font-size: 24px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .what {
+    font-size: 46px; font-weight: 700; line-height: 1.12; letter-spacing: -.015em;
+    margin-top: 18px; color: var(--text); min-height: 104px;
+  }
+  .detail {
+    font-family: var(--mono);
+    font-size: 15px; line-height: 1.5; color: var(--muted); margin-top: 12px;
+  }
+
+  .foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 30px; flex: 0 0 auto; }
+  .foot .site {
+    font-family: var(--mono); font-size: 22px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  /* The one use of --accountable: the line about what stays true whoever regulates
+     you is the accountability claim of the whole piece, not decoration. */
+  .foot .holds { font-size: 40px; font-weight: 700; letter-spacing: -.01em; color: var(--accountable); }
+</style>
+</head>
+<body>
+
+  <p class="eyebrow">AI Agents · Model Risk · Regulation</p>
+  <h1>Three regulators disagree on AI agents</h1>
+
+  <div class="spacer"></div>
+  <div class="rule"></div>
+
+  <div class="cols">
+    <div class="col">
+      <p class="who">US · Fed</p>
+      <p class="what">Out of scope</p>
+    </div>
+    <div class="col">
+      <p class="who">EU · AI Act</p>
+      <p class="what">Deadlines move</p>
+    </div>
+    <div class="col">
+      <p class="who">UK · PRA</p>
+      <p class="what">Already here, quietly</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <p class="holds">The four things you need either way</p>
+    <p class="site">brandenmillward.com</p>
+  </div>
+
+</body>
+</html>

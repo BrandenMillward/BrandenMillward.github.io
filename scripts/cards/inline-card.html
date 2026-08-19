@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Rendered at 2x. The article measure is 60ch, so this displays around 700px
+   wide; every size below is doubled so the mono detail lines stay legible
+   after the browser halves them. */
+:root {
+  --bg:#0a0c16; --accent:#8b9dff; --accountable:#e0a458;
+  --text:#e6e9f5; --muted:#9aa2bd; --line:rgba(255,255,255,.1);
+  --display:'Archivo',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1400px;height:440px}
+body{background:var(--bg);color:var(--text);font-family:var(--display);
+     padding:56px 60px 52px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);flex:0 0 auto}
+.col{padding-right:32px}
+.col+.col{padding-left:32px;border-left:1px solid var(--line)}
+.who{font-family:var(--mono);font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.what{font-size:40px;font-weight:700;line-height:1.12;letter-spacing:-.01em;margin-top:18px;min-height:90px}
+.detail{font-family:var(--mono);font-size:22px;line-height:1.5;color:var(--muted);margin-top:18px}
+.spacer{flex:1 1 auto;min-height:0}
+.rule{height:1px;background:var(--line);flex:0 0 auto}
+.holds{font-size:36px;font-weight:700;letter-spacing:-.01em;color:var(--accountable);margin-top:32px;flex:0 0 auto}
+</style></head><body>
+  <div class="cols">
+    <div class="col">
+      <p class="who">US &middot; Fed</p>
+      <p class="what">Out of scope</p>
+      <p class="detail">SR 26-2, footnote 3<br />Agents carved out</p>
+    </div>
+    <div class="col">
+      <p class="who">EU &middot; AI Act</p>
+      <p class="what">Deadlines move</p>
+      <p class="detail">Dec 2027, Aug 2028<br />Digital Omnibus, in force</p>
+    </div>
+    <div class="col">
+      <p class="who">UK &middot; PRA</p>
+      <p class="what">Already here, quietly</p>
+      <p class="detail">SS1/23, since 2023<br />Supervisors visit firms</p>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="rule"></div>
+  <p class="holds">The four things you need either way</p>
+</body></html>
