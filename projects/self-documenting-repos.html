@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Self-Documenting Repositories — Branden Millward</title>
-<meta name="description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request — then keeps the docs fresh on every push." />
+<meta name="description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request, then keeps the docs fresh on every push." />
 <meta property="og:title" content="Self-Documenting Repositories" />
-<meta property="og:description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request — then keeps the docs fresh on every push." />
+<meta property="og:description" content="An automation that reads a GitHub repository, understands it, writes README and ARCHITECTURE docs, and opens a pull request, then keeps the docs fresh on every push." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,36 +74,36 @@
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Documentation rots the moment it is written. Could a pipeline read an entire repository, produce accurate README and ARCHITECTURE documents, open a pull request with them — and then keep them current automatically as the code changes?</p>
+        <p>Documentation rots the moment it is written. Could a pipeline read an entire repository, produce accurate README and ARCHITECTURE documents, open a pull request with them, and then keep them current automatically as the code changes?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
           <li>Fetches the repo tree via the GitHub API and filters to meaningful source files</li>
-          <li>Uses a <strong>map-reduce LLM design</strong>: a fast, cheap model summarises each file individually; a stronger model synthesises repo-wide documentation from the summaries — scaling to large repos without giant prompts</li>
+          <li>Uses a <strong>map-reduce LLM design</strong>: a fast, cheap model summarises each file individually; a stronger model synthesises repo-wide documentation from the summaries, scaling to large repos without giant prompts</li>
           <li>Runs as a full scan on demand, or incrementally from push and pull-request webhooks, documenting only what changed</li>
-          <li>Creates a fresh branch, commits the generated docs, and opens a pull request — a human always reviews before merge</li>
+          <li>Creates a fresh branch, commits the generated docs, and opens a pull request, so a human always reviews before merge</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>Repositories that document themselves, with a human approval gate. Where coverage is partial — capped file counts, failed fetches — the pipeline says so explicitly in the output rather than papering over gaps.</p>
+        <p>Repositories that document themselves, with a human approval gate. Where coverage is partial, whether from capped file counts or failed fetches, the pipeline says so explicitly in the output rather than papering over gaps.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
           <li>n8n · GitHub REST API</li>
-          <li>Anthropic API — tiered model usage</li>
+          <li>Anthropic API · tiered model usage</li>
           <li>Webhook triggers · PR automation</li>
         </ul>
       </div>
     </div>
 
     <h2>Built for the real GitHub</h2>
-    <p>The naive version dies on contact with production: bulk file fetches trip abuse rate limits, transient 502s kill runs, and a silently dropped file corrupts the docs without anyone noticing. The pipeline serialises fetches with pacing, retries every call, continues past individual failures, and — critically — surfaces every failed fetch by name in the generated output, so a gap reads as a gap rather than a fact.</p>
+    <p>The naive version dies on contact with production: bulk file fetches trip abuse rate limits, transient 502s kill runs, and a silently dropped file corrupts the docs without anyone noticing. The pipeline serialises fetches with pacing, retries every call, continues past individual failures, and critically, surfaces every failed fetch by name in the generated output, so a gap reads as a gap rather than a fact.</p>
 
     <h2>Why map-reduce beats one big prompt</h2>
-    <p>Stuffing a whole repo into a single context window is expensive, hits limits on real codebases, and buries the signal. Per-file summarisation with a cheap model costs a fraction as much, parallelises cleanly, and gives the synthesis model exactly the distilled material it needs. The trade-off — cross-file details arrive secondhand — is handled by always giving the synthesis step the full structural file tree alongside the summaries.</p>
+    <p>Stuffing a whole repo into a single context window is expensive, hits limits on real codebases, and buries the signal. Per-file summarisation with a cheap model costs a fraction as much, parallelises cleanly, and gives the synthesis model exactly the distilled material it needs. The trade-off, that cross-file details arrive secondhand, is handled by always giving the synthesis step the full structural file tree alongside the summaries.</p>
 
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>

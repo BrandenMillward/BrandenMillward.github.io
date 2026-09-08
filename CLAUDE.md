@@ -11,9 +11,9 @@ machine learning, and data.
 ## Tech stack
 
 Hand-written static HTML, CSS, and vanilla JS. No framework, no bundler, no
-`package.json`, no build step, no tests, no linter. Fonts come from Google Fonts
-(JetBrains Mono for the restyled pages, Inter + JetBrains Mono for the older ones).
-The only Python is a CI-only image script.
+`package.json`, no build step, no tests, no linter. Fonts come from Google Fonts in
+three registers: Archivo for display, Newsreader for prose, JetBrains Mono for data
+and labels. The only Python is CI/tooling scripts under `scripts/`.
 
 ## Commands
 
@@ -37,22 +37,22 @@ build or release step.
 ### One design system, per-page styles — this is the thing to know first
 
 The shared layer was extracted in 2026-08. A site-wide visual change is now **one
-file**, not 17. Every page links:
+file**, not one per page. Every page links:
 
 - `assets/css/base.css` — tokens, `[data-theme='light']`, base elements, nav, footer.
-  Linked by all 17 pages. `--shell` is `1240px` here and **no page overrides it** — the
+  Linked by every page. `--shell` is `1240px` here and **no page overrides it** — the
   homepage's old `2400px` full-bleed is gone, so the token block now has no per-page exceptions.
   `--accountable` (ochre) is a second semantic colour reserved for the accountability layer:
   guardrails, governance, human-in-the-loop. It is never decorative — if it appears, it means a
   human stays answerable for what happens there. Like `--accent-soft` it must be restated in
   `[data-theme='light']`, where it is darkened to clear AA on paper.
 - `assets/js/base.js` — theme toggle (`localStorage['site-theme']`) and mobile nav.
-  Linked by all 17, `defer`.
+  Linked by every page, `defer`.
 
 Two page-type stylesheets load *after* `base.css`:
 
-- `assets/css/post.css` — the 5 `blog/*` post pages
-- `assets/css/case-study.css` — the 10 `projects/*` pages
+- `assets/css/post.css` — the `blog/*` pages
+- `assets/css/case-study.css` — the 13 `projects/*` pages
 
 **Do not merge those two into `base.css`.** They both style `.post-hero` and
 `.post-body` with different rules, so a merged file cross-contaminates: project pages
@@ -63,7 +63,7 @@ different components (row height, thumbnails, dek scoping), so each keeps its le
 What stays inline, and why:
 
 - the head boot script resolving `data-theme` before first paint — must stay inline in
-  all 17 heads or the page flashes the wrong theme. It mirrors `base.js`; if the two
+  every head or the page flashes the wrong theme. It mirrors `base.js`; if the two
   ever disagree, that flash is the symptom.
 - `index.html`: the homepage-only hero, diagram,
   showcase, skills, experience and ledger rules.
@@ -74,7 +74,8 @@ against the pre-extraction pages: 19/19 identical, 0 modified, 0 removed, 0 newl
 applying rules — plus a computed-style diff over 606 live elements across the three
 page types, also zero. Re-run that comparison against `git show HEAD:<file>` after any
 change that moves rules between files. (That check ran when the site was 19 pages; the
-two July 2026 blog posts were deleted afterwards, hence 17 today.)
+page count has since changed as posts and case studies come and go — don't trust any
+hard-coded page count in this file, count `*.html` instead.)
 
 Careful with find-and-replace across these files. A `gap` → `` replacement without a
 word boundary once shipped `: .32rem`, `column-:` and `row-:` to production, which the
@@ -134,12 +135,42 @@ inside `.net-stage` rather than dragging the page sideways. The SVG text sizes a
 media query at narrow and mid widths because SVG text scales with the drawing and otherwise
 fell to ~7px.
 
+### Adding a case study
+
+Copy an existing `projects/*.html` (e.g. `multi-model-research-engine.html`) and swap
+the content: title/meta/OG, hero, cover image, the Problem/Approach/Result/Stack
+case-grid, and two engineering-story `<h2>` sections. The nav/footer skeleton is
+identical across all project pages — keep them in lockstep. Then: a slab in
+`index.html`'s `#work` showcase (thumbnail, tag pills, "Case study →" link) and a
+`sitemap.xml` entry.
+
+### Project cover art
+
+The 640×360 SVG thumbnails in `images/` load via `<img>`, so page CSS cannot reach
+inside them — they must work on BOTH light and dark grounds by construction
+(`scripts/generate-covers.js` fixed the original set; follow its rules for new ones):
+
+- **No background rect** — the page ground shows through.
+- One dual-ground palette: `#696fb4` primary, `#6b7391` secondary (≥4:1 contrast on
+  both `#0a0c16` and `#f5f4f0`). Never bake in theme hex like `#0f1220` or `#8b9dff`.
+- **No `<text>` captions** — the `aria-label` carries the meaning.
+
+### Content conventions
+
+- **No em dashes in prose** — case-study copy, homepage slabs, meta descriptions,
+  deks. Use a comma, colon, parenthetical, or full stop. Exceptions: the
+  `Page — Branden Millward` `<title>` separator, date ranges, and structural
+  `Role — Employer` / `Talk — Event` labels.
+- Public pages are generalised: no employer, client, or teammate names, no
+  infrastructure identifiers, URLs, or internal dates. Naming tools and stack
+  (n8n, Supabase, Tavus, Railway, Anthropic) is fine.
+
 ### Branch model
 
-`main` is live. The old `restyle-preview` branch carried `preview-restyle.html`,
-the design prototype for the restyle — the restyle has long since shipped to `main`
-and that branch is stale; don't assume any file matches across branches. Design
-work now happens directly on `main`'s real pages.
+`main` is live. `restyle-preview` and `ai-orchestration-refresh` are stale,
+long-merged branches — don't assume any file matches across them. Design work
+happens on `main`'s real pages; content drafted for review goes on a short-lived
+`portfolio-update-<month>` branch.
 
 ## Image pipeline
 
@@ -173,5 +204,6 @@ Four behaviours that surprise people:
 
 Every page carries its own `<title>`, `<meta name="description">`, and OG tags; the
 homepage also has a JSON-LD `Person` block. Adding a page means adding its URL to
-`sitemap.xml`, which is an explicit hand-maintained list (17 entries currently).
+`sitemap.xml`, which is an explicit hand-maintained list on the `brandenmillward.com`
+domain.
 `robots.txt` points at the sitemap. `files/Branden Millward_CV.pdf` is linked from the site.

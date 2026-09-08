@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AI Document Generation Platform — Branden Millward</title>
-<meta name="description" content="A web app converting raw source material into polished customer-facing documentation — re-architected as an async job system to survive generations that outlive serverless timeouts." />
+<meta name="description" content="A web app converting raw source material into polished customer-facing documentation, re-architected as an async job system to survive generations that outlive serverless timeouts." />
 <meta property="og:title" content="AI Document Generation Platform" />
-<meta property="og:description" content="A web app converting raw source material into polished customer-facing documentation — re-architected as an async job system to survive generations that outlive serverless timeouts." />
+<meta property="og:description" content="A web app converting raw source material into polished customer-facing documentation, re-architected as an async job system to survive generations that outlive serverless timeouts." />
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,15 +74,15 @@
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Converting raw source material — plain text, PDFs, Word documents — into polished, customer-facing documentation is repetitive skilled work. An LLM can do it well, but real-world inputs (60,000+ character PDFs) produce generations lasting 6–7 minutes: far past any serverless request timeout, so a naive implementation drops the connection mid-generation.</p>
+        <p>Converting raw source material (plain text, PDFs, Word documents) into polished, customer-facing documentation is repetitive skilled work. An LLM can do it well, but real-world inputs of 60,000+ characters produce generations lasting 6–7 minutes: far past any serverless request timeout, so a naive implementation drops the connection mid-generation.</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
-          <li>Started with synchronous streaming; measured real workloads and found output length, not model choice, drives generation time — and no serverless tier survives the worst case</li>
+          <li>Started with synchronous streaming; measured real workloads and found output length, not model choice, drives generation time, and that no serverless tier survives the worst case</li>
           <li>Re-architected as an <strong>async job system</strong>: the serverless front end extracts content and images, writes a job row to Postgres, and hands off to a worker</li>
           <li>Ran generation on a long-lived container worker with no request timeout, writing progress and results back to the job store</li>
-          <li>Had the browser poll a lightweight status endpoint — the user watches progress instead of a hanging request</li>
+          <li>Had the browser poll a lightweight status endpoint, so the user watches progress instead of a hanging request</li>
         </ul>
       </div>
       <div class="case-block">
@@ -94,14 +94,14 @@
         <ul>
           <li>Next.js · serverless front end</li>
           <li>Container worker (long-lived, no timeout)</li>
-          <li>Supabase — Postgres job store with RLS</li>
+          <li>Supabase · Postgres job store with RLS</li>
           <li>Anthropic API</li>
         </ul>
       </div>
     </div>
 
     <h2>The architecture decision</h2>
-    <p>Three options were on the table: stay serverless and cap input size, move to edge functions, or add a container worker. Measuring the real worst case — 400+ seconds of generation — eliminated the first two immediately: both platforms enforce wall-clock limits the workload simply exceeds. The container worker was the only design that survives the data, not the demo.</p>
+    <p>Three options were on the table: stay serverless and cap input size, move to edge functions, or add a container worker. Measuring the real worst case, 400+ seconds of generation, eliminated the first two immediately: both platforms enforce wall-clock limits the workload simply exceeds. The container worker was the only design that survives the data, not the demo.</p>
 
     <h2>What this generalises to</h2>
     <p>Any LLM product with unbounded output length eventually meets this wall. "Be concise" prompting does not reliably bound output; model choice barely moves throughput. The durable answer is architectural: decouple the request from the generation, persist the job, and let the client poll. This pattern has since become my default for long-running AI work.</p>

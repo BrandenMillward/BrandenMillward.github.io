@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy Compliance Grader — Branden Millward</title>
+<meta name="description" content="A tool that grades a privacy policy against proposed data use cases and returns a cited verdict for each, built so that silence in a policy can never read as permission." />
+<meta property="og:title" content="Privacy Policy Compliance Grader" />
+<meta property="og:description" content="A tool that grades a privacy policy against proposed data use cases and returns a cited verdict for each, built so that silence in a policy can never read as permission." />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Policy Grader</p>
+    <h1>Privacy Policy Compliance Grader</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Grounded RAG · Evidence Design</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/policy-grader.svg" alt="A policy document with two highlighted passages linked by citation lines to a column of graded verdicts" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>Before a commercial team can promise anything involving a client's data, someone has to read that client's privacy policy and work out whether the proposed use is actually permitted. It is slow, it needs legal literacy, and the answer has to be defensible months later, which means an opinion is not enough. It needs evidence.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>Graded each proposed use case against the policy through a <strong>citations API</strong>, so every verdict points back at the passage it came from</li>
+          <li>Split the amber status in two, <em>ambiguous</em> versus <em>silent</em>, because a policy that never mentions a use case is a different risk from one that mentions it unclearly</li>
+          <li>Enforced the distinction in code: <strong>no citations means the verdict cannot be green</strong></li>
+          <li>Made runs, verdicts, citations and overrides <strong>insert-only</strong>, so each assessment is an immutable snapshot rather than a mutable record</li>
+          <li>Added advisory second opinions from two other model families, and a machine API so other automations can trigger assessments</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>A live internal tool, signed in through corporate SSO, where anyone can add a client and get a defensible, cited grid of verdicts with PDF export. A full assessment runs for under $2 by prompt-caching the policy document across per-use-case calls.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js · Vercel</li>
+          <li>Supabase (Postgres, RLS)</li>
+          <li>Anthropic citations API</li>
+          <li>OpenRouter (advisory models)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Designing a system that refuses to guess</h2>
+    <p>The temptation with a grading tool is to always return an answer. That is exactly the failure mode worth engineering against, because the expensive mistake here is not an uncertain verdict. It is a confident wrong one. So the interesting decisions were all about what the system is <em>not</em> permitted to conclude.</p>
+    <p>Splitting amber was the first. A policy that addresses a use case ambiguously and one that never addresses it at all look similar in a summary and are completely different in a negotiation, so they became distinct statuses. The second was making that structural rather than advisory: the grounding layer returns citations, and if a verdict arrives with none, the code will not let it be green regardless of how confident the model sounded. Silence never reads as permission.</p>
+    <p>Grounding it this way had a cost worth noting. The citations API is incompatible with structured outputs, so you cannot simply ask for clean JSON. The pipeline parses lightly-structured text and takes the citations from the API's own objects instead of trusting the model to format them. Slightly more work, and a much stronger guarantee: the evidence comes from the platform, not the prose.</p>
+
+    <h2>The bug that graded a document made of navigation menus</h2>
+    <p>One client's policy page was fully JavaScript-rendered. The URL fetcher retrieved it, got 491 characters of navigation chrome, and stored that as a perfectly valid snapshot. No error, no flag. An entire sector brief was then researched and written on top of it.</p>
+    <p>The fix that mattered was not the file-upload fallback, though that shipped too. It was raising the floor on what counts as a successful fetch and making the failure loud, so the fetcher now refuses thin content and points at the alternative rather than quietly succeeding. Then the bad snapshot was invalidated and everything derived from it regenerated. A silent success is worse than an error, because nothing downstream has any reason to doubt it, and in a system whose whole value proposition is evidence, that is the one failure you cannot tolerate.</p>
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>

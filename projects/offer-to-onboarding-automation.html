@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Offer-to-Onboarding Automation — Branden Millward</title>
+<meta name="description" content="An agent pipeline that runs a new hire's offer-to-first-day process: tracking steps, chasing owners, generating paperwork, and gating all of it behind human approval." />
+<meta property="og:title" content="Offer-to-Onboarding Automation" />
+<meta property="og:description" content="An agent pipeline that runs a new hire's offer-to-first-day process: tracking steps, chasing owners, generating paperwork, and gating all of it behind human approval." />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Onboarding Automation</p>
+    <h1>Offer-to-Onboarding Automation</h1>
+    <p class="post-meta"><span>Production Pilot · 2026</span><span>Human-in-the-Loop Automation</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/onboarding-agent.svg" alt="A sequence of onboarding steps passing through an approval gate, with a rework loop returning to the drafting step" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>Getting a new hire from accepted offer to first day is a long chain of small obligations spread across several people and systems. Nothing about it is difficult; all of it is easy to drop. The interesting constraint is that it cannot simply be automated away. Offer letters and contracts need a human to approve them, and the automation has to make that approval easy rather than another thing to chase.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>A run is created from a row in the team's own tooling, with no access to the automation platform required, and steps are instantiated with owners and dependencies</li>
+          <li>Each owner gets a direct message with action buttons; daily chases escalate, and <strong>steps with no mapped owner escalate rather than going silently unnotified</strong></li>
+          <li>Offer letter and contract are generated from branded templates with conditional clause selection, swapping whole paragraphs by exact-text replacement, with a loud failure if the anchor text is missing</li>
+          <li><strong>Approval gates with a real rework loop:</strong> approve, or request changes with a required reason, which reopens the drafting step and re-fires the gate</li>
+          <li>Every state transition writes an audit row; scheduled ticks are idempotent and weekday-aware</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>A self-running pipeline covering tracking, chasing, document generation and approval, verified end to end through full reject → fix → re-approve cycles. Running as a pilot in test mode, with every notification routed to one inbox until it goes live.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>n8n (orchestration)</li>
+          <li>Slack · interactive forms, send-and-wait</li>
+          <li>Google Docs &amp; Drive APIs</li>
+          <li>Collaborative-docs platform as state store</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>The approval gate is the product</h2>
+    <p>It would have been easier to build something that generated the paperwork and emailed it onward. That version would not have survived contact with the people who have to sign their name to it. An offer letter is a legal document with someone's salary in it, and the person approving it needs to be able to say no in a way the system actually respects.</p>
+    <p>So the gate is not a checkpoint the automation passes through. It is a state the run can sit in and come back out of. Requesting changes demands a reason, reopens the drafting step, and re-fires the gate when the new draft is ready. That loop is what makes the automation trustworthy: the reviewer is not being asked to rubber-stamp, they are being given a real veto with a defined path back. Escalating unowned steps comes from the same instinct, since work with no name against it is the most likely thing to vanish, so the system refuses to let it sit quietly.</p>
+
+    <h2>Where the data is allowed to live</h2>
+    <p>Compensation was the constraint that shaped the architecture. It has to reach the offer letter, and it must never be stored in the pipeline's own state. That single rule decided when documents get generated: at form-submission time, in the same pass that captures the figure, because that is the only moment it is legitimately in hand.</p>
+    <p>The consequence is a system with a deliberate sharp edge. Regenerate a document later and it comes back with placeholders where the numbers were, because the numbers are genuinely gone. That is not a limitation to be smoothed over; it is the constraint working. Designing where sensitive data is <em>allowed</em> to exist, rather than encrypting it everywhere and hoping, tends to produce a system you can explain to the people whose data it is.</p>
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>

@@ -74,7 +74,7 @@
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>Company research for sales and strategy is slow, manual, and inconsistent — an analyst can spend days assembling market position, competitors, personas, and brand signals for a single prospect. Could an orchestrated network of AI agents produce a comprehensive, consistent report in minutes, from nothing but a company name?</p>
+        <p>Company research for sales and strategy is slow, manual, and inconsistent. An analyst can spend days assembling market position, competitors, personas, and brand signals for a single prospect. Could an orchestrated network of AI agents produce a comprehensive, consistent report in minutes, from nothing but a company name?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
@@ -100,10 +100,10 @@
     </div>
 
     <h2>Why multi-model, not one model</h2>
-    <p>No single model is best at everything. Deep-research models excel at competitor digging but are slow; fast models handle structured extraction cheaply; some models have distinctive strengths in social or market analysis. Routing each research dimension to the model best suited to it produced measurably better sections than any single-model version — and made the system resilient, because providers fail independently.</p>
+    <p>No single model is best at everything. Deep-research models excel at competitor digging but are slow; fast models handle structured extraction cheaply; some models have distinctive strengths in social or market analysis. Routing each research dimension to the model best suited to it produced measurably better sections than any single-model version, and made the system resilient, because providers fail independently.</p>
 
     <h2>Hard-won lessons</h2>
-    <p>The interesting engineering was in the failure modes: provider-side content filters silently rewriting entity names in prompts, web-search flags that only work on concrete model IDs, and orchestration triggers hijacked by leftover test nodes. Each one is invisible until it corrupts a run — the fix was defensive design throughout: retries on every agent, deterministic parsing, and a job store that makes every run inspectable after the fact.</p>
+    <p>The interesting engineering was in the failure modes: provider-side content filters silently rewriting entity names in prompts, web-search flags that only work on concrete model IDs, and orchestration triggers hijacked by leftover test nodes. Each one is invisible until it corrupts a run. The fix was defensive design throughout: retries on every agent, deterministic parsing, and a job store that makes every run inspectable after the fact.</p>
 
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>

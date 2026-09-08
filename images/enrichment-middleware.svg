@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A lookup cascade resolving left to right under a fixed time budget, with background enrichment branching off the critical path">
+
+  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+    <line x1="80" y1="150" x2="215" y2="150"/>
+    <line x1="215" y1="150" x2="350" y2="150"/>
+    <line x1="350" y1="150" x2="470" y2="150"/>
+    <line x1="470" y1="150" x2="563" y2="150"/>
+  </g>
+
+  <circle cx="80" cy="150" r="10" fill="#696fb4"/>
+
+  <g fill="#696fb4" opacity="0.85">
+    <circle cx="215" cy="150" r="7"/>
+    <circle cx="350" cy="150" r="7"/>
+    <circle cx="470" cy="150" r="7"/>
+  </g>
+
+  <circle cx="575" cy="150" r="12" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <circle cx="575" cy="150" r="5" fill="#696fb4"/>
+
+  <g stroke="#6b7391" stroke-width="1" opacity="0.7" stroke-dasharray="4 5">
+    <line x1="470" y1="157" x2="470" y2="248"/>
+  </g>
+  <circle cx="470" cy="255" r="7" fill="none" stroke="#696fb4" stroke-width="1.5" opacity="0.85"/>
+
+  <g stroke="#6b7391" stroke-width="1.5" opacity="0.9" stroke-linecap="round">
+    <line x1="80" y1="90" x2="470" y2="90"/>
+    <line x1="80" y1="82" x2="80" y2="98"/>
+    <line x1="470" y1="82" x2="470" y2="98"/>
+  </g>
+</svg>

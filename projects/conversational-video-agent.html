@@ -74,25 +74,26 @@
     <div class="case-grid">
       <div class="case-block">
         <span class="hud">Problem</span>
-        <p>In an automated, low-touch sales funnel, the "book a call" step is where prospects stall. Could a real-time AI video agent hold that conversation instead — qualifying the prospect naturally, working out which segment they belong to, and routing them to the right next step, without a human in the loop?</p>
+        <p>In an automated, low-touch sales funnel, the "book a call" step is where prospects stall. Could a real-time AI video agent hold that conversation instead, qualifying the prospect naturally, working out which segment they belong to, and routing them to the right next step, without a human in the loop?</p>
       </div>
       <div class="case-block">
         <span class="hud">Approach</span>
         <ul>
           <li>Designed the complete agent persona: identity and role, personality and voice, behavioural rules, and a structured knowledge base</li>
-          <li>Built a multi-objective conversation flow that classifies prospects into <strong>three segments mid-conversation</strong> and drives each toward a different goal — personalised demo, human sales call, or a graceful exit</li>
+          <li>Built a multi-objective conversation flow that routes prospects down <strong>three tracks</strong>, each toward a different goal: personalised demo, human sales call, or a graceful exit</li>
+          <li>Redesigned segmentation to resolve from a <strong>mid-call data lookup</strong> rather than live qualifying questions, and added self-checks for the case where the lookup returns the wrong answer</li>
           <li>Engineered layered guardrails: disclosure rules, topic boundaries, escalation criteria, and hard behavioural limits for an unsupervised, customer-facing agent</li>
           <li>Wired conversation outcomes into CRM logging for attribution and follow-up</li>
         </ul>
       </div>
       <div class="case-block">
         <span class="hud">Result</span>
-        <p>A fully autonomous, customer-facing conversational agent trusted to run without supervision — the guardrail and objective design is the deliverable, and it is what makes deployment possible at all.</p>
+        <p>A fully autonomous, customer-facing conversational agent trusted to run without supervision. The guardrail and objective design is the deliverable, and it is what makes deployment possible at all.</p>
       </div>
       <div class="case-block">
         <span class="hud">Stack</span>
         <ul>
-          <li>Tavus — real-time conversational video</li>
+          <li>Tavus · real-time conversational video</li>
           <li>Persona · guardrail · objective-flow design</li>
           <li>CRM integration & attribution schema</li>
         </ul>
@@ -100,10 +101,11 @@
     </div>
 
     <h2>Conversation design as engineering</h2>
-    <p>A customer-facing agent with no human in the loop concentrates all the risk into the design phase. Every behaviour has to be specified before the first real conversation: what the agent may claim, when it must disclose it is an AI, how it detects it is out of its depth, and what a graceful failure looks like. The objective flow is effectively a state machine expressed in natural language — with the guardrails as its invariants.</p>
+    <p>A customer-facing agent with no human in the loop concentrates all the risk into the design phase. Every behaviour has to be specified before the first real conversation: what the agent may claim, when it must disclose it is an AI, how it detects it is out of its depth, and what a graceful failure looks like. The objective flow is effectively a state machine expressed in natural language, with the guardrails as its invariants.</p>
 
-    <h2>Segmentation in the flow of talk</h2>
-    <p>The hardest requirement was segmenting without interrogating. The flow gathers qualifying signals through natural conversation and commits to a track only when confidence is sufficient — mirroring what a skilled human qualifier does, but specified explicitly enough for an AI to execute reliably.</p>
+    <h2>Segmenting without interrogating</h2>
+    <p>The hardest requirement was working out who someone was without putting them through a questionnaire. The first design gathered qualifying signals through natural conversation and committed to a track once confidence was sufficient. It worked, but it spent the prospect's patience on questions the business could often answer from data it already held.</p>
+    <p>So segmentation moved off the script: the agent asks a single question and a <a href="real-time-enrichment-middleware.html">lookup service</a> resolves the rest mid-call. That trades a conversation-design problem for a latency one, since the answer has to return inside a live conversation, and it introduces a failure mode the original never had. Live questioning can be slow, but it is rarely wrong about what it was told; a lookup can confidently return the wrong company. The objective flow gained explicit self-checks that let the agent notice a mismatch later in the conversation and correct course rather than committing to a track it should never have taken.</p>
 
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>

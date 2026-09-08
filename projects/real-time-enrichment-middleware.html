@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Real-Time Enrichment Middleware — Branden Millward</title>
+<meta name="description" content="A latency-budgeted lookup service that tells a live conversational AI agent what kind of company it is talking to, fast enough that nobody notices." />
+<meta property="og:title" content="Real-Time Enrichment Middleware" />
+<meta property="og:description" content="A latency-budgeted lookup service that tells a live conversational AI agent what kind of company it is talking to, fast enough that nobody notices." />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Enrichment Middleware</p>
+    <h1>Real-Time Enrichment Middleware</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Latency-Budgeted Service</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/enrichment-middleware.svg" alt="A lookup cascade resolving left to right, with background enrichment branching off the critical path under a fixed time budget" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>A real-time conversational AI agent needed to know what kind of company it was speaking to, without interrogating the person to find out. Moving that question off the script and onto a data lookup solves a conversation problem by creating a systems one: the answer now has to arrive fast enough that nobody notices a pause.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>Built a <strong>cascading resolution</strong> path: exact domain match first for high confidence, then parallel fuzzy name matching, then a scoring pass over firmographic fields to derive the segment</li>
+          <li>Wrapped the entire request in a <strong>hard deadline</strong>: if anything is slow for any reason, a safe default wins rather than the conversation hanging</li>
+          <li>Moved third-party enrichment off the critical path entirely, once its API turned out to be incompatible with a sub-second budget</li>
+          <li>Made confidence degrade explicitly at every step: uncertain matches are flagged for human review instead of being silently guessed at</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>A deployed service that resolves a known company in well under a second, and falls back to a safe default in about the same time. It runs read-only against a frozen schema, with the eventual switchover reduced to configuration rather than code.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Node · TypeScript · Express</li>
+          <li>Railway (container deployment)</li>
+          <li>Third-party CRM &amp; enrichment REST APIs</li>
+          <li>Short-TTL in-process cache</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Designing for the deadline, not the happy path</h2>
+    <p>The binding constraint here was never accuracy. It was time. A live conversation gives you a budget measured in hundreds of milliseconds, and every step in the cascade is a network call that can stall. So the deadline became the architecture: one hard budget wraps the whole request, and nothing downstream is permitted to hold the conversation open past it.</p>
+    <p>Which makes the test that matters a <strong>failure</strong> test rather than a success one. I pointed the service at the real API with a deliberately invalid key and confirmed that every step of the cascade, failing in turn, still produced a clean default response in about a second, never hanging, never throwing back to the caller. A lookup that returns a safe answer quickly is worth far more than one that returns the right answer after the moment has passed.</p>
+
+    <h2>The dependency that couldn't be waited on</h2>
+    <p>The original specification assumed the enrichment provider supported real-time lookups. Reading its API reference properly showed otherwise: you create a search, then poll for results. No endpoint returns company data in a single response, which makes it structurally incompatible with a sub-second budget, and no amount of tuning closes that gap.</p>
+    <p>Rather than treat that as a blocker, the fix was to invert the timing. The service fires the search and never waits on it; when the result eventually lands it is written back, so the <em>next</em> lookup for that company is instant. A cache that fills itself as a side effect of missing. It also capped a cost that would otherwise have scaled with every conversation, turning an unbounded per-call expense into a one-shot one.</p>
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>
