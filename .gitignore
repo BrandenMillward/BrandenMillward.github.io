@@ -4,3 +4,8 @@
 # files/ is served publicly — anything committed there is downloadable from the live site.
 # The CV is deliberate; working spreadsheets are not, so keep them out by default.
 files/*.xlsx
+
+# /brag working output. The rendered video and the composition source are tracked;
+# the bundled source music is not. The brag skill's own asset README says its licence
+# terms are unverified, and committing the MP3 here would be redistributing it.
+brag-output/composition/assets/music/*.mp3

@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>brandenmillward.com — brag</title>
+    <!-- GSAP vendored locally: the render browser has no route to the CDN. -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/audio-data.js"></script>
+    <style>
+      /* Fonts shipped locally. The site loads these three from Google Fonts in three
+         registers: Archivo for display, Newsreader for prose, JetBrains Mono for data
+         and labels. Same split here. */
+      @font-face {
+        font-family: "Archivo";
+        src: url("assets/fonts/archivo.woff2") format("woff2");
+        font-weight: 500 700;
+        font-stretch: 75% 100%;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("assets/fonts/newsreader.woff2") format("woff2");
+        font-weight: 400 600;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        src: url("assets/fonts/jetbrains-mono.woff2") format("woff2");
+        font-weight: 400 700;
+        font-display: block;
+      }
+
+      /* Tokens lifted verbatim from assets/css/base.css, dark theme. --accountable is
+         the site's second semantic colour: it marks where a human stays answerable, and
+         it is never decorative. The control layer is the only thing allowed to wear it. */
+      :root {
+        --bg: #0a0c16;
+        --bg-2: #0f1220;
+        --accent: #8b9dff;
+        --accent-soft: rgba(139, 157, 255, 0.1);
+        --accountable: #e0a458;
+        --accountable-soft: rgba(224, 164, 88, 0.12);
+        --text: #e6e9f5;
+        --muted: #9aa2bd;
+        --faint: #7b83a3;
+        --line: rgba(255, 255, 255, 0.1);
+        --display: "Archivo", sans-serif;
+        --body: "Newsreader", Georgia, serif;
+        --mono: "JetBrains Mono", monospace;
+        /* Driven per frame from the music. Subtle by design. */
+        --energy: 0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ── Scene 1: the claim ───────────────────────────────────────────── */
+      .hook {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 34px;
+        padding: 0 160px;
+      }
+      .hook p {
+        font-family: var(--display);
+        font-weight: 600;
+        font-stretch: 92%;
+        letter-spacing: -0.015em;
+        line-height: 1.14;
+        font-size: 82px;
+        text-align: center;
+      }
+      .hook .em {
+        color: var(--accent);
+      }
+
+      /* ── Scenes 2 and 3: the diagram stage ────────────────────────────── */
+      .stage {
+        position: absolute;
+        inset: 0;
+      }
+      .net-figure {
+        position: absolute;
+        left: 110px;
+        top: 134px;
+        width: 1000px;
+        height: 812.5px;
+      }
+      .net-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* Node chrome, matched to the site: 4px radius on a 400-wide viewBox, 1px hairline,
+         panel fill. Scaled 2.5x here, so the radius and stroke are divided back down. */
+      .node rect {
+        fill: var(--bg-2);
+        stroke: var(--line);
+        stroke-width: 0.4;
+      }
+      .node text {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-anchor: middle;
+        fill: var(--text);
+      }
+      .node-cap text,
+      .node-out text {
+        fill: var(--muted);
+      }
+      .node-core rect {
+        stroke: rgba(139, 157, 255, 0.34);
+        fill: var(--accent-soft);
+      }
+      .node-core text {
+        fill: var(--accent);
+      }
+      /* The accountability layer. Different colour, on purpose. */
+      .node-ctl rect {
+        stroke: rgba(224, 164, 88, 0.42);
+        fill: var(--accountable-soft);
+      }
+      .node-ctl text {
+        fill: var(--accountable);
+      }
+      /* The selected state, painted as its own overlay so it can be tweened. */
+      .node rect.active-ring {
+        fill: var(--accountable-soft);
+        stroke: var(--accountable);
+        stroke-width: 0.9;
+        opacity: 0;
+      }
+      /* --energy is the music, per frame. It reaches exactly three things: the wire
+         hairlines and the two coloured node strokes. The drawing breathes; nothing
+         else moves. */
+      .net-wires path {
+        fill: none;
+        stroke: rgba(255, 255, 255, calc(0.07 + var(--energy) * 0.08));
+        stroke-width: 0.5;
+      }
+      .node-core rect {
+        stroke: rgba(139, 157, 255, calc(0.26 + var(--energy) * 0.18));
+      }
+      .node-ctl rect {
+        stroke: rgba(224, 164, 88, calc(0.32 + var(--energy) * 0.2));
+      }
+
+      /* ── Right column: caption and the live detail panel ──────────────── */
+      .net-side {
+        position: absolute;
+        left: 1190px;
+        top: 232px;
+        width: 620px;
+      }
+      .hud {
+        font-family: var(--mono);
+        font-size: 21px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .net-head .big {
+        font-family: var(--display);
+        font-weight: 600;
+        font-stretch: 92%;
+        letter-spacing: -0.015em;
+        font-size: 44px;
+        line-height: 1.14;
+        color: var(--text);
+      }
+      .net-head .net-sub {
+        font-family: var(--body);
+        font-size: 28px;
+        line-height: 1.5;
+        color: var(--muted);
+        margin-top: 20px;
+      }
+      .net-detail {
+        position: relative;
+        margin-top: 64px;
+        padding-top: 34px;
+        border-top: 1px solid var(--line);
+        min-height: 300px;
+      }
+      /* Rest state and selected state occupy the same box so the swap does not shift
+         anything around it, the way the site's aria-live region behaves. */
+      .panel {
+        position: absolute;
+        top: 34px;
+        left: 0;
+        width: 100%;
+      }
+      .panel .label {
+        font-family: var(--mono);
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      #panel-selected .label {
+        color: var(--accountable);
+      }
+      .panel .body {
+        font-family: var(--body);
+        font-size: 37px;
+        line-height: 1.45;
+        color: var(--text);
+        margin-top: 22px;
+      }
+
+      /* ── The cursor ───────────────────────────────────────────────────── */
+      .cursor {
+        position: absolute;
+        left: 816px;
+        top: 716px;
+        width: 34px;
+        height: 34px;
+        opacity: 0;
+      }
+      .cursor svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+      }
+
+      /* ── Scene 4: the line ────────────────────────────────────────────── */
+      .outro {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 46px;
+        padding: 0 160px;
+      }
+      .outro h1 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-stretch: 92%;
+        letter-spacing: -0.015em;
+        line-height: 1.14;
+        font-size: 88px;
+        text-align: center;
+        color: var(--text);
+      }
+      .outro .domain {
+        font-family: var(--mono);
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+      }
+      /* The assembled architecture stays faintly behind the closing line. */
+      .outro-trace {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 760px;
+        height: 617px;
+        margin-left: -380px;
+        margin-top: -308px;
+        opacity: 0.07;
+      }
+      .outro-trace svg {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="21.4"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- ── Scene 1 — The claim — 0.0-5.0 ───────────────────────────────── -->
+      <!-- Crossfades overlap by design; the audit is told so rather than the fades shortened. -->
+      <section id="s1" class="clip" data-start="0" data-duration="5" data-track-index="0" data-layout-allow-overlap>
+        <div class="hook">
+          <p id="hook-1">Most organisations don't have an AI problem.</p>
+          <p id="hook-2">They have a <span class="em">trust</span> problem.</p>
+        </div>
+      </section>
+
+      <!-- ── Scenes 2 and 3 — the diagram stage — 4.5-17.7 ───────────────── -->
+      <section id="s2" class="clip" data-start="4.5" data-duration="13.2" data-track-index="1" data-layout-allow-overlap>
+        <div class="stage" id="stage">
+          <div class="net-figure">
+            <!-- Recreated from index.html's .net-svg, same 400x325 viewBox and the same
+                 geometry, so the node positions and wire runs match the live site. -->
+            <svg
+              class="net-svg"
+              viewBox="0 0 400 325"
+              role="img"
+              aria-label="The reference architecture for an agent network: retrieval, memory, tools and skills feed a layer of agents; the agents hand work to an orchestrator; the orchestrator passes everything through guardrails and governance before any output is emitted."
+            >
+              <g class="net-wires">
+                <path class="w w1" d="M117.5 40 V96  M282.5 40 V96  M117.5 82 V96  M282.5 82 V96" />
+                <path class="w w1" d="M117.5 96 H282.5" />
+                <path class="w w1" d="M200 96 V110" />
+                <path class="w w2" d="M200 142 V164" />
+                <path class="w w3" d="M200 196 V208" />
+                <path class="w w3" d="M117.5 208 H282.5" />
+                <path class="w w3" d="M117.5 208 V218  M282.5 208 V218" />
+                <path class="w w4" d="M117.5 248 V266  M282.5 248 V266" />
+                <path class="w w4" d="M117.5 266 H282.5" />
+                <path class="w w4" d="M200 266 V280" />
+              </g>
+
+              <g class="node node-cap g1">
+                <rect x="40" y="10" width="155" height="30" rx="4" />
+                <text x="117.5" y="28.5">RETRIEVAL</text>
+              </g>
+              <g class="node node-cap g1">
+                <rect x="205" y="10" width="155" height="30" rx="4" />
+                <text x="282.5" y="28.5">MEMORY</text>
+              </g>
+              <g class="node node-cap g1">
+                <rect x="40" y="52" width="155" height="30" rx="4" />
+                <text x="117.5" y="70.5">TOOLS</text>
+              </g>
+              <g class="node node-cap g1">
+                <rect x="205" y="52" width="155" height="30" rx="4" />
+                <text x="282.5" y="70.5">SKILLS</text>
+              </g>
+              <g class="node node-core g2">
+                <rect x="40" y="110" width="320" height="32" rx="4" />
+                <text x="200" y="129.5">AGENTS · ROLES &amp; HANDOFFS</text>
+              </g>
+              <g class="node node-core g3">
+                <rect x="40" y="164" width="320" height="32" rx="4" />
+                <text x="200" y="183.5">ORCHESTRATOR · PROTOCOLS</text>
+              </g>
+              <g class="node node-ctl g4">
+                <rect x="40" y="218" width="155" height="30" rx="4" />
+                <text x="117.5" y="236.5">GUARDRAILS</text>
+              </g>
+              <g class="node node-ctl g4" id="node-governance">
+                <rect x="205" y="218" width="155" height="30" rx="4" />
+                <rect id="gov-ring" class="active-ring" x="205" y="218" width="155" height="30" rx="4" />
+                <text x="282.5" y="236.5">GOVERNANCE</text>
+              </g>
+              <g class="node node-out g5">
+                <rect x="40" y="280" width="320" height="32" rx="4" />
+                <text x="200" y="299.5">OUTPUT · MEASURED</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="net-side">
+            <div class="net-head" id="net-head">
+              <p class="big">How agent networks fit together</p>
+              <p class="net-sub">
+                The architecture I design, and where I have built each part. Select any layer.
+              </p>
+            </div>
+
+            <div class="net-detail">
+              <div class="panel" id="panel-rest">
+                <p class="label">Nine layers, one accountable system</p>
+              </div>
+              <div class="panel" id="panel-selected" style="opacity: 0">
+                <p class="label">Governance: accountability</p>
+                <p class="body">
+                  The barrier to adoption is auditability, not capability.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cursor" id="cursor">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M5 2 L5 20 L9.6 15.6 L12.6 22 L15.4 20.7 L12.4 14.4 L18.6 14.4 Z"
+                fill="#e6e9f5"
+                stroke="#0a0c16"
+                stroke-width="1.2"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Scene 4 — The line — 16.8-21.4 ──────────────────────────────── -->
+      <section id="s4" class="clip" data-start="16.8" data-duration="4.6" data-track-index="2" data-layout-allow-overlap>
+        <div class="outro" id="outro">
+          <div class="outro-trace" id="outro-trace">
+            <svg viewBox="0 0 400 325" aria-hidden="true">
+              <g class="net-wires">
+                <path d="M117.5 40 V96  M282.5 40 V96  M117.5 82 V96  M282.5 82 V96" />
+                <path d="M117.5 96 H282.5" />
+                <path d="M200 96 V110" />
+                <path d="M200 142 V164" />
+                <path d="M200 196 V208" />
+                <path d="M117.5 208 H282.5" />
+                <path d="M117.5 208 V218  M282.5 208 V218" />
+                <path d="M117.5 248 V266  M282.5 248 V266" />
+                <path d="M117.5 266 H282.5" />
+                <path d="M200 266 V280" />
+              </g>
+              <g class="node node-cap">
+                <rect x="40" y="10" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-cap">
+                <rect x="205" y="10" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-cap">
+                <rect x="40" y="52" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-cap">
+                <rect x="205" y="52" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-core">
+                <rect x="40" y="110" width="320" height="32" rx="4" />
+              </g>
+              <g class="node node-core">
+                <rect x="40" y="164" width="320" height="32" rx="4" />
+              </g>
+              <g class="node node-ctl">
+                <rect x="40" y="218" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-ctl">
+                <rect x="205" y="218" width="155" height="30" rx="4" />
+              </g>
+              <g class="node node-out">
+                <rect x="40" y="280" width="320" height="32" rx="4" />
+              </g>
+            </svg>
+          </div>
+          <h1 id="outro-line">I turn AI strategy into deployed systems.</h1>
+          <p class="domain" id="outro-domain">brandenmillward.com</p>
+        </div>
+      </section>
+
+      <!-- ── Audio ───────────────────────────────────────────────────────── -->
+      <audio
+        id="bgm"
+        src="assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.mp3"
+        data-start="0"
+        data-duration="21.4"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- Five grouped node seats. Four soft, one warmer: the ochre pair means something
+           the others do not, so it is the only seat that gets a fuller sound. -->
+      <audio id="sfx-g1" src="assets/sfx/bong_001.ogg" data-start="5.19" data-duration="0.13" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx-g2" src="assets/sfx/bong_001.ogg" data-start="6.28" data-duration="0.13" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx-g3" src="assets/sfx/bong_001.ogg" data-start="7.35" data-duration="0.13" data-track-index="11" data-volume="0.2"></audio>
+      <audio id="sfx-g4" src="assets/sfx/impactSoft_medium_001.ogg" data-start="8.22" data-duration="0.19" data-track-index="11" data-volume="0.34"></audio>
+      <audio id="sfx-g5" src="assets/sfx/bong_001.ogg" data-start="9.29" data-duration="0.13" data-track-index="11" data-volume="0.2"></audio>
+
+      <!-- The interaction: one real click, one very soft panel swap. Separate tracks so
+           the two never sit on the same lane. -->
+      <audio id="sfx-click" src="assets/sfx/click_003.ogg" data-start="12.56" data-duration="0.02" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-swap" src="assets/sfx/rollover2.ogg" data-start="12.84" data-duration="0.06" data-track-index="13" data-volume="0.16"></audio>
+    </div>
+
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var root = document.getElementById("root");
+
+        // ── Scene 1 — the claim ──────────────────────────────────────────
+        // His own lede, unedited. Line one holds alone, then "trust" lands.
+        tl.fromTo("#hook-1", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.35);
+        tl.fromTo("#hook-2", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.46); // beat-grid: 2.46s
+        tl.to(".hook", { opacity: 0, duration: 0.3, ease: "power2.inOut" }, 4.64); // beat-grid: 4.64s
+
+        // ── Scene 2 — the architecture assembles ─────────────────────────
+        // Five grouped reveals on every other beat (~1.09s apart). The raw grid is
+        // ~0.545s, which outruns reading for mono labels, so every second beat it is.
+        // beat-grid: g1 5.19s, g2 6.28s, g3 7.35s, g4 8.22s, g5 9.29s
+        tl.set("#stage", { opacity: 0 }, 0);
+        tl.set(".g1, .g2, .g3, .g4, .g5, .w, #net-head, #panel-rest, #cursor", { opacity: 0 }, 0);
+
+        tl.to("#stage", { opacity: 1, duration: 0.6, ease: "power2.out" }, 4.64);
+        tl.fromTo("#net-head", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 4.74);
+
+        var groups = [
+          { nodes: ".g1", wires: ".w1", at: 5.19 },
+          { nodes: ".g2", wires: ".w2", at: 6.28 },
+          { nodes: ".g3", wires: ".w3", at: 7.35 },
+          { nodes: ".g4", wires: null, at: 8.22 },
+          { nodes: ".g5", wires: ".w4", at: 9.29 },
+        ];
+        groups.forEach(function (g) {
+          tl.fromTo(
+            g.nodes,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.05 },
+            g.at,
+          );
+          if (g.wires) {
+            tl.to(g.wires, { opacity: 1, duration: 0.4, ease: "none" }, g.at + 0.12);
+          }
+        });
+
+        // The panel arrives in its rest state once the stack is complete.
+        tl.fromTo("#panel-rest", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 10.38); // beat-grid: 10.38s
+
+        // ── Scene 3 — select a layer ─────────────────────────────────────
+        // The site's actual interaction: a real button over the SVG, a selected node,
+        // and an aria-live panel that swaps to that layer's evidence.
+        tl.to("#cursor", { opacity: 1, duration: 0.25, ease: "power2.out" }, 11.47); // beat-grid: 11.47s
+        tl.fromTo(
+          "#cursor",
+          { x: 334, y: 184 },
+          { x: 0, y: 0, duration: 0.95, ease: "power2.inOut" },
+          11.47,
+        );
+        // Click: a small press on the cursor, the node takes its selected state.
+        tl.to("#cursor", { scale: 0.88, duration: 0.09, ease: "power2.out" }, 12.56); // beat-grid: 12.56s
+        tl.to("#cursor", { scale: 1, duration: 0.14, ease: "power2.inOut" }, 12.65);
+        // The selected state. The site does this with a class on the painted <g>; here it
+        // is a tweened overlay rect instead, because gsap.seek() suppresses callbacks and
+        // a class toggle would simply never fire during a frame-by-frame render.
+        tl.to("#gov-ring", { opacity: 1, duration: 0.22, ease: "power2.out" }, 12.56);
+
+        tl.to("#panel-rest", { opacity: 0, duration: 0.2, ease: "power2.in" }, 12.56);
+        tl.fromTo("#panel-selected", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 12.84);
+        tl.to("#cursor", { opacity: 0, duration: 0.3, ease: "power2.in" }, 13.6);
+
+        tl.to("#stage", { opacity: 0, duration: 0.55, ease: "power2.inOut" }, 16.93); // beat-grid: 16.93s
+
+        // ── Scene 4 — the line ───────────────────────────────────────────
+        tl.set("#outro-line, #outro-domain, #outro-trace", { opacity: 0 }, 0);
+        tl.fromTo("#outro-line", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 17.47); // beat-grid: 17.47s
+        tl.to("#outro-trace", { opacity: 0.07, duration: 0.9, ease: "power2.out" }, 17.47);
+        // beat-locked: 20.19s — the one strong cue in the window carries the domain.
+        tl.fromTo("#outro-domain", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, 20.19);
+
+        // Music: low the whole way, fades to silence under the final frame. The level
+        // lives on the timeline rather than data-volume, so the two cannot disagree.
+        // The fade-in is load-bearing, not decoration: the track opens on a transient that
+        // peaked at -1.6 dBFS against a -32 dB bed, which is the one thing in a restrained
+        // mix a viewer would actually flinch at.
+        tl.fromTo("#bgm", { volume: 0 }, { volume: 0.55, duration: 0.6, ease: "power2.out" }, 0);
+        tl.to("#bgm", { volume: 0, duration: 0.9, ease: "power2.in" }, 20.5);
+
+        // ── Audio-reactive: the drawing breathes ─────────────────────────
+        // Bass-weighted energy, pre-extracted and smoothed, moved onto one CSS variable.
+        // It only touches wire opacity and node presence. No bars, no strobing, nothing
+        // on the type: this tone does not permit it.
+        var AD = window.AUDIO_DATA;
+        if (AD && AD.energy) {
+          for (var f = 0; f < AD.totalFrames; f++) {
+            tl.call(
+              (function (e) {
+                return function () {
+                  root.style.setProperty("--energy", e);
+                };
+              })(AD.energy[f]),
+              [],
+              f / AD.fps,
+            );
+          }
+        }
+
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>

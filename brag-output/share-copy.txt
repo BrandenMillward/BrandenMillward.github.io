@@ -1,0 +1,3 @@
+Most organisations don't have an AI problem. They have a trust problem.
+
+I rebuilt brandenmillward.com around the nine-layer agent architecture I actually design, retrieval through to measured output, and every layer opens real evidence from the work.
