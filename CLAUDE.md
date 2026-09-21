@@ -174,6 +174,30 @@ inside them — they must work on BOTH light and dark grounds by construction
   both `#0a0c16` and `#f5f4f0`). Never bake in theme hex like `#0f1220` or `#8b9dff`.
 - **No `<text>` captions** — the `aria-label` carries the meaning.
 
+### Social cards (og:image)
+
+`scripts/cards/*.html` are the OG card sources. They are not pages: each is a fixed
+1200×627 stage using the `base.css` tokens, rendered by screenshotting it headless at
+`deviceScaleFactor: 4/3` to land on the **1600×836** every card in `images/*-social-1600.png`
+uses. All carry `noindex`. `social-card.html` is hardcoded for the three-regulators post;
+`series-card.html` is parameterised, `?ep=1` .. `?ep=5`, for the five-part AI series.
+
+Three things to keep:
+
+- **1600 wide is deliberate and exempt from the 1280px cap** in the image pipeline below.
+  That cap exists because content images render in a ~642px column; an OG card is served
+  by LinkedIn and X, which want ≥1200px for a large card. Do not run these through
+  `resize-all.js`.
+- Card copy comes from the post's own `<h2>` sections, so a card cannot promise something
+  the episode does not cover. The no-em-dash rule applies here too.
+- `--accountable` stays semantic. Only the governance episode's card uses it, via
+  `body[data-accountable]`, because that is the one card where a human staying answerable
+  is the claim rather than decoration.
+
+Watch the fixed height: an auto margin absorbs slack but still lets the block below
+overflow 627px and push the footer out of the render with no error, so both templates use
+an explicit `.spacer` instead. Assert `.foot` bottom ≤ 627 when rendering.
+
 ### Content conventions
 
 - **No em dashes in prose** — case-study copy, homepage slabs, meta descriptions,

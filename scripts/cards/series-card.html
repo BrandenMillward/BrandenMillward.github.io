@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Social cards for the five-part "Unlocking the Value of AI" series.
+   Same 1200x627 stage and the same site tokens as social-card.html, but
+   parameterised: open with ?ep=1 .. ?ep=5. Render at deviceScaleFactor 4/3
+   to land on the 1600x836 the other cards use. */
+  :root {
+    --bg: #0a0c16;
+    --bg-2: #0f1220;
+    --accent: #8b9dff;
+    --accountable: #e0a458;
+    --text: #e6e9f5;
+    --muted: #9aa2bd;
+    --faint: #7b83a3;
+    --line: rgba(255,255,255,.1);
+    --display: 'Archivo', ui-sans-serif, system-ui, 'DejaVu Sans', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 627px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    display: flex;
+    flex-direction: column;
+    padding: 58px 68px 52px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 22px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--faint);
+  }
+  .eyebrow .ep { color: var(--accent); }
+
+  h1 {
+    font-size: 58px; font-weight: 700; line-height: 1.06; letter-spacing: -.015em;
+    margin-top: 20px; max-width: 20ch;
+  }
+
+  /* Same explicit spacer as social-card.html, and for the same reason: an auto
+     margin absorbed the slack but still let the block below overflow the fixed
+     627px, pushing the footer out of the render with no error. */
+  .spacer { flex: 1 1 auto; min-height: 0; }
+  .rule { height: 1px; background: var(--line); flex: 0 0 auto; }
+
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 30px; flex: 0 0 auto; }
+  .col { padding-right: 34px; }
+  .col + .col { padding-left: 34px; border-left: 1px solid var(--line); }
+
+  .who {
+    font-family: var(--mono);
+    font-size: 22px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .what {
+    font-size: 38px; font-weight: 700; line-height: 1.14; letter-spacing: -.015em;
+    margin-top: 16px; color: var(--text); min-height: 88px;
+  }
+
+  .foot { display: flex; justify-content: space-between; align-items: baseline; gap: 28px; margin-top: 30px; flex: 0 0 auto; }
+  .foot .holds { font-size: 34px; font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+  /* --accountable is never decorative. Episode 5 is the governance episode, so
+     its claim is the one card on which a human staying answerable is the point. */
+  body[data-accountable] .foot .holds { color: var(--accountable); }
+  .foot .site {
+    font-family: var(--mono); font-size: 22px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Unlocking the value of AI · <span class="ep"></span></p>
+<h1></h1>
+
+<div class="spacer"></div>
+<div class="rule"></div>
+
+<div class="cols"></div>
+
+<div class="foot">
+  <p class="holds"></p>
+  <p class="site">brandenmillward.com</p>
+</div>
+
+<script>
+/* Headings and column labels are taken from each post's own <h2> sections, so a
+   card cannot promise something the episode does not cover. */
+var EPISODES = {
+  1: {
+    title: 'Starting with the basics',
+    holds: 'The four building blocks',
+    cols: [
+      ['Define', 'What AI really is'],
+      ['Build', 'ML, DL, NLP, CV'],
+      ['Today', 'Where it shows up']
+    ]
+  },
+  2: {
+    title: 'Key considerations of AI',
+    holds: 'What to weigh before you build',
+    cols: [
+      ['Ethics', 'Bias and fairness'],
+      ['Data', 'Privacy and security'],
+      ['Technical', 'What it takes to run']
+    ]
+  },
+  3: {
+    title: 'Explainable AI',
+    holds: 'Knowing why the model decided',
+    cols: [
+      ['Why', 'Trust needs transparency'],
+      ['How', 'Six categories of technique'],
+      ['Tools', 'SHAP and LIME']
+    ]
+  },
+  4: {
+    title: 'AI agents and the rise of agentic AI',
+    holds: 'Architecting for autonomy',
+    cols: [
+      ['Agents', 'What they actually are'],
+      ['Uses', 'Tasks they handle now'],
+      ['Next', 'Agentic AI']
+    ]
+  },
+  5: {
+    title: 'Why AI governance is an enabler, not a blocker',
+    accountable: true,
+    holds: 'Governance as enabler',
+    cols: [
+      ['Principles', 'What governance is'],
+      ['Challenges', 'What gets in the way'],
+      ['Framework', 'A practical start']
+    ]
+  }
+};
+
+(function () {
+  var n = new URLSearchParams(location.search).get('ep') || '1';
+  var ep = EPISODES[n];
+  if (!ep) { document.body.innerHTML = '<h1>Unknown episode: ' + n + '</h1>'; return; }
+  document.querySelector('.ep').textContent = 'Ep ' + n;
+  document.querySelector('h1').textContent = ep.title;
+  document.querySelector('.holds').textContent = ep.holds;
+  if (ep.accountable) document.body.setAttribute('data-accountable', '');
+  document.querySelector('.cols').innerHTML = ep.cols.map(function (c) {
+    return '<div class="col"><p class="who">' + c[0] + '</p><p class="what">' + c[1] + '</p></div>';
+  }).join('');
+  document.documentElement.setAttribute('data-card-ready', '');
+})();
+</script>
+
+</body>
+</html>
