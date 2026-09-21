@@ -107,6 +107,15 @@
     <h2>Hard-won lessons</h2>
     <p>The interesting engineering was in the failure modes: provider-side content filters silently rewriting entity names in prompts, web-search flags that only work on concrete model IDs, and orchestration triggers hijacked by leftover test nodes. Each one is invisible until it corrupts a run. The fix was defensive design throughout: retries on every agent, deterministic parsing, and a job store that makes every run inspectable after the fact.</p>
 
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>An n8n workflow with human approval gates</span></li>
+        <li><a href="conversational-video-agent.html">Conversational AI Video Sales Agent</a><span>Conversation design and guardrails on Tavus</span></li>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+      </ul>
+    </nav>
+
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>
     </div>

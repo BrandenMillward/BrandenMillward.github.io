@@ -109,6 +109,15 @@
     <p>The hardest requirement was working out who someone was without putting them through a questionnaire. The first design gathered qualifying signals through natural conversation and committed to a track once confidence was sufficient. It worked, but it spent the prospect's patience on questions the business could often answer from data it already held.</p>
     <p>So segmentation moved off the script: the agent asks a single question and a <a href="real-time-enrichment-middleware.html">lookup service</a> resolves the rest mid-call. That trades a conversation-design problem for a latency one, since the answer has to return inside a live conversation, and it introduces a failure mode the original never had. Live questioning can be slow, but it is rarely wrong about what it was told; a lookup can confidently return the wrong company. The objective flow gained explicit self-checks that let the agent notice a mismatch later in the conversation and correct course rather than committing to a track it should never have taken.</p>
 
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="policy-compliance-grader.html">Privacy Policy Compliance Grader</a><span>Grounded RAG with a citations API</span></li>
+        <li><a href="multi-model-research-engine.html">Multi-Model Company Research Engine</a><span>Seven parallel agents across six LLM providers</span></li>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>An n8n workflow with human approval gates</span></li>
+      </ul>
+    </nav>
+
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>
     </div>

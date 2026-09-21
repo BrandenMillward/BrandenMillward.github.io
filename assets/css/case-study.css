@@ -53,3 +53,20 @@
   }
   .post-actions a { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
 
+
+  /* ── Related work ──
+     Cross-links between case studies, sitting above .post-actions. Before this
+     every project page was reachable only from the homepage #work showcase, so
+     each one now carries inbound links from three siblings too. The pairs in
+     projects/*.html deliberately bridge the production systems and the earlier
+     ML work so neither cluster dead-ends.
+     Placed after `.post-body h2` on purpose: equal specificity, so it has to
+     come later in the file to win the heading margins. */
+  .related { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .related h2 { font-size: 1.05rem; margin: 0 0 1.1rem; }
+  .related ul { list-style: none; display: grid; gap: .85rem; }
+  .related li { display: flex; flex-direction: column; gap: .15rem; }
+  .related a { font-size: .95rem; }
+  .related span { color: var(--muted); font-size: .84rem; line-height: 1.55; }
+  /* One divider between the two blocks reads better than two in a row. */
+  .related + .post-actions { margin-top: 2rem; padding-top: 0; border-top: 0; }

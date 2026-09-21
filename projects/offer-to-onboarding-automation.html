@@ -111,6 +111,15 @@
     <p>Compensation was the constraint that shaped the architecture. It has to reach the offer letter, and it must never be stored in the pipeline's own state. That single rule decided when documents get generated: at form-submission time, in the same pass that captures the figure, because that is the only moment it is legitimately in hand.</p>
     <p>The consequence is a system with a deliberate sharp edge. Regenerate a document later and it comes back with placeholders where the numbers were, because the numbers are genuinely gone. That is not a limitation to be smoothed over; it is the constraint working. Designing where sensitive data is <em>allowed</em> to exist, rather than encrypting it everywhere and hoping, tends to produce a system you can explain to the people whose data it is.</p>
 
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="multi-model-research-engine.html">Multi-Model Company Research Engine</a><span>Seven parallel agents across six LLM providers</span></li>
+        <li><a href="ai-document-platform.html">AI Document Generation Platform</a><span>Next.js and Supabase with async job handling</span></li>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+      </ul>
+    </nav>
+
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>
     </div>

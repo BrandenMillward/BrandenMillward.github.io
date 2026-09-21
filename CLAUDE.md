@@ -141,8 +141,27 @@ Copy an existing `projects/*.html` (e.g. `multi-model-research-engine.html`) and
 the content: title/meta/OG, hero, cover image, the Problem/Approach/Result/Stack
 case-grid, and two engineering-story `<h2>` sections. The nav/footer skeleton is
 identical across all project pages — keep them in lockstep. Then: a slab in
-`index.html`'s `#work` showcase (thumbnail, tag pills, "Case study →" link) and a
-`sitemap.xml` entry.
+`index.html`'s `#work` showcase (thumbnail, tag pills, "Case study →" link), a
+`<link rel="canonical">` plus matching `og:url`, and a `sitemap.xml` entry.
+
+Also wire it into the `.related` graph. Every project page carries a "Related work"
+nav listing three siblings, and the graph is balanced at exactly **3 outbound and 3
+inbound per page** — adding a 14th page without editing three existing ones leaves it
+with 3 out and 0 in, which is the state the graph exists to prevent. It is one
+connected component with bridges in both directions between the production systems
+and the earlier ML work (`policy-compliance-grader` ↔ `deep-learning-regulated-industries`
+and `real-time-enrichment-middleware` ↔ `amazon-scraper`), so a crawler entering either
+cluster can reach the other. Keep both properties. To re-count inbound links after any
+edit:
+
+```bash
+grep -ho 'href="[a-z-]*\.html"' projects/*.html | sort | uniq -c | sort -n
+```
+
+All 13 should read 3, except `real-time-enrichment-middleware` at 4: the
+`conversational-video-agent` copy links it in body text as "lookup service". That
+editorial link is deliberate, so treat 4 there as correct and anything else as a
+`.related` block that needs rebalancing.
 
 ### Project cover art
 

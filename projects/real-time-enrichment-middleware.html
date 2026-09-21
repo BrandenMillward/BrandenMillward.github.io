@@ -110,6 +110,15 @@
     <p>The original specification assumed the enrichment provider supported real-time lookups. Reading its API reference properly showed otherwise: you create a search, then poll for results. No endpoint returns company data in a single response, which makes it structurally incompatible with a sub-second budget, and no amount of tuning closes that gap.</p>
     <p>Rather than treat that as a blocker, the fix was to invert the timing. The service fires the search and never waits on it; when the result eventually lands it is written back, so the <em>next</em> lookup for that company is instant. A cache that fills itself as a side effect of missing. It also capped a cost that would otherwise have scaled with every conversation, turning an unbounded per-call expense into a one-shot one.</p>
 
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="ai-document-platform.html">AI Document Generation Platform</a><span>Next.js and Supabase with async job handling</span></li>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+        <li><a href="amazon-scraper.html">Amazon Web Scraper &amp; Automated Email Alerts</a><span>Scheduled scraping with automated email alerts</span></li>
+      </ul>
+    </nav>
+
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>
     </div>

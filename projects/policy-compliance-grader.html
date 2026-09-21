@@ -112,6 +112,15 @@
     <p>One client's policy page was fully JavaScript-rendered. The URL fetcher retrieved it, got 491 characters of navigation chrome, and stored that as a perfectly valid snapshot. No error, no flag. An entire sector brief was then researched and written on top of it.</p>
     <p>The fix that mattered was not the file-upload fallback, though that shipped too. It was raising the floor on what counts as a successful fetch and making the failure loud, so the fetcher now refuses thin content and points at the alternative rather than quietly succeeding. Then the bad snapshot was invalidated and everything derived from it regenerated. A silent success is worse than an error, because nothing downstream has any reason to doubt it, and in a system whose whole value proposition is evidence, that is the one failure you cannot tolerate.</p>
 
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="deep-learning-regulated-industries.html">Increasing Deep Learning Utilisation in Regulated Industries</a><span>Deep learning where explainability is mandatory</span></li>
+        <li><a href="ai-document-platform.html">AI Document Generation Platform</a><span>Next.js and Supabase with async job handling</span></li>
+        <li><a href="conversational-video-agent.html">Conversational AI Video Sales Agent</a><span>Conversation design and guardrails on Tavus</span></li>
+      </ul>
+    </nav>
+
     <div class="post-actions">
       <a href="../index.html#work">← All work</a>
     </div>
