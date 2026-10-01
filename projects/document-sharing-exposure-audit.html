@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Document Sharing Exposure Audit — Branden Millward</title>
+<meta name="description" content="A daily audit of how every document in a collaborative-docs workspace is shared: nine ranked exposure classes, alerts on change, folder reach, and reviewer-gated fixes." />
+<link rel="canonical" href="https://brandenmillward.com/projects/document-sharing-exposure-audit.html" />
+<meta property="og:title" content="Document Sharing Exposure Audit" />
+<meta property="og:description" content="A daily audit of how every document in a collaborative-docs workspace is shared: nine ranked exposure classes, alerts on change, folder reach, and reviewer-gated fixes." />
+<meta property="og:url" content="https://brandenmillward.com/projects/document-sharing-exposure-audit.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Sharing Audit</p>
+    <h1>Document Sharing Exposure Audit</h1>
+    <p class="post-meta"><span>Production · 2026</span><span>Security &amp; Governance Tooling</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/sharing-audit.svg" alt="A folder node fanning out to many documents, with access rings widening around a few of them to show exposure reaching further than each document's own sharing suggests" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>A collaborative-docs workspace accumulates thousands of documents, each shared by whoever created it, however seemed convenient at the time. Nobody can answer the basic questions: which documents are public, which are open to outside domains, and what changed since yesterday. The admin console shows one document at a time. IT needed the whole picture, every day, without being buried in alerts about exposure that has been there for years.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>A daily scheduled scan pulls every document with its access list through the platform's admin API and classifies it into <strong>nine ranked exposure classes</strong>, from publicly discoverable down to private</li>
+          <li><strong>Alerts fire on change, not persistence:</strong> going public is high severity, going external is medium, and the first run flags existing exposure once as a baseline</li>
+          <li>Folder membership is modelled as its own route to access, with a flag for narrowly shared documents sitting in widely shared folders</li>
+          <li>Views for staleness, likely-replaced duplicates, topics and owners, with batch outreach so owners fix their own documents</li>
+          <li>One-click remediations (remove public link, remove external access, archive) gated behind a reviewer list</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>The first real scan classified about 4,700 documents in 30 seconds and surfaced roughly 1,400 baseline flags. Modelling folder reach found several hundred more documents that were far more widely readable than their own sharing settings suggested. Live behind single sign-on, with two security reviews completed and every finding fixed before launch.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js on Vercel · scheduled cron</li>
+          <li>Supabase · Postgres, row-level security</li>
+          <li>Collaborative-docs Admin API</li>
+          <li>Google SSO</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Alert on change, or nobody reads the alerts</h2>
+    <p>The obvious version of this tool flags every exposed document, every day. On the first scan that would have been well over a thousand flags, and by the end of the first week the channel would have been muted. An audit that people stop reading is worse than none, because it creates the impression that someone is watching.</p>
+    <p>So the flags describe events, not states. A document that has been shared with an outside domain for two years is recorded once, as part of a baseline, and then left alone until someone works through it. A document that goes public today raises a high-severity flag today. The same scan data drives both, but the question the alert answers changes from "what is wrong?" to "what just got worse?", which is the question someone can act on before lunch.</p>
+
+    <h2>The exposure that wasn't in the access list</h2>
+    <p>Classifying each document from its own access list was the straightforward part. The finding that mattered came from asking who could actually open a document, rather than who it had been shared with. In this platform, being a member of a folder grants access to everything inside it. A document shared with three named people, sitting in a folder shared with a hundred, is readable by a hundred.</p>
+    <p>Once folder reach was modelled, several hundred documents that looked narrowly shared turned out to be visible to far more people, with one all-staff folder alone opening up more than a hundred of them. That became its own flag class with a configurable threshold, so a document in a small team folder stays quiet while one in a company-wide folder gets looked at. It is a good reminder that permissions are a graph, and an audit that only reads the nodes will miss the edges.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="policy-compliance-grader.html">Privacy Policy Compliance Grader</a><span>Cited verdicts where silence is never green</span></li>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>Approval gates with a real rework loop</span></li>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+      </ul>
+    </nav>
+
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>

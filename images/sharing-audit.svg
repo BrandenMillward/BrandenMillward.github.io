@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A folder node fanning out to many documents, with access rings widening around a few of them to show exposure reaching further than each document's own sharing suggests">
+
+  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+    <line x1="120" y1="180" x2="300" y2="90"/>
+    <line x1="120" y1="180" x2="300" y2="150"/>
+    <line x1="120" y1="180" x2="300" y2="210"/>
+    <line x1="120" y1="180" x2="300" y2="270"/>
+    <line x1="300" y1="90" x2="470" y2="70"/>
+    <line x1="300" y1="150" x2="470" y2="140"/>
+    <line x1="300" y1="210" x2="470" y2="215"/>
+    <line x1="300" y1="270" x2="470" y2="290"/>
+  </g>
+
+  <rect x="96" y="156" width="48" height="48" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <circle cx="120" cy="180" r="6" fill="#696fb4"/>
+
+  <g fill="#696fb4" opacity="0.85">
+    <circle cx="300" cy="90" r="7"/>
+    <circle cx="300" cy="150" r="7"/>
+    <circle cx="300" cy="210" r="7"/>
+    <circle cx="300" cy="270" r="7"/>
+    <circle cx="470" cy="70" r="5"/>
+    <circle cx="470" cy="140" r="5"/>
+    <circle cx="470" cy="215" r="5"/>
+    <circle cx="470" cy="290" r="5"/>
+  </g>
+
+  <g fill="none" stroke="#696fb4" stroke-width="1.5">
+    <circle cx="300" cy="150" r="18"/>
+    <circle cx="300" cy="150" r="32" stroke-dasharray="4 5" opacity="0.8"/>
+    <circle cx="470" cy="215" r="16"/>
+    <circle cx="470" cy="215" r="28" stroke-dasharray="4 5" opacity="0.8"/>
+    <circle cx="470" cy="215" r="42" stroke-dasharray="2 6" opacity="0.6"/>
+  </g>
+
+  <g stroke="#6b7391" stroke-width="1" opacity="0.7" stroke-linecap="round">
+    <line x1="560" y1="70" x2="560" y2="290"/>
+    <line x1="552" y1="70" x2="568" y2="70"/>
+    <line x1="552" y1="290" x2="568" y2="290"/>
+    <line x1="552" y1="180" x2="568" y2="180"/>
+  </g>
+</svg>
