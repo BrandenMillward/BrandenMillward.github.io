@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Project nodes each carrying a short register of declared fields, feeding one inventory where filled fields are solid and missing fields show as open gaps">
+
+  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+    <line x1="90" y1="90" x2="250" y2="90"/>
+    <line x1="90" y1="180" x2="250" y2="180"/>
+    <line x1="90" y1="270" x2="250" y2="270"/>
+    <line x1="330" y1="90" x2="430" y2="180"/>
+    <line x1="330" y1="180" x2="430" y2="180"/>
+    <line x1="330" y1="270" x2="430" y2="180"/>
+  </g>
+
+  <g fill="#696fb4" opacity="0.85">
+    <circle cx="90" cy="90" r="7"/>
+    <circle cx="90" cy="180" r="7"/>
+    <circle cx="90" cy="270" r="7"/>
+  </g>
+
+  <g fill="#696fb4" opacity="0.85">
+    <rect x="250" y="80" width="12" height="20" rx="2"/>
+    <rect x="266" y="80" width="12" height="20" rx="2"/>
+    <rect x="282" y="80" width="12" height="20" rx="2"/>
+    <rect x="298" y="80" width="12" height="20" rx="2"/>
+    <rect x="314" y="80" width="12" height="20" rx="2"/>
+    <rect x="250" y="170" width="12" height="20" rx="2"/>
+    <rect x="266" y="170" width="12" height="20" rx="2"/>
+    <rect x="298" y="170" width="12" height="20" rx="2"/>
+    <rect x="250" y="260" width="12" height="20" rx="2"/>
+    <rect x="266" y="260" width="12" height="20" rx="2"/>
+    <rect x="282" y="260" width="12" height="20" rx="2"/>
+    <rect x="298" y="260" width="12" height="20" rx="2"/>
+    <rect x="314" y="260" width="12" height="20" rx="2"/>
+  </g>
+  <g fill="none" stroke="#696fb4" stroke-width="1.5" stroke-dasharray="3 3">
+    <rect x="282" y="170" width="12" height="20" rx="2"/>
+    <rect x="314" y="170" width="12" height="20" rx="2"/>
+  </g>
+
+  <rect x="430" y="130" width="130" height="100" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <g stroke="#6b7391" stroke-width="1" opacity="0.8" stroke-linecap="round">
+    <line x1="448" y1="155" x2="542" y2="155"/>
+    <line x1="448" y1="180" x2="542" y2="180"/>
+    <line x1="448" y1="205" x2="542" y2="205"/>
+  </g>
+  <g fill="#696fb4">
+    <circle cx="448" cy="155" r="4"/>
+    <circle cx="448" cy="205" r="4"/>
+  </g>
+  <circle cx="448" cy="180" r="4" fill="none" stroke="#696fb4" stroke-width="1.5"/>
+</svg>

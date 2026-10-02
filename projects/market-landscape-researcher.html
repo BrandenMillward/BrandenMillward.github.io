@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Market Landscape Researcher — Branden Millward</title>
+<meta name="description" content="A research worker that maps a country's consumer-app market: who runs apps, how big their audiences are, and how well each business fits an ideal customer profile." />
+<link rel="canonical" href="https://brandenmillward.com/projects/market-landscape-researcher.html" />
+<meta property="og:title" content="Market Landscape Researcher" />
+<meta property="og:description" content="A research worker that maps a country's consumer-app market: who runs apps, how big their audiences are, and how well each business fits an ideal customer profile." />
+<meta property="og:url" content="https://brandenmillward.com/projects/market-landscape-researcher.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Landscape Researcher</p>
+    <h1>Market Landscape Researcher</h1>
+    <p class="post-meta"><span>Production · 2026</span><span>Agentic Research</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/market-landscape.svg" alt="Several data sources merging into a research worker, which fans out to a field of businesses sized by audience, with a few highlighted as strong profile fits" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>A sales team wants to know which large consumer businesses in a country run apps, how many people use them, and which are worth a conversation. The answer is scattered across app-store charts, public knowledge bases, the CRM and a target list, and the most important number (audience size) is rarely published anywhere clean. Researching it by hand takes weeks per country and goes stale immediately.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>The universe is assembled from public app-store charts and lookups, an open knowledge graph, large CRM accounts and an agreed target list, then de-duplicated so a parent brand never swallows a different business with a similar name</li>
+          <li>An LLM with web search researches each business, and <strong>a figure is only kept if its source URL was one the model actually searched</strong></li>
+          <li>A resumable worker processes the run in chunks under a heartbeat lease, and every write is lease-checked so a stale chunk can never rewind status or progress</li>
+          <li>Malformed answers retry in the same call and failed entries requeue, so a run finishes with near-zero gaps rather than a pile of manual follow-ups</li>
+          <li>A seven-criterion fit score with agreed weights, computed at render time</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>Full country runs cover 600 to 900 businesses each for roughly $30, at about $0.15 per business. Results are filterable by category, audience band and fit tier, and a run that hits trouble can be reopened and resumed rather than restarted.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js on Vercel · chained worker routes</li>
+          <li>Supabase · Postgres, row-level security</li>
+          <li>Anthropic API with web search</li>
+          <li>Public app-store and open-data APIs</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>The cheapest fix was choosing a different tool</h2>
+    <p>The pilot came in over its per-business cost ceiling, and the obvious levers (a smaller model, fewer searches, a shorter prompt) each made the research worse. Measuring cost per call from stored usage showed the real culprit. The dynamic web-search tool was quietly re-reading the cached prompt around twenty times per business as it decided what to search next, and every re-read was billed.</p>
+    <p>Switching to the basic web-search tool, with a fixed small number of searches, nearly halved the cost per business without a measurable drop in what it found. It is a useful reminder that with agentic tools the bill is shaped by how the tool behaves, not just by which model sits behind it, and the only way to see that is to measure each call rather than trust the price list.</p>
+
+    <h2>A worker that can't overwrite its own future</h2>
+    <p>A country run takes far longer than any single serverless request is allowed to live, so the work is split into chunks that chain into one another. That design creates a quiet hazard: if a chunk stalls and a fresh one takes over, the stale chunk can wake up and write old progress over new. Automated code review found five variations of that overlap across three rounds.</p>
+    <p>The fix was to give each run a lease with an owner, renewed on a timer while a chunk is working, and to route every write through a check that the writer still holds it. A chunk that has lost its lease simply finds its writes refused. The same structure makes recovery boring: a run with a few failed entries can be reopened, and the worker picks up exactly where the record says it stopped.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="policy-compliance-grader.html">Privacy Policy Compliance Grader</a><span>Cited verdicts where silence is never green</span></li>
+        <li><a href="multi-model-research-engine.html">Multi-Model Company Research Engine</a><span>Seven parallel agents across six LLM providers</span></li>
+        <li><a href="ai-document-platform.html">AI Document Generation Platform</a><span>Async job handling around platform timeouts</span></li>
+      </ul>
+    </nav>
+
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>

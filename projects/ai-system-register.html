@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI System Register (ISO/IEC 42001) — Branden Millward</title>
+<meta name="description" content="An AI system inventory aligned with ISO/IEC 42001, built into project planning so every agent is born register-complete, with gaps shown by name rather than assumed away." />
+<link rel="canonical" href="https://brandenmillward.com/projects/ai-system-register.html" />
+<meta property="og:title" content="AI System Register (ISO/IEC 42001)" />
+<meta property="og:description" content="An AI system inventory aligned with ISO/IEC 42001, built into project planning so every agent is born register-complete, with gaps shown by name rather than assumed away." />
+<meta property="og:url" content="https://brandenmillward.com/projects/ai-system-register.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / AI System Register</p>
+    <h1>AI System Register (ISO/IEC 42001)</h1>
+    <p class="post-meta"><span>Governance · 2026</span><span>ISO/IEC 42001</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/ai-register.svg" alt="Project nodes each carrying a short register of declared fields, feeding one inventory where filled fields are solid and missing fields show as open gaps" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>ISO/IEC 42001 expects an organisation to know which AI systems it runs, what they do, what data they touch, how risky they are and who answers for them. Teams that build agents quickly rarely keep that inventory up to date. A spreadsheet written after the fact is out of date the day it is finished, and a register that guesses its own answers is worse than one with honest blanks.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li>A register round in the planning interview every new project goes through: risk classification, models used, data processed, personal data, human oversight, runtime, owner and teams impacted</li>
+          <li>Answers go verbatim into the spec, then into machine-readable frontmatter in each project's own status file when the repo is scaffolded</li>
+          <li>A portfolio dashboard reads that frontmatter across every repo and renders the inventory</li>
+          <li><strong>Only declared facts count.</strong> Risk class and owner are never inferred, and an undeclared field is shown as a named gap on that system</li>
+          <li>The dashboard proposes values it can derive, but a human commits them, and it never writes to a project repository</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>New projects are born register-complete because the questions are asked while the answers are fresh, and existing projects show exactly which fields are still missing. The register lives next to the code it describes, so it changes in the same commit as the system.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Agent skill · planning interview and templates</li>
+          <li>YAML frontmatter in each repo's status file</li>
+          <li>Next.js portfolio dashboard · read-only GitHub access</li>
+          <li>ISO/IEC 42001 inventory fields</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Ask at planning, not at audit</h2>
+    <p>Almost every register field is something the team already knows on the day it designs a system: which models it will call, whether it touches personal data, where a human stays in the loop. Six months later that knowledge is spread across a codebase and a few memories. So the register questions sit in the planning interview itself, and most answers are confirmed from what has already been discussed rather than asked cold.</p>
+    <p>Owner and teams impacted were added after the first round of use, because they turned out to be the questions an auditor asks first and the ones nobody had written down. Teams impacted is deliberately different from the interview's user persona: it names the real teams whose work changes, which is the thing a governance review actually needs.</p>
+
+    <h2>A blank is an answer, a guess is not</h2>
+    <p>The tempting version of this dashboard fills in what it can: a risk class from keywords, an owner from the commit history. That produces a register that looks complete and cannot be trusted. Here the rule runs the other way. Risk classification is a human judgement, and an explicit "no personal data" or an empty models list counts as recorded, while a missing field is a gap listed by name against that system.</p>
+    <p>Where the dashboard can derive something useful, it proposes it as unconfirmed and hands back a block to paste into the repo. It never commits for you. That keeps each project's own status file as the single source of truth, so the inventory can't drift from the systems it describes, and it makes completeness something you can see rather than something you hope for.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>Approval gates with a real rework loop</span></li>
+        <li><a href="document-sharing-exposure-audit.html">Document Sharing Exposure Audit</a><span>Exposure alerts that fire on change</span></li>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+      </ul>
+    </nav>
+
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>
