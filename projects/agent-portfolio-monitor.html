@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agent Portfolio Monitor — Branden Millward</title>
+<meta name="description" content="A system for monitoring and maintaining every AI agent across a business: one live view of what exists, what state it's in, what's drifted, and an ISO/IEC 42001 register on top." />
+<link rel="canonical" href="https://brandenmillward.com/projects/agent-portfolio-monitor.html" />
+<meta property="og:title" content="Agent Portfolio Monitor" />
+<meta property="og:description" content="A system for monitoring and maintaining every AI agent across a business: one live view of what exists, what state it's in, what's drifted, and an ISO/IEC 42001 register on top." />
+<meta property="og:url" content="https://brandenmillward.com/projects/agent-portfolio-monitor.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Agent Monitor</p>
+    <h1>Agent Portfolio Monitor</h1>
+    <p class="post-meta"><span>Production · 2026</span><span>Agent Operations · ISO/IEC 42001</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/agent-monitor.svg" alt="Agent projects each carrying a short register of declared fields, feeding one monitoring view where filled fields are solid and missing fields show as open gaps" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>Once a business starts building agents, it quickly has a dozen of them, spread across workflow platforms, serverless apps, container services and video AI, each built fast by whoever needed it. Nobody can answer the basic operational questions: what agents exist, what state each one is in, what changed this month, which have quietly gone stale, who owns them, and whether they meet the governance bar. Answering meant opening every repository and reconstructing the picture by hand.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li><strong>A renderer over data that already exists:</strong> every agent's repository carries its own status file, and the monitor scans every repository in the organisation on an hourly schedule, reading a handful of named docs plus git metadata and never the source code</li>
+          <li>Structured frontmatter is read first, with a prose parser as fallback. Repositories with no docs at all still appear, badged as unscaffolded, rather than silently missing</li>
+          <li><strong>Drift detection:</strong> where docs and git disagree, the card says so, and a daily scan turns that into a list of agents whose status needs updating</li>
+          <li>A date-ranged update builder produces "what changed since" across every agent, either as deterministic entries or as an LLM draft that may rewrite but never add</li>
+          <li>An ISO/IEC 42001 register view lists each system's risk, models, data, personal data, oversight, runtime and owner, naming every undeclared field as a gap</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>One live view over the whole agent portfolio, behind single sign-on and refreshed hourly. A portfolio update that used to take an hour of repo-hopping is now a five-minute read and copy. Every agent repository carries a complete register entry, and new projects are born with one because the register questions are asked in the planning interview.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js on Vercel · hourly cron</li>
+          <li>Supabase · snapshot cache, Google SSO</li>
+          <li>GitHub REST API · read-only token</li>
+          <li>Anthropic API · update drafts only</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>The disagreement is the signal</h2>
+    <p>The obvious way to monitor a set of agents is to read git: last commit, commit rate, open pull requests. Here git turned out to lie about the thing that mattered most. Several projects were put under version control weeks after the work began, so their first commit claimed a project was days old when its own status file recorded a month of delivery. A monitor that trusted git alone would have reported the most mature agents as the newest.</p>
+    <p>So each source answers only what it is good at. Project age, milestones and status come from the docs; activity and velocity come from git. Where they contradict, for instance code changed last week but the status file hasn't been touched in a month, the card names both dates rather than picking one. That contradiction is exactly the maintenance work nobody notices, and a daily scan reports it as a short list: these agents have shipped changes their documentation doesn't describe yet. Keeping a portfolio maintained turns out to be mostly about making drift visible early.</p>
+
+    <h2>Observe, never own</h2>
+    <p>The monitor is deliberately not a system of record. It never writes to a repository, and nothing about an agent's state is typed into it. Status lives in each project's own status file, next to the code it describes, and changes in the same commit. If the monitor disappeared tomorrow, every agent would still carry its complete state. That one rule removes the usual failure of portfolio tools, which is becoming a second source of truth that drifts from the first.</p>
+    <p>The governance layer follows the same principle. The ISO/IEC 42001 register shows only declared facts: risk class and owner are human judgements and are never inferred, an explicit "none" counts as recorded, and a missing field shows as a named gap on that system. Where the monitor can derive something useful, such as when an agent went live or which teams it affects, it proposes the value as unconfirmed and hands back a block to paste into the repository. A human commits it. Time saved is never entered at all; it is computed from a baseline and real run counts, so any figure shown to leadership has its working visible behind it.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="self-documenting-repos.html">Self-Documenting Repositories</a><span>Map-reduce LLM summarisation over the GitHub API</span></li>
+        <li><a href="document-sharing-exposure-audit.html">Document Sharing Exposure Audit</a><span>Exposure alerts that fire on change</span></li>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>Approval gates with a real rework loop</span></li>
+      </ul>
+    </nav>
+
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>
