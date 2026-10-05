@@ -263,7 +263,11 @@ Every page carries its own `<title>`, `<meta name="description">`, and OG tags; 
 homepage also has a JSON-LD `Person` block. Adding a page means adding its URL to
 `sitemap.xml`, which is an explicit hand-maintained list on the `brandenmillward.com`
 domain.
-`robots.txt` points at the sitemap. `files/Branden Millward_CV.pdf` is linked from the site.
+`robots.txt` points at the sitemap. The CV is not published: `files/` is gitignored
+because it carries personal contact details, and was purged from history in 2026-10.
+
+`_config.yml` excludes `scripts/`, `CLAUDE.md` and `README.md` from the Pages build, so
+the OG card templates are local-only (render them over `file://` as before).
 
 ## Analytics
 

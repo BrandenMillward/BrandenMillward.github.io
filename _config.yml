@@ -1,0 +1,6 @@
+# GitHub Pages builds the repo root with Jekyll. Keep authoring tools and repo docs
+# out of the published site — they are tracked, not pages.
+exclude:
+  - scripts
+  - CLAUDE.md
+  - README.md

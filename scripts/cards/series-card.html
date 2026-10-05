@@ -148,7 +148,12 @@ var EPISODES = {
 (function () {
   var n = new URLSearchParams(location.search).get('ep') || '1';
   var ep = EPISODES[n];
-  if (!ep) { document.body.innerHTML = '<h1>Unknown episode: ' + n + '</h1>'; return; }
+  if (!ep) {
+    var err = document.createElement('h1');
+    err.textContent = 'Unknown episode: ' + n;
+    document.body.replaceChildren(err);
+    return;
+  }
   document.querySelector('.ep').textContent = 'Ep ' + n;
   document.querySelector('h1').textContent = ep.title;
   document.querySelector('.holds').textContent = ep.holds;
