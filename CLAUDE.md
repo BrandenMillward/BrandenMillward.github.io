@@ -52,7 +52,7 @@ file**, not one per page. Every page links:
 Two page-type stylesheets load *after* `base.css`:
 
 - `assets/css/post.css` — the `blog/*` pages
-- `assets/css/case-study.css` — the 13 `projects/*` pages
+- `assets/css/case-study.css` — the `projects/*` pages
 
 **Do not merge those two into `base.css`.** They both style `.post-hero` and
 `.post-body` with different rules, so a merged file cross-contaminates: project pages
@@ -146,19 +146,33 @@ identical across all project pages — keep them in lockstep. Then: a slab in
 
 Also wire it into the `.related` graph. Every project page carries a "Related work"
 nav listing three siblings, and the graph is balanced at exactly **3 outbound and 3
-inbound per page** — adding a 14th page without editing three existing ones leaves it
-with 3 out and 0 in, which is the state the graph exists to prevent. It is one
-connected component with bridges in both directions between the production systems
-and the earlier ML work (`policy-compliance-grader` ↔ `deep-learning-regulated-industries`
-and `real-time-enrichment-middleware` ↔ `amazon-scraper`), so a crawler entering either
-cluster can reach the other. Keep both properties. To re-count inbound links after any
-edit:
+inbound per page**. A new page copied from an existing one inherits three *outbound*
+links and gets **zero inbound** until three existing pages are edited to point at it,
+which is exactly the state the graph exists to prevent. This has already happened once:
+three case studies were added in 2026-10 with correct canonicals, sitemap entries and
+their own related navs, but nothing linking back, leaving the two newest pages at 0
+inbound while older pages drifted to 5. Adding a page means rebalancing, not just
+appending.
+
+It is also one connected component with bridges in **both** directions between the
+production systems and the earlier ML work, so a crawler entering either cluster can
+reach the other. As of the 2026-10 rebalance those bridges are:
+
+- production → ML: `real-time-enrichment-middleware` and `market-landscape-researcher`
+  → `amazon-scraper`; `agent-portfolio-monitor` → `deep-learning-regulated-industries`
+- ML → production: `amazon-scraper` → `real-time-enrichment-middleware`;
+  `deep-learning-regulated-industries` → `policy-compliance-grader`;
+  `movie-correlation` → `market-landscape-researcher`
+
+Keep both properties, but do not treat that bridge list as fixed: it is whichever edges
+happen to cross, and rebalancing moves them. What must hold is at least one crossing
+each way. To re-count inbound links after any edit:
 
 ```bash
 grep -ho 'href="[a-z-]*\.html"' projects/*.html | sort | uniq -c | sort -n
 ```
 
-All 13 should read 3, except `real-time-enrichment-middleware` at 4: the
+Every project page should read 3, except `real-time-enrichment-middleware` at 4: the
 `conversational-video-agent` copy links it in body text as "lookup service". That
 editorial link is deliberate, so treat 4 there as correct and anything else as a
 `.related` block that needs rebalancing.
