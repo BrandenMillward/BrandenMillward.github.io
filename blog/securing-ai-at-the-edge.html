@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Securing AI at the Edge — Branden Millward</title>
+<meta name="description" content="Notes from my GTIA talk. Edge AI moves risk rather than removing it: four steps to keep control of client data, and five questions to ask before you deploy." />
+<link rel="canonical" href="https://brandenmillward.com/blog/securing-ai-at-the-edge.html" />
+<meta property="og:title" content="Securing AI at the Edge: Move the Controls to Where the Data Is" />
+<meta property="og:description" content="Edge AI moves risk rather than removing it. Four steps to keep control of client data on devices you do not own, and five questions to ask before you deploy." />
+<meta property="og:url" content="https://brandenmillward.com/blog/securing-ai-at-the-edge.html" />
+<meta property="og:image" content="https://brandenmillward.com/images/securing-ai-edge-social-1600.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="836">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brandenmillward.com/images/securing-ai-edge-social-1600.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Securing AI at the Edge: Move the Controls to Where the Data Is",
+  "description": "Notes from my GTIA talk. Edge AI moves risk rather than removing it: four steps to keep control of client data, and five questions to ask before you deploy.",
+  "image": "https://brandenmillward.com/images/securing-ai-edge-social-1600.png",
+  "datePublished": "2026-10-09",
+  "dateModified": "2026-10-09",
+  "author": {
+    "@type": "Person",
+    "name": "Branden Millward",
+    "url": "https://brandenmillward.com/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Branden Millward",
+    "url": "https://brandenmillward.com/"
+  },
+  "url": "https://brandenmillward.com/blog/securing-ai-at-the-edge.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://brandenmillward.com/blog/securing-ai-at-the-edge.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://brandenmillward.com/blog/",
+    "name": "Blog — Branden Millward"
+  },
+  "inLanguage": "en-GB"
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/post.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="index.html" class="is-active">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
+    <h1>Securing AI at the Edge: Move the Controls to Where the Data Is</h1>
+    <p class="post-meta"><span>October 2026</span><span>7 min read</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell measure">
+
+    <p>On 6 October I gave a talk for GTIA called Securing AI at the Edge. This is the written version, for anyone who missed it or would rather have the detail without the slides.</p>
+
+    <p>The talk is about one tension. AI wants more of our clients' data, and it wants it faster, while traditional data practice wants you to keep it all in one safe spot. More and more often, the AI doing the asking is not in a data centre at all. It is running on the phone in someone's pocket.</p>
+
+    <p>In today's society, every person is producing data, and not all of that data can be treated the same. So we need to classify it: some restricted, some confidential, some internal, some public. The question I wanted to answer was how we let AI work on that data without losing control of it.</p>
+
+    <h2>Governance was built for data sitting still</h2>
+    <p>AI wants more data, faster. Governance wants less, slower. The answer is not to slow AI down. It is to move the controls to where the data is.</p>
+
+    <p>Most governance was designed for data that sits in a warehouse and gets reviewed by people. Three things break that model.</p>
+
+    <ul>
+      <li><strong>Speed:</strong> real-time decisions leave no time for a round trip to a central store and a human check.</li>
+      <li><strong>Scale:</strong> one model can run on thousands or millions of endpoints, and every one of them is a place data can leak.</li>
+      <li><strong>Access:</strong> models and agents need richer, rawer signals than dashboards ever did.</li>
+    </ul>
+
+    <h2>The edge is a spectrum, not a place</h2>
+    <p>"The edge" gets used loosely, so it is worth pinning down. I think of it as four tiers.</p>
+
+    <ol>
+      <li><strong>Device:</strong> the phone, point of sale, vehicle or sensor itself.</li>
+      <li><strong>Edge node:</strong> a store, a branch, a cell site.</li>
+      <li><strong>Client tenancy:</strong> the client's own cloud or data centre.</li>
+      <li><strong>Vendor cloud:</strong> shared SaaS and model APIs.</li>
+    </ol>
+
+    <picture>
+       <source media="(prefers-reduced-motion: reduce)" srcset="../images/securing-ai-edge-tiers.webp" type="image/webp" />
+       <source srcset="../images/securing-ai-edge-tiers.webp" data-anim="../images/securing-ai-edge-tiers-anim.webp" type="image/webp" />
+       <img src="../images/securing-ai-edge-tiers.png" alt="The four tiers of the edge, left to right: device (phone, POS, vehicle, sensor), edge node (store, branch, cell site), client tenancy (own cloud or data centre) and vendor cloud (shared SaaS, model APIs). Moving right means more copies, more parties and more jurisdictions." class="article-image" width="1400" height="434" decoding="async" loading="lazy" />
+    </picture>
+
+    <p>The further you move from the device, the more copies of the data exist, the more parties can touch it and the more jurisdictions it passes through. Most real systems span several tiers at once, so for every piece of data I want you to ask two questions. <strong style="font-weight:600">Where is the decision made? And where does the data rest?</strong></p>
+
+    <h2>Edge AI moves risk. It does not remove it.</h2>
+    <p>So is the edge the answer? Partly. Running AI on the device gets you real benefits:</p>
+
+    <ul>
+      <li>raw data can stay on the device</li>
+      <li>decisions do not need a round trip</li>
+      <li>there is a smaller central honeypot to breach</li>
+      <li>the data residency story gets much easier</li>
+    </ul>
+
+    <p>In exchange, you take on new risk:</p>
+
+    <ul>
+      <li>attackers have physical access to the model</li>
+      <li>the model and its prompts can be extracted from the app</li>
+      <li>you have to keep updates and config intact across a whole fleet</li>
+      <li>telemetry can turn into a data export without anyone deciding it should</li>
+    </ul>
+
+    <p>Edge is better for privacy. It is not privacy by default, because the device belongs to someone else. The rest of the talk was four steps for dealing with that.</p>
+
+    <h2>Step 1: classify by where data may travel</h2>
+    <p>Most classification schemes rank data by sensitivity. That is useful, but it does not tell an engineer what they are allowed to do with a field. So start from every field in every source, and give each class a travel limit.</p>
+
+    <ul>
+      <li><strong>Public:</strong> model weights you publish, docs, benchmarks. It can go anywhere.</li>
+      <li><strong>Internal:</strong> aggregated, thresholded outcomes and metrics. It can reach a vendor cloud, under contract.</li>
+      <li><strong>Confidential:</strong> linkable customer records, including hashed or tokenised IDs. It stays inside the client perimeter.</li>
+      <li><strong>Restricted:</strong> raw behaviour, location, content and special category data. It never leaves the device.</li>
+    </ul>
+
+    <picture>
+       <source srcset="../images/securing-ai-edge-classify.webp" type="image/webp" />
+       <img src="../images/securing-ai-edge-classify.png" alt="Unclassified data, every field from every source, branches into four classes, each with the furthest it may go. Public (model weights you publish, docs, benchmarks): anywhere. Internal (aggregated, thresholded outcomes and metrics): vendor cloud, under contract. Confidential (linkable customer records, hashed or tokenised IDs): client perimeter only. Restricted (raw behaviour, location, content, special category): never leaves the device. An arrow from device up to anywhere shows less sensitive data travelling further." class="article-image" width="1240" height="993" decoding="async" loading="lazy" />
+    </picture>
+
+    <p>Read it from the bottom up and the rule is simple: the less sensitive the data, the further it can travel. Hashed and tokenised IDs sit in Confidential rather than Internal because they can still be linked back to a person. Each class also lines up with one of the four tiers, so every field has a boundary it must not cross.</p>
+
+    <h2>Step 2: make consent and identity enforceable on the device</h2>
+    <p>Consent as code, not a policy PDF. On the device that comes down to four controls.</p>
+
+    <ul>
+      <li><strong>Start:</strong> collection begins only after consent, read live from the client's consent platform.</li>
+      <li><strong>Stop:</strong> withdrawal halts collection straight away, with no app release needed.</li>
+      <li><strong>Purge:</strong> deletion clears device state, caches and anything derived from them.</li>
+      <li><strong>Kill switch:</strong> a remote off for the whole fleet, plus staged rollouts to limit the damage.</li>
+    </ul>
+
+    <p>Then identity. Link the device to the customer with a client-generated, rotatable ID that the client controls. Never use the device advertising ID.</p>
+
+    <p>Test the whole lifecycle, including the awkward cases: reinstall, new phone, account closure and deletion.</p>
+
+    <h2>Step 3: decide where it lives and when it dies</h2>
+    <p>Do this before you collect anything. On sovereignty, I ask four questions:</p>
+
+    <ul>
+      <li>Where is it processed, stored and backed up?</li>
+      <li>Who can be compelled to hand it over?</li>
+      <li>Can it run inside the client's own tenancy or region?</li>
+      <li>Does the model provider see prompts or logs?</li>
+    </ul>
+
+    <p>On retention:</p>
+
+    <ul>
+      <li>Set the lawful basis and retention period per attribute, not per system.</li>
+      <li>Make deletion reach the device, caches, logs and vector stores.</li>
+      <li>Know what a model has memorised from its training data.</li>
+      <li>Keep evidence that deletion actually happened.</li>
+    </ul>
+
+    <p>Retention is where AI makes the job harder. Deletion has more places to reach than it used to, because a record can live on in a cache, a log, an embedding in a vector store, or the model itself.</p>
+
+    <h2>Step 4: the technical controls that matter most at the edge</h2>
+    <p>The tags in brackets are from the <a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications (2025)</a>.</p>
+
+    <ul>
+      <li><strong>Signed models and config</strong> (LLM03, LLM04): verify every model, dataset and config before it runs.</li>
+      <li><strong>Keys in hardware:</strong> use the secure enclave or keystore, encrypt at rest, and attest the device and app.</li>
+      <li><strong>Assume extraction</strong> (LLM07): keep secrets out of system prompts and binaries. Obfuscate, rate-limit and watermark.</li>
+      <li><strong>Treat input as hostile</strong> (LLM01, LLM05): prompt injection and unsafe output handling apply to local content too.</li>
+      <li><strong>Least agency</strong> (LLM06): limit what on-device agents can call or change.</li>
+      <li><strong>Minimal telemetry</strong> (LLM02): aggregate and threshold before anything is uploaded.</li>
+    </ul>
+
+    <p>That last control connects back to Step 1. Aggregated, thresholded data is the Internal class, and it is the only customer-derived data allowed to reach a vendor cloud.</p>
+
+    <h2>The regulatory clock</h2>
+    <p>This is context, not legal advice, but these are the dates I would plan around.</p>
+
+    <ul>
+      <li><strong>August 2025:</strong> EU AI Act obligations for general-purpose AI models apply.</li>
+      <li><strong>February 2026:</strong> the UK Data (Use and Access) Act's main data protection changes are in force, including the rules on automated decision-making and international transfers.</li>
+      <li><strong>August 2026:</strong> EU AI Act Article 50 transparency duties for AI-generated content.</li>
+      <li><strong>December 2027:</strong> Annex III high-risk systems, deferred by the AI Omnibus.</li>
+      <li><strong>August 2028:</strong> Annex I high-risk AI in regulated products.</li>
+    </ul>
+
+    <picture>
+       <source srcset="../images/securing-ai-edge-timeline.webp" type="image/webp" />
+       <img src="../images/securing-ai-edge-timeline.png" alt="Timeline of five dates. Already applying: August 2025, EU AI Act general-purpose AI model obligations; February 2026, UK DUAA main data protection changes in force, covering automated decision-making and transfer rules; August 2026, EU AI Act Article 50 transparency duties for AI-generated content. Deferred: December 2027, EU AI Act Annex III high-risk systems, deferred by the AI Omnibus; August 2028, EU AI Act Annex I high-risk AI in regulated products." class="article-image" width="1240" height="360" decoding="async" loading="lazy" />
+    </picture>
+
+    <p>Deferred, not cancelled. GDPR and UK GDPR already apply to every edge deployment today, so use the extra high-risk time to build the evidence rather than to wait. I went through the EU and UK positions in more detail in <a href="three-regulators-ai-agents.html">Three Regulators Disagree on AI Agents</a>.</p>
+
+    <h2>What running AI on edge devices has taught me</h2>
+    <p>The technology is rarely the hard part. The client's review process is. A few patterns from real deployments:</p>
+
+    <ul>
+      <li><strong>The decision stays on the device.</strong> The cloud publishes rules and receives aggregates. The decision itself never leaves the phone.</li>
+      <li><strong>Security review is the long pole.</strong> Client privacy review, security review and app release cycles take far longer than the integration.</li>
+      <li><strong>Host where the client needs it.</strong> Region-locked hosting, or running inside the client's own tenancy, removes most sovereignty objections.</li>
+      <li><strong>Certify the whole stack.</strong> Have evidence packs ready before the first security questionnaire arrives, covering ISO 27001, ISO 27018 and SOC 2.</li>
+    </ul>
+
+    <h2>Five questions before your next edge AI deployment</h2>
+    <p>If you take one thing from this, take these questions to your next edge AI project.</p>
+
+    <ol>
+      <li>What is the furthest each data class is allowed to travel?</li>
+      <li>Can we stop and purge collection for one person, remotely, today?</li>
+      <li>Who controls the identifier that links a device to a customer?</li>
+      <li>If the model and prompt were extracted tomorrow, what would leak?</li>
+      <li>What leaves the device, and could we defend it to a regulator?</li>
+    </ol>
+
+    <p>Answer them with evidence, not intent. For question two, that means a purge you have actually run and the deletion record it left behind.</p>
+
+    <p>Thank you to GTIA for having me. Feel free to reach out if you'd like to know more or have any questions.</p>
+
+    <div class="post-actions">
+      <a href="index.html">← All posts</a>
+      <a href="three-regulators-ai-agents.html">← Previous post</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script>
+/* The tier diagram builds in like the slide it came from. Swap the still for the play-once
+   animated WebP only when it is on screen, or the build finishes before anyone reaches it,
+   then run the slide's particle stream between the tiers on a canvas over the image.
+   Reduced motion keeps the still and no particles: the media-matched <source> above wins. */
+(function () {
+  var src = document.querySelector('source[data-anim]');
+  if (!src || !('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var img = src.parentNode.querySelector('img');
+  new IntersectionObserver(function (entries, io) {
+    if (!entries[0].isIntersecting) return;
+    src.srcset = src.dataset.anim;
+    io.disconnect();
+    setTimeout(flow, 5900); // the deck starts its stream once the build has landed
+  }, { threshold: 0.6 }).observe(img);
+
+  // Ported from the talk deck's slide script. Lanes, height and spread are fractions of the
+  // image: slide coordinates mapped through the crop (x 92..1825, y 347..885 of 1920x1080).
+  function flow() {
+    var box = img.closest('.measure'), cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+    var L = [[.166, .293], [.442, .562], [.694, .816]], Y = .266, J = .141, A = .120;
+    var pal = ['#6bd6ff', '#00b1f7', '#81e7ce', '#ff73a6', '#ffa0c1', '#00d058'];
+    var P = [], dpr = Math.min(2, devicePixelRatio || 1), last = 0, on = false, raf = 0;
+    box.style.position = 'relative';
+    cv.setAttribute('aria-hidden', 'true');
+    cv.style.cssText = 'position:absolute;pointer-events:none';
+    box.appendChild(cv);
+    function size() {
+      cv.style.left = img.offsetLeft + 'px'; cv.style.top = img.offsetTop + 'px';
+      cv.style.width = img.offsetWidth + 'px'; cv.style.height = img.offsetHeight + 'px';
+      cv.width = img.offsetWidth * dpr; cv.height = img.offsetHeight * dpr;
+    }
+    function spawn() {
+      // Scaled-down slide particles would be sub-pixel at article width, so they floor at 70%.
+      var u = Math.random() * 7, i = u < 1 ? 0 : u < 3 ? 1 : 2, fwd = Math.random() < .5;
+      P.push({ a: L[i][fwd ? 0 : 1], b: L[i][fwd ? 1 : 0], j: (Math.random() - .5) * J, arc: (Math.random() - .5) * A,
+               c: pal[(Math.random() * pal.length) | 0], t: 0, d: 900 + Math.random() * 900,
+               r: (1.6 + Math.random() * 1.6) * Math.max(img.offsetWidth / 1733, .7) * dpr });
+    }
+    function frame(ts) {
+      if (!on) { raf = 0; return; }
+      raf = requestAnimationFrame(frame);
+      var dt = last ? Math.min(ts - last, 50) : 16; last = ts;
+      if (P.length < 140) { spawn(); if (Math.random() < .4) spawn(); }
+      var W = cv.width, H = cv.height; ctx.clearRect(0, 0, W, H);
+      for (var k = P.length - 1; k >= 0; k--) {
+        var q = P[k]; q.t += dt / q.d; if (q.t >= 1) { P.splice(k, 1); continue; }
+        var e = q.t, x = (q.a + (q.b - q.a) * e) * W, y = (Y + q.j + q.arc * Math.sin(Math.PI * e)) * H;
+        ctx.globalAlpha = Math.min(1, Math.sin(Math.PI * e) * 1.6) * .85; ctx.fillStyle = q.c;
+        ctx.beginPath(); ctx.arc(x, y, q.r, 0, 6.2832); ctx.fill();
+      }
+    }
+    size(); addEventListener('resize', size);
+    // Paint only while the diagram is on screen; the loop stops itself when it scrolls away.
+    new IntersectionObserver(function (es) {
+      on = es[0].isIntersecting;
+      if (on && !raf) { last = 0; raf = requestAnimationFrame(frame); }
+    }).observe(img);
+  }
+})();
+</script>
+<script src="../assets/js/base.js" defer></script>
+
+</body>
+</html>

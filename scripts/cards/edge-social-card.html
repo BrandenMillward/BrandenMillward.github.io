@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* og:image for the securing-ai-at-the-edge post. Same layout and tokens as
+   social-card.html; the four steps come from the post's own Step h2s. */
+  :root {
+    --bg: #0a0c16;
+    --accent: #8b9dff;
+    --accountable: #e0a458;
+    --text: #e6e9f5;
+    --faint: #7b83a3;
+    --line: rgba(255,255,255,.1);
+    --display: 'Archivo', ui-sans-serif, system-ui, 'DejaVu Sans', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 627px; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--display);
+    display: flex; flex-direction: column; padding: 58px 68px 52px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .eyebrow {
+    font-family: var(--mono); font-size: 22px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  h1 {
+    font-size: 62px; font-weight: 700; line-height: 1.06; letter-spacing: -.015em;
+    margin-top: 20px; max-width: 20ch;
+  }
+  .spacer { flex: 1 1 auto; min-height: 0; }
+  .rule { height: 1px; background: var(--line); flex: 0 0 auto; }
+  .cols { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 30px; flex: 0 0 auto; }
+  .col { padding-right: 28px; }
+  .col + .col { padding-left: 28px; border-left: 1px solid var(--line); }
+  .who {
+    font-family: var(--mono); font-size: 24px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .what { font-size: 42px; font-weight: 700; line-height: 1.12; letter-spacing: -.015em; margin-top: 14px; }
+  .foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 30px; flex: 0 0 auto; }
+  .foot .site {
+    font-family: var(--mono); font-size: 22px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  /* --accountable: the five questions are what the reader still has to answer. */
+  .foot .holds { font-size: 40px; font-weight: 700; letter-spacing: -.01em; color: var(--accountable); }
+</style>
+</head>
+<body>
+
+  <p class="eyebrow">Edge AI · Data protection · GTIA talk</p>
+  <h1>Move the controls to where the data is</h1>
+
+  <div class="spacer"></div>
+  <div class="rule"></div>
+
+  <div class="cols">
+    <div class="col"><p class="who">Step 1</p><p class="what">Classify</p></div>
+    <div class="col"><p class="who">Step 2</p><p class="what">Control</p></div>
+    <div class="col"><p class="who">Step 3</p><p class="what">Decide</p></div>
+    <div class="col"><p class="who">Step 4</p><p class="what">Protect</p></div>
+  </div>
+
+  <div class="foot">
+    <p class="holds">Five questions before you deploy</p>
+    <p class="site">brandenmillward.com</p>
+  </div>
+
+</body>
+</html>

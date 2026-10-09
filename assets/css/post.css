@@ -23,9 +23,9 @@
   /* Serif runs optically smaller than the mono this replaced, so the size goes up and the
      leading comes down — 1.8 was tuned for monospace and reads loose on Newsreader. */
   .post-body p { color: var(--text); font-size: 1rem; line-height: 1.62; }
-  .post-body p + p, .post-body ul + p, .post-body p + ul, .post-body img + * { margin-top: 1.4rem; }
+  .post-body p + p, .post-body ul + p, .post-body p + ul, .post-body ol + p, .post-body p + ol, .post-body img + * { margin-top: 1.4rem; }
   .post-body strong { color: var(--text); font-weight: 500; }
-  .post-body ul {
+  .post-body ul, .post-body ol {
     color: var(--text); font-size: 1rem; line-height: 1.62; padding-left: 1.3rem;
     display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem;
   }

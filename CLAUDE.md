@@ -193,7 +193,7 @@ inside them — they must work on BOTH light and dark grounds by construction
 `scripts/cards/*.html` are the OG card sources. They are not pages: each is a fixed
 1200×627 stage using the `base.css` tokens, rendered by screenshotting it headless at
 `deviceScaleFactor: 4/3` to land on the **1600×836** every card in `images/*-social-1600.png`
-uses. All carry `noindex`. `social-card.html` is hardcoded for the three-regulators post;
+uses. All carry `noindex`. `social-card.html` is hardcoded for the three-regulators post, and `edge-social-card.html` for the securing-ai-at-the-edge post (its in-article image is a render of slide 4 from the talk deck, not a card, with a play-once `securing-ai-edge-tiers-anim.webp` that the post's inline script swaps in when the diagram scrolls into view, then overlays the slide's particle stream between the tiers on a canvas, since a play-once image cannot loop it; headless screenshots never capture canvas content, so verify the stream in a real browser);
 `series-card.html` is parameterised, `?ep=1` .. `?ep=5`, for the five-part AI series.
 
 Three things to keep:
