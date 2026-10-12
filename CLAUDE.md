@@ -264,3 +264,30 @@ homepage also has a JSON-LD `Person` block. Adding a page means adding its URL t
 `sitemap.xml`, which is an explicit hand-maintained list on the `brandenmillward.com`
 domain.
 `robots.txt` points at the sitemap. `files/Branden Millward_CV.pdf` is linked from the site.
+
+## Analytics
+
+Cloudflare Web Analytics, as a literal `<script>` tag on every page, immediately after
+the `base.js` tag before `</body>`. It is cookieless and does not fingerprint, which is
+why the site runs no consent banner; keep it that way, and do not swap in anything that
+sets cookies without adding one. The `data-cf-beacon` token is public by design, since
+it ships in client-side JS on every page.
+
+It is pasted per page rather than injected from `base.js`, even though `base.js` is on
+every page and that would be one file. The beacon reads its token from its own script
+element, and a dynamically injected one could not be verified here (the dev sandbox
+cannot reach `cloudflareinsights.com`). A beacon that fails to find its token reports
+nothing and says nothing, which is the failure this replaced.
+
+That silent failure already cost two months: the Cloudflare property was created in
+2026-08 on **automatic injection**, which only works for traffic proxied through
+Cloudflare. This site is served straight from GitHub Pages, so nothing was ever
+injected and the dashboard read zero throughout. If numbers ever flatline to zero,
+check that the tag is actually served before assuming there is no traffic:
+
+```bash
+grep -L 'cf-beacon' index.html blog/*.html projects/*.html   # should print nothing
+```
+
+`scripts/cards/*.html` are deliberately excluded: they are `noindex` render stages, not
+pages, and counting headless screenshots as visits would be wrong.
