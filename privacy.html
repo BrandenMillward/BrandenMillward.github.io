@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy — Branden Millward</title>
+<meta name="description" content="What this site collects, which is very little: cookieless analytics, Google Fonts, GitHub Pages logs, and a single theme preference stored in your browser." />
+<link rel="canonical" href="https://brandenmillward.com/privacy.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Privacy — Branden Millward" />
+<meta property="og:description" content="What this site collects, which is very little: cookieless analytics, Google Fonts, GitHub Pages logs, and a single theme preference stored in your browser." />
+<meta property="og:url" content="https://brandenmillward.com/privacy.html" />
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/post.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="blog/index.html">Blog</a></li>
+        <li><a href="index.html#speaking">Speaking</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#skills">Skills</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="index.html">Home</a> / Privacy</p>
+    <h1>Privacy</h1>
+    <p class="post-meta"><span>Last updated October 2026</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell measure">
+
+    <p>This is a personal portfolio and blog. There is nothing to sign up for, no account to create, and no form to fill in, so there is very little to collect. This page says plainly what happens when you visit.</p>
+
+    <h2>What this site does not do</h2>
+    <p>It sets no cookies of its own. It runs no advertising, does not track you across other sites, and does not build a profile of you. There are no third-party embeds: no video players, no social media widgets, no comment system. Every link to LinkedIn, GitHub, Instagram or YouTube is an ordinary link, so nothing from those services loads until you choose to follow one.</p>
+
+    <h2>Analytics</h2>
+    <p>The site uses Cloudflare Web Analytics to count visits. It is cookieless and does not fingerprint your device or browser. What it records is the page you viewed, the referring site if there was one, your country, and broad browser and device type. That is aggregated into visit counts. It is not used to identify you, and I cannot use it to single you out as an individual.</p>
+    <p>If you would rather not be counted, any content blocker that blocks <code>static.cloudflareinsights.com</code> will stop the measurement entirely.</p>
+
+    <h2>Fonts</h2>
+    <p>Typefaces are loaded from Google Fonts. Your browser fetches them from <code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>, which means Google receives your IP address and browser user agent as part of serving that request. This is worth stating rather than glossing over, because it is the one place where a visit to this site touches a third party you did not choose.</p>
+
+    <h2>Hosting</h2>
+    <p>The site is hosted on GitHub Pages. As with any web host, GitHub handles the requests and may log technical details including IP addresses in order to serve the site and protect it from abuse. I do not have access to those logs.</p>
+
+    <h2>What is stored on your device</h2>
+    <p>One value, and only if you ask for it. If you use the light and dark toggle to override whatever your operating system prefers, that choice is saved in your browser under <code>site-theme</code> so the site does not flash the wrong theme next time. If you switch back to matching your system setting, the value is removed again. It never leaves your browser, and it is not a cookie, so it is never sent to any server.</p>
+
+    <h2>Your rights</h2>
+    <p>Because no personal data is collected here in a form that could identify you, there is nothing held about you to access, correct or delete. If you have a question about any of this, or about data handled by the third parties above, the quickest route is a message on LinkedIn.</p>
+
+    <h2>Changes</h2>
+    <p>If what the site collects changes, this page changes with it, and the date at the top moves. Adding anything that sets cookies would mean adding a consent banner, which is a large part of why the current setup was chosen.</p>
+
+    <div class="post-actions">
+      <a href="index.html">← Home</a>
+      <a href="https://www.cloudflare.com/web-analytics-privacy/" target="_blank" rel="noopener">Cloudflare Web Analytics privacy ↗</a>
+      <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub privacy statement ↗</a>
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google privacy policy ↗</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="blog/index.html">Blog</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="assets/js/base.js" defer></script>
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fe08f6a1e46341bdbebdde4e431d0f9b"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>

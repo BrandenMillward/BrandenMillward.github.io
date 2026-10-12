@@ -291,3 +291,11 @@ grep -L 'cf-beacon' index.html blog/*.html projects/*.html   # should print noth
 
 `scripts/cards/*.html` are deliberately excluded: they are `noindex` render stages, not
 pages, and counting headless screenshots as visits would be wrong.
+
+`privacy.html` describes all of this to visitors and is linked from every footer. It is
+accurate rather than boilerplate: it names Cloudflare Web Analytics, Google Fonts (which
+is where a visitor's IP reaches a third party they did not choose), GitHub Pages logs,
+and the single `site-theme` localStorage key, and it states that the site sets no cookies
+and carries no embeds. **Any change to what the site loads or stores makes that page
+wrong**, so update it and its "last updated" date in the same commit. Adding a font host,
+an embed, a form or anything cookie-setting all count.
