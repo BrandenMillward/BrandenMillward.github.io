@@ -187,20 +187,33 @@ inside them — they must work on BOTH light and dark grounds by construction
 - One dual-ground palette: `#696fb4` primary, `#6b7391` secondary (≥4:1 contrast on
   both `#0a0c16` and `#f5f4f0`). Never bake in theme hex like `#0f1220` or `#8b9dff`.
 - **No `<text>` captions** — the `aria-label` carries the meaning.
-- Connectors carry a travelling stream. Each cover has its own `<style>` block (the
-  rule must be inlined for the same reason the palette is — page CSS cannot reach
-  inside an `<img>`) plus two kinds of decoration:
-  - `.pulse` — a **duplicate** of each connector stroke, laid directly over the
-    original and drawn as dots (`stroke-dasharray: 0 48` with a round linecap)
-    animating `stroke-dashoffset`. The connector underneath stays solid and
-    untouched. The rule is `.pulse, .pulse *` so it beats the presentation
-    attributes on cloned children.
-  - `.ping` — a copy of the `r="12"` output ring that scales and fades out.
-    Only the diagrams that have such a ring get one.
-  Duplicate only real connectors; the rulers, scale bars and the bracket on
-  `video-agent` sit at lower opacity or weight and must stay still. Both classes are
-  `display: none` under `prefers-reduced-motion: reduce`, which leaves the diagram
-  exactly as authored — that is the test for whether a new one is decoration.
+- Each of the 10 production covers plays a short choreographed loop that tells its
+  system's story: the source winds up, a packet hops each connector in order, every
+  node pops as its packet lands, and the output resolves (a ping, a document writing
+  itself). The `<style>` block is inlined for the same reason the palette is, and is
+  **generated**: `node scripts/animate-covers.js` writes it into every cover. Edit
+  timing there, never in the SVG. The markup is hand-authored: an element joins the
+  story through a class (`.pkt`, `.emit`, `.pop`, `.pop-s`, `.ping`, `.write`,
+  `.shake`, `.spin`, `.breathe`, catalogued in the script) plus an inline `--d` delay.
+  - Every animation in a cover shares one cycle length (4.8s, 7.2s for
+    `onboarding-agent`'s rework loop), so delays stay phase-locked across loops.
+    Keyframe percentages derive from it, which is why the CSS is generated.
+  - `.pkt` is a **duplicate** of a connector with `pathLength="100"`, drawn as a
+    streak that runs out, travels, and is absorbed. Not a dot: the covers render at
+    roughly half size, where a dot and a 1.3x pop measured ~2px and the first version
+    read as no change at all. Only duplicates carry `pathLength`: on an original dashed connector
+    it would rescale the dash pattern. Packets sit before the nodes in paint order so
+    they disappear into them on arrival.
+  - An element plays one beat per cycle. For a second beat (the API box receiving the
+    callback, the gate passing the second attempt) wrap it in a `<g>` with its own
+    class and delay. Never put a class on an element with a `transform` attribute
+    (the gate diamond); CSS would replace the rotation. Wrap it instead.
+  - Rulers, scale bars and the `video-agent` bracket stay still. The one exception is
+    the `enrichment-middleware` time budget, which fills (linearly, as a progress
+    bar) on a `.sweep` duplicate while the original ruler stays put.
+  Under `prefers-reduced-motion: reduce` the packets, pings and sweep are
+  `display: none` and every other animation is off, which leaves the diagram exactly
+  as authored. That is the test for whether a new beat is decoration.
 
 ### Social cards (og:image)
 
