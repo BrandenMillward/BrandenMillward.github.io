@@ -187,6 +187,12 @@ inside them — they must work on BOTH light and dark grounds by construction
 - One dual-ground palette: `#696fb4` primary, `#6b7391` secondary (≥4:1 contrast on
   both `#0a0c16` and `#f5f4f0`). Never bake in theme hex like `#0f1220` or `#8b9dff`.
 - **No `<text>` captions** — the `aria-label` carries the meaning.
+- Connectors flow: each cover carries its own `<style>` block animating
+  `stroke-dashoffset` on `.flow`, with a nested `prefers-reduced-motion: reduce`
+  query that restores solid lines. The rule has to be inlined in every file for the
+  same reason the palette does — page CSS cannot reach inside an `<img>`. Mark only
+  the real connectors (`stroke="#6b7391"`, full opacity); the rulers and scale bars
+  sit at lower opacity or weight and must stay still.
 
 ### Social cards (og:image)
 

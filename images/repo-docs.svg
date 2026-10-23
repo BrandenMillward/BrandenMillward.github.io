@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Source files being summarised individually then synthesised into documentation">
 
+  <style>
+    /* Connectors carry a slow dash so the diagram reads as flowing left to right. */
+    .flow {
+      stroke-dasharray: 10 6;
+      animation: flow 0.8s linear infinite;
+      @media (prefers-reduced-motion: reduce) {
+        stroke-dasharray: none;
+        animation: none;
+      }
+    }
+    @keyframes flow { to { stroke-dashoffset: -16; } }
+  </style>
 
   <g fill="none" stroke="#696fb4" stroke-width="1.5" opacity="0.85">
     <path d="M 70 50 L 115 50 L 130 65 L 130 110 L 70 110 Z"/>
@@ -7,7 +19,7 @@
     <path d="M 70 230 L 115 230 L 130 245 L 130 290 L 70 290 Z"/>
   </g>
 
-  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+  <g class="flow" stroke="#6b7391" stroke-width="1" opacity="0.9">
     <line x1="130" y1="80" x2="240" y2="80"/>
     <line x1="130" y1="170" x2="240" y2="170"/>
     <line x1="130" y1="260" x2="240" y2="260"/>
@@ -19,7 +31,7 @@
     <circle cx="255" cy="260" r="6"/>
   </g>
 
-  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+  <g class="flow" stroke="#6b7391" stroke-width="1" opacity="0.9">
     <line x1="261" y1="80" x2="390" y2="170"/>
     <line x1="261" y1="170" x2="390" y2="170"/>
     <line x1="261" y1="260" x2="390" y2="170"/>
@@ -28,7 +40,7 @@
   <circle cx="402" cy="170" r="12" fill="none" stroke="#696fb4" stroke-width="2"/>
   <circle cx="402" cy="170" r="5" fill="#696fb4"/>
 
-  <line x1="414" y1="170" x2="470" y2="170" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+  <line class="flow" x1="414" y1="170" x2="470" y2="170" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
   <g fill="none" stroke="#696fb4" stroke-width="2">
     <path d="M 480 105 L 555 105 L 575 125 L 575 235 L 480 235 Z"/>

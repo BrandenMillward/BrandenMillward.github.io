@@ -1,6 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Agent projects each carrying a short register of declared fields, feeding one monitoring view where filled fields are solid and missing fields show as open gaps">
 
-  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+  <style>
+    /* Connectors carry a slow dash so the diagram reads as flowing left to right. */
+    .flow {
+      stroke-dasharray: 10 6;
+      animation: flow 0.8s linear infinite;
+      @media (prefers-reduced-motion: reduce) {
+        stroke-dasharray: none;
+        animation: none;
+      }
+    }
+    @keyframes flow { to { stroke-dashoffset: -16; } }
+  </style>
+
+  <g class="flow" stroke="#6b7391" stroke-width="1" opacity="0.9">
     <line x1="90" y1="90" x2="250" y2="90"/>
     <line x1="90" y1="180" x2="250" y2="180"/>
     <line x1="90" y1="270" x2="250" y2="270"/>

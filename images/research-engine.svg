@@ -1,7 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Seven agent nodes fanning out from one input and merging into a single report">
 
+  <style>
+    /* Connectors carry a slow dash so the diagram reads as flowing left to right. */
+    .flow {
+      stroke-dasharray: 10 6;
+      animation: flow 0.8s linear infinite;
+      @media (prefers-reduced-motion: reduce) {
+        stroke-dasharray: none;
+        animation: none;
+      }
+    }
+    @keyframes flow { to { stroke-dashoffset: -16; } }
+  </style>
 
-  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+  <g class="flow" stroke="#6b7391" stroke-width="1" opacity="0.9">
     <line x1="110" y1="180" x2="300" y2="45"/>
     <line x1="110" y1="180" x2="300" y2="90"/>
     <line x1="110" y1="180" x2="300" y2="135"/>
