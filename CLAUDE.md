@@ -187,12 +187,20 @@ inside them — they must work on BOTH light and dark grounds by construction
 - One dual-ground palette: `#696fb4` primary, `#6b7391` secondary (≥4:1 contrast on
   both `#0a0c16` and `#f5f4f0`). Never bake in theme hex like `#0f1220` or `#8b9dff`.
 - **No `<text>` captions** — the `aria-label` carries the meaning.
-- Connectors flow: each cover carries its own `<style>` block animating
-  `stroke-dashoffset` on `.flow`, with a nested `prefers-reduced-motion: reduce`
-  query that restores solid lines. The rule has to be inlined in every file for the
-  same reason the palette does — page CSS cannot reach inside an `<img>`. Mark only
-  the real connectors (`stroke="#6b7391"`, full opacity); the rulers and scale bars
-  sit at lower opacity or weight and must stay still.
+- Connectors carry a travelling stream. Each cover has its own `<style>` block (the
+  rule must be inlined for the same reason the palette is — page CSS cannot reach
+  inside an `<img>`) plus two kinds of decoration:
+  - `.pulse` — a **duplicate** of each connector stroke, laid directly over the
+    original and drawn as dots (`stroke-dasharray: 0 48` with a round linecap)
+    animating `stroke-dashoffset`. The connector underneath stays solid and
+    untouched. The rule is `.pulse, .pulse *` so it beats the presentation
+    attributes on cloned children.
+  - `.ping` — a copy of the `r="12"` output ring that scales and fades out.
+    Only the diagrams that have such a ring get one.
+  Duplicate only real connectors; the rulers, scale bars and the bracket on
+  `video-agent` sit at lower opacity or weight and must stay still. Both classes are
+  `display: none` under `prefers-reduced-motion: reduce`, which leaves the diagram
+  exactly as authored — that is the test for whether a new one is decoration.
 
 ### Social cards (og:image)
 

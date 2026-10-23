@@ -1,16 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A document flowing through an asynchronous pipeline of API, worker, and job store">
 
   <style>
-    /* Connectors carry a slow dash so the diagram reads as flowing left to right. */
-    .flow {
-      stroke-dasharray: 10 6;
-      animation: flow 0.8s linear infinite;
-      @media (prefers-reduced-motion: reduce) {
-        stroke-dasharray: none;
-        animation: none;
-      }
+    /* Connectors stay solid. A duplicate stroke rides over each one as a row of
+       round dots, and the output ring pings as they arrive. Decoration only:
+       the diagram reads the same with both removed. */
+    .pulse, .pulse * {
+      fill: none;
+      stroke: #696fb4;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 0 48;
+      opacity: 1;
+      animation: stream 1.6s linear infinite;
     }
-    @keyframes flow { to { stroke-dashoffset: -16; } }
+    .ping {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: ping 1.6s ease-out infinite;
+    }
+    @keyframes stream { to { stroke-dashoffset: -48; } }
+    @keyframes ping {
+      0%   { transform: scale(1); opacity: 0.55; }
+      70%  { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pulse, .ping { display: none; }
+    }
   </style>
 
   <g fill="none" stroke="#696fb4" stroke-width="2">
@@ -23,22 +39,26 @@
     <line x1="75" y1="205" x2="115" y2="205"/>
   </g>
 
-  <line class="flow" x1="150" y1="180" x2="205" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+  <line x1="150" y1="180" x2="205" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+<line class="pulse" x1="150" y1="180" x2="205" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
   <rect x="215" y="150" width="90" height="60" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
 
-  <line class="flow" x1="305" y1="180" x2="360" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+  <line x1="305" y1="180" x2="360" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+<line class="pulse" x1="305" y1="180" x2="360" y2="180" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
   <g fill="none" stroke="#696fb4" stroke-width="2">
     <ellipse cx="405" cy="140" rx="38" ry="11"/>
     <path d="M 367 140 L 367 205 A 38 11 0 0 0 443 205 L 443 140"/>
   </g>
 
-  <line class="flow" x1="443" y1="175" x2="500" y2="175" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+  <line x1="443" y1="175" x2="500" y2="175" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
+<line class="pulse" x1="443" y1="175" x2="500" y2="175" stroke="#6b7391" stroke-width="1" opacity="0.9"/>
 
   <rect x="510" y="145" width="90" height="60" rx="6" fill="none" stroke="#696fb4" stroke-width="2"/>
   <circle cx="537" cy="175" r="9" fill="none" stroke="#696fb4" stroke-width="2"/>
   <path d="M 537 168 L 537 175 L 543 179" fill="none" stroke="#696fb4" stroke-width="2" stroke-linecap="round"/>
 
-  <path class="flow" d="M 555 145 C 555 100, 405 90, 320 90 C 285 90, 268 110, 262 148" fill="none" stroke="#6b7391" stroke-width="1" stroke-dasharray="4 5" opacity="0.9"/>
+  <path d="M 555 145 C 555 100, 405 90, 320 90 C 285 90, 268 110, 262 148" fill="none" stroke="#6b7391" stroke-width="1" stroke-dasharray="4 5" opacity="0.9"/>
+<path class="pulse" d="M 555 145 C 555 100, 405 90, 320 90 C 285 90, 268 110, 262 148" fill="none" stroke="#6b7391" stroke-width="1" stroke-dasharray="4 5" opacity="0.9"/>
 </svg>

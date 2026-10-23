@@ -1,19 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A lookup cascade resolving left to right under a fixed time budget, with background enrichment branching off the critical path">
 
   <style>
-    /* Connectors carry a slow dash so the diagram reads as flowing left to right. */
-    .flow {
-      stroke-dasharray: 10 6;
-      animation: flow 0.8s linear infinite;
-      @media (prefers-reduced-motion: reduce) {
-        stroke-dasharray: none;
-        animation: none;
-      }
+    /* Connectors stay solid. A duplicate stroke rides over each one as a row of
+       round dots, and the output ring pings as they arrive. Decoration only:
+       the diagram reads the same with both removed. */
+    .pulse, .pulse * {
+      fill: none;
+      stroke: #696fb4;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 0 48;
+      opacity: 1;
+      animation: stream 1.6s linear infinite;
     }
-    @keyframes flow { to { stroke-dashoffset: -16; } }
+    .ping {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: ping 1.6s ease-out infinite;
+    }
+    @keyframes stream { to { stroke-dashoffset: -48; } }
+    @keyframes ping {
+      0%   { transform: scale(1); opacity: 0.55; }
+      70%  { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pulse, .ping { display: none; }
+    }
   </style>
 
-  <g class="flow" stroke="#6b7391" stroke-width="1" opacity="0.9">
+  <g stroke="#6b7391" stroke-width="1" opacity="0.9">
+    <line x1="80" y1="150" x2="215" y2="150"/>
+    <line x1="215" y1="150" x2="350" y2="150"/>
+    <line x1="350" y1="150" x2="470" y2="150"/>
+    <line x1="470" y1="150" x2="563" y2="150"/>
+  </g>
+<g class="pulse" stroke="#6b7391" stroke-width="1" opacity="0.9">
     <line x1="80" y1="150" x2="215" y2="150"/>
     <line x1="215" y1="150" x2="350" y2="150"/>
     <line x1="350" y1="150" x2="470" y2="150"/>
@@ -29,6 +51,7 @@
   </g>
 
   <circle cx="575" cy="150" r="12" fill="none" stroke="#696fb4" stroke-width="2"/>
+  <circle class="ping" cx="575" cy="150" r="12" fill="none" stroke="#696fb4" stroke-width="2"/>
   <circle cx="575" cy="150" r="5" fill="#696fb4"/>
 
   <g stroke="#6b7391" stroke-width="1" opacity="0.7" stroke-dasharray="4 5">
