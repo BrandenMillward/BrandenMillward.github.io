@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rogue Agents, Real Risks — Branden Millward</title>
+<meta name="description" content="The real AI security risks, the one with no fix, and what keeps you safe, including where platforms like Microsoft Foundry help and where they stop." />
+<link rel="canonical" href="https://brandenmillward.com/blog/rogue-agents-ai-security" />
+<meta property="og:title" content="Rogue Agents, Real Risks: What Actually Keeps You Safe" />
+<meta property="og:description" content="Three different problems wear the name AI security, one has no fix, and a platform like Microsoft Foundry covers only part of the rest. What keeps you safe." />
+<meta property="og:url" content="https://brandenmillward.com/blog/rogue-agents-ai-security" />
+<meta property="og:image" content="https://brandenmillward.com/images/rogue-agents-ai-security-social-1600.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="836">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brandenmillward.com/images/rogue-agents-ai-security-social-1600.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Rogue Agents, Real Risks: What Actually Keeps You Safe",
+  "description": "The real AI security risks, the one with no fix, and what keeps you safe, including where platforms like Microsoft Foundry help and where they stop.",
+  "image": "https://brandenmillward.com/images/rogue-agents-ai-security-social-1600.png",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-26",
+  "author": {
+    "@type": "Person",
+    "name": "Branden Millward",
+    "url": "https://brandenmillward.com/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Branden Millward",
+    "url": "https://brandenmillward.com/"
+  },
+  "url": "https://brandenmillward.com/blog/rogue-agents-ai-security",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://brandenmillward.com/blog/rogue-agents-ai-security"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://brandenmillward.com/blog/",
+    "name": "Blog — Branden Millward"
+  },
+  "inLanguage": "en-GB"
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/post.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="index.html" class="is-active">Blog</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="index.html">Blog</a></p>
+    <h1>Rogue Agents, Real Risks: What Actually Keeps You Safe</h1>
+    <p class="post-meta"><span>October 2026</span><span>9 min read</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell measure">
+
+    <p>We have all seen the hacks in the news recently, and a lot of the coverage has focused on AI's role in them. It is something I was asked about a lot this week, so I thought I would put down some AI security tips.</p>
+    <p>Some of the biggest organisations are already reacting. At JPMorgan, Jamie Dimon described the simplest AI security control there is, restricting access. When asked about agentic AI, <a href="https://fortune.com/2026/10/15/jamie-dimon-ai-agents-meta-muse-jpmorgan/" target="_blank" rel="noopener">he told analysts</a> the concern was heightened "because you don't want rogue agents, and there could be thousands of them", and that in the meantime "we're not going to allow just any outside agent to come inside the company because it's just too risky for clients."</p>
+    <p>He is not alone. A week later, <a href="https://www.axios.com/2026/10/22/ai-agents-banks-unauthorized-accounts-access" target="_blank" rel="noopener">Axios reported</a>, citing people familiar with the issue, that Morgan Stanley is blocking 3rd party agents while JPMorgan, Bank of America and Citi are restricting them. These are outside agents logging into customers' accounts with the customer's own credentials, and the banks' problem is that many cannot tell whether that activity is actually what users have asked for. As a result, many are landing on read only access. Citigroup has said it on the record: <a href="https://www.retailbankerinternational.com/news/us-banks-limit-ai-agents-access/" target="_blank" rel="noopener">no third-party agent logs in or transacts</a> on its platforms, though customers can still grant limited, read only access through approved open banking providers. The agent can look, but it cannot move money.</p>
+    <p>In the same way that many of us struggle to control how businesses use and access our data, most of us cannot shut the door on agents like these banks. However, in my role and when building agents, I focus on how they can be used while ensuring they are safe. So I thought I would share some useful tips. Starting with which parts of this a platform can take off your hands, and which stay with you.</p>
+
+    <h2>Three different problems wearing one name</h2>
+    <p>AI security collapses three separate problems into one phrase, and most programmes stall because they try to solve all three with one control. It is worth separating them.</p>
+    <p>The first is what actions an agent can take. Something I cover in my talks is that what makes something an AI agent is that it can take actions, normally through interactions with other tools. An agent with tool access can send, delete, transfer and commit. The question stops being whether the output is accurate and becomes what it is permitted to touch, which is a point I have <a href="three-regulators-ai-agents.html">made here before</a> and which has only got sharper since. The more the agent can do, the higher the risk.</p>
+
+    <figure style="margin:2rem 0;padding:1.4rem 1.2rem 1rem;border:1px solid var(--line);border-radius:.4rem">
+      <p style="font-family:var(--display);font-weight:700;font-size:1.15rem;line-height:1.25;color:var(--text);margin:0 0 1.1rem">The controls stack up as an agent does more</p>
+      <div style="display:grid;grid-template-columns:2.4rem minmax(0,1fr)">
+        <div style="position:relative">
+          <span style="position:absolute;top:0;right:.4rem;font-family:var(--mono);font-size:.62rem;color:var(--muted)">High</span>
+          <span style="position:absolute;bottom:0;right:.4rem;font-family:var(--mono);font-size:.62rem;color:var(--muted)">Low</span>
+          <span style="position:absolute;top:50%;left:0;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:var(--mono);font-size:.64rem;color:var(--text);white-space:nowrap">Data sensitivity</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(5,minmax(2.9rem,auto));gap:3px;border-left:2px solid var(--muted);border-bottom:2px solid var(--muted);padding:0 0 3px 3px"><div style="grid-column:1;grid-row:5;background:#1f9d6b;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Log what it does</div><div style="grid-column:1;grid-row:4;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Scope its access</div><div style="grid-column:2;grid-row:5;background:#1f9d6b;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Log what it does</div><div style="grid-column:2;grid-row:4;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">A human reviews the draft</div><div style="grid-column:2;grid-row:3;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Scope its access</div><div style="grid-column:3;grid-row:5;background:#1f9d6b;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Log what it does</div><div style="grid-column:3;grid-row:4;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">A human reviews outputs</div><div style="grid-column:3;grid-row:3;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Scope access and watch egress</div><div style="grid-column:3;grid-row:2;background:#d64545;color:#ffffff;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">A human approves sensitive actions</div><div style="grid-column:4;grid-row:5;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">A human reviews outputs</div><div style="grid-column:4;grid-row:4;background:#e8a33d;color:#0a0c16;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Scope access and watch egress</div><div style="grid-column:4;grid-row:2 / 4;background:#d64545;color:#ffffff;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">A human approves first</div><div style="grid-column:4;grid-row:1;background:#d64545;color:#ffffff;display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem .25rem;font-size:.7rem;line-height:1.28;border-radius:3px;overflow-wrap:break-word">Access can be revoked in seconds</div></div>
+        <span></span>
+        <div>
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;margin-top:.45rem;padding-left:5px"><span style="font-family:var(--mono);font-size:.62rem;color:var(--muted);text-align:center;line-height:1.35">Read only</span><span style="font-family:var(--mono);font-size:.62rem;color:var(--muted);text-align:center;line-height:1.35">Drafts for a human</span><span style="font-family:var(--mono);font-size:.62rem;color:var(--muted);text-align:center;line-height:1.35">Acts, can undo</span><span style="font-family:var(--mono);font-size:.62rem;color:var(--muted);text-align:center;line-height:1.35">Acts, can&#8217;t undo</span></div>
+          <p style="font-family:var(--mono);font-size:.64rem;color:var(--text);text-align:center;margin:.35rem 0 0">What the agent can do &#8594;</p>
+        </div>
+      </div>
+      <figcaption style="font-family:var(--mono);font-size:.68rem;color:var(--faint);line-height:1.6;margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--line)">Read up each column as the data the agent can reach gets more sensitive. Each box is added on top of the ones below it. Everything in an orange or red box is logged as well. Anything that can&#8217;t be undone still needs a human approving it first, whatever the data.</figcaption>
+    </figure>
+
+    <p>The second is the organisation leaking. The NCSC defines shadow AI as "the use of AI technology which isn't captured in an organisation's approved systems and processes", and in practice it is somebody pasting a customer file into an unchecked tool because the sanctioned tool is slower, or because this one has cool features. We have all heard it.</p>
+    <p>The third is the supply chain, and it is the one I would worry about most this year, because it is the one with the hardest numbers behind it.</p>
+
+    <figure style="margin:2rem 0;padding:1.4rem 1.4rem .9rem;border:1px solid var(--line);border-radius:.4rem">
+      <p style="font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 1.1rem">Out of every 100 agent skills scanned, February 2026</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem 1.1rem;margin-bottom:1rem">
+        <div style="flex:1 1 0;min-width:5rem" title="1,467 of 3,984 (36.8%) had at least one security flaw">
+          <svg viewBox="0 0 147 147" width="100%" aria-hidden="true" focusable="false" style="display:block;max-width:150px"><defs><rect id="sk-cell" width="12" height="12" rx="2"/></defs><g style="fill:var(--accent-soft)"><use href="#sk-cell" x="105" y="45"/><use href="#sk-cell" x="120" y="45"/><use href="#sk-cell" x="135" y="45"/><use href="#sk-cell" x="0" y="60"/><use href="#sk-cell" x="15" y="60"/><use href="#sk-cell" x="30" y="60"/><use href="#sk-cell" x="45" y="60"/><use href="#sk-cell" x="60" y="60"/><use href="#sk-cell" x="75" y="60"/><use href="#sk-cell" x="90" y="60"/><use href="#sk-cell" x="105" y="60"/><use href="#sk-cell" x="120" y="60"/><use href="#sk-cell" x="135" y="60"/><use href="#sk-cell" x="0" y="75"/><use href="#sk-cell" x="15" y="75"/><use href="#sk-cell" x="30" y="75"/><use href="#sk-cell" x="45" y="75"/><use href="#sk-cell" x="60" y="75"/><use href="#sk-cell" x="75" y="75"/><use href="#sk-cell" x="90" y="75"/><use href="#sk-cell" x="105" y="75"/><use href="#sk-cell" x="120" y="75"/><use href="#sk-cell" x="135" y="75"/><use href="#sk-cell" x="0" y="90"/><use href="#sk-cell" x="15" y="90"/><use href="#sk-cell" x="30" y="90"/><use href="#sk-cell" x="45" y="90"/><use href="#sk-cell" x="60" y="90"/><use href="#sk-cell" x="75" y="90"/><use href="#sk-cell" x="90" y="90"/><use href="#sk-cell" x="105" y="90"/><use href="#sk-cell" x="120" y="90"/><use href="#sk-cell" x="135" y="90"/><use href="#sk-cell" x="0" y="105"/><use href="#sk-cell" x="15" y="105"/><use href="#sk-cell" x="30" y="105"/><use href="#sk-cell" x="45" y="105"/><use href="#sk-cell" x="60" y="105"/><use href="#sk-cell" x="75" y="105"/><use href="#sk-cell" x="90" y="105"/><use href="#sk-cell" x="105" y="105"/><use href="#sk-cell" x="120" y="105"/><use href="#sk-cell" x="135" y="105"/><use href="#sk-cell" x="0" y="120"/><use href="#sk-cell" x="15" y="120"/><use href="#sk-cell" x="30" y="120"/><use href="#sk-cell" x="45" y="120"/><use href="#sk-cell" x="60" y="120"/><use href="#sk-cell" x="75" y="120"/><use href="#sk-cell" x="90" y="120"/><use href="#sk-cell" x="105" y="120"/><use href="#sk-cell" x="120" y="120"/><use href="#sk-cell" x="135" y="120"/><use href="#sk-cell" x="0" y="135"/><use href="#sk-cell" x="15" y="135"/><use href="#sk-cell" x="30" y="135"/><use href="#sk-cell" x="45" y="135"/><use href="#sk-cell" x="60" y="135"/><use href="#sk-cell" x="75" y="135"/><use href="#sk-cell" x="90" y="135"/><use href="#sk-cell" x="105" y="135"/><use href="#sk-cell" x="120" y="135"/><use href="#sk-cell" x="135" y="135"/></g><g style="fill:var(--accent)"><use href="#sk-cell" x="0" y="0"/><use href="#sk-cell" x="15" y="0"/><use href="#sk-cell" x="30" y="0"/><use href="#sk-cell" x="45" y="0"/><use href="#sk-cell" x="60" y="0"/><use href="#sk-cell" x="75" y="0"/><use href="#sk-cell" x="90" y="0"/><use href="#sk-cell" x="105" y="0"/><use href="#sk-cell" x="120" y="0"/><use href="#sk-cell" x="135" y="0"/><use href="#sk-cell" x="0" y="15"/><use href="#sk-cell" x="15" y="15"/><use href="#sk-cell" x="30" y="15"/><use href="#sk-cell" x="45" y="15"/><use href="#sk-cell" x="60" y="15"/><use href="#sk-cell" x="75" y="15"/><use href="#sk-cell" x="90" y="15"/><use href="#sk-cell" x="105" y="15"/><use href="#sk-cell" x="120" y="15"/><use href="#sk-cell" x="135" y="15"/><use href="#sk-cell" x="0" y="30"/><use href="#sk-cell" x="15" y="30"/><use href="#sk-cell" x="30" y="30"/><use href="#sk-cell" x="45" y="30"/><use href="#sk-cell" x="60" y="30"/><use href="#sk-cell" x="75" y="30"/><use href="#sk-cell" x="90" y="30"/><use href="#sk-cell" x="105" y="30"/><use href="#sk-cell" x="120" y="30"/><use href="#sk-cell" x="135" y="30"/><use href="#sk-cell" x="0" y="45"/><use href="#sk-cell" x="15" y="45"/><use href="#sk-cell" x="30" y="45"/><use href="#sk-cell" x="45" y="45"/><use href="#sk-cell" x="60" y="45"/><use href="#sk-cell" x="75" y="45"/><use href="#sk-cell" x="90" y="45"/></g></svg>
+          <p style="margin:.7rem 0 0;font-size:.86rem;line-height:1.4;color:var(--muted)"><span style="display:block;font-family:var(--mono);font-size:1.3rem;color:var(--text);margin-bottom:.15rem">37</span>had at least one security flaw</p>
+        </div>
+        <div style="flex:1 1 0;min-width:5rem" title="534 of 3,984 (13.4%) had at least one critical issue">
+          <svg viewBox="0 0 147 147" width="100%" aria-hidden="true" focusable="false" style="display:block;max-width:150px"><g style="fill:var(--accent-soft)"><use href="#sk-cell" x="45" y="15"/><use href="#sk-cell" x="60" y="15"/><use href="#sk-cell" x="75" y="15"/><use href="#sk-cell" x="90" y="15"/><use href="#sk-cell" x="105" y="15"/><use href="#sk-cell" x="120" y="15"/><use href="#sk-cell" x="135" y="15"/><use href="#sk-cell" x="0" y="30"/><use href="#sk-cell" x="15" y="30"/><use href="#sk-cell" x="30" y="30"/><use href="#sk-cell" x="45" y="30"/><use href="#sk-cell" x="60" y="30"/><use href="#sk-cell" x="75" y="30"/><use href="#sk-cell" x="90" y="30"/><use href="#sk-cell" x="105" y="30"/><use href="#sk-cell" x="120" y="30"/><use href="#sk-cell" x="135" y="30"/><use href="#sk-cell" x="0" y="45"/><use href="#sk-cell" x="15" y="45"/><use href="#sk-cell" x="30" y="45"/><use href="#sk-cell" x="45" y="45"/><use href="#sk-cell" x="60" y="45"/><use href="#sk-cell" x="75" y="45"/><use href="#sk-cell" x="90" y="45"/><use href="#sk-cell" x="105" y="45"/><use href="#sk-cell" x="120" y="45"/><use href="#sk-cell" x="135" y="45"/><use href="#sk-cell" x="0" y="60"/><use href="#sk-cell" x="15" y="60"/><use href="#sk-cell" x="30" y="60"/><use href="#sk-cell" x="45" y="60"/><use href="#sk-cell" x="60" y="60"/><use href="#sk-cell" x="75" y="60"/><use href="#sk-cell" x="90" y="60"/><use href="#sk-cell" x="105" y="60"/><use href="#sk-cell" x="120" y="60"/><use href="#sk-cell" x="135" y="60"/><use href="#sk-cell" x="0" y="75"/><use href="#sk-cell" x="15" y="75"/><use href="#sk-cell" x="30" y="75"/><use href="#sk-cell" x="45" y="75"/><use href="#sk-cell" x="60" y="75"/><use href="#sk-cell" x="75" y="75"/><use href="#sk-cell" x="90" y="75"/><use href="#sk-cell" x="105" y="75"/><use href="#sk-cell" x="120" y="75"/><use href="#sk-cell" x="135" y="75"/><use href="#sk-cell" x="0" y="90"/><use href="#sk-cell" x="15" y="90"/><use href="#sk-cell" x="30" y="90"/><use href="#sk-cell" x="45" y="90"/><use href="#sk-cell" x="60" y="90"/><use href="#sk-cell" x="75" y="90"/><use href="#sk-cell" x="90" y="90"/><use href="#sk-cell" x="105" y="90"/><use href="#sk-cell" x="120" y="90"/><use href="#sk-cell" x="135" y="90"/><use href="#sk-cell" x="0" y="105"/><use href="#sk-cell" x="15" y="105"/><use href="#sk-cell" x="30" y="105"/><use href="#sk-cell" x="45" y="105"/><use href="#sk-cell" x="60" y="105"/><use href="#sk-cell" x="75" y="105"/><use href="#sk-cell" x="90" y="105"/><use href="#sk-cell" x="105" y="105"/><use href="#sk-cell" x="120" y="105"/><use href="#sk-cell" x="135" y="105"/><use href="#sk-cell" x="0" y="120"/><use href="#sk-cell" x="15" y="120"/><use href="#sk-cell" x="30" y="120"/><use href="#sk-cell" x="45" y="120"/><use href="#sk-cell" x="60" y="120"/><use href="#sk-cell" x="75" y="120"/><use href="#sk-cell" x="90" y="120"/><use href="#sk-cell" x="105" y="120"/><use href="#sk-cell" x="120" y="120"/><use href="#sk-cell" x="135" y="120"/><use href="#sk-cell" x="0" y="135"/><use href="#sk-cell" x="15" y="135"/><use href="#sk-cell" x="30" y="135"/><use href="#sk-cell" x="45" y="135"/><use href="#sk-cell" x="60" y="135"/><use href="#sk-cell" x="75" y="135"/><use href="#sk-cell" x="90" y="135"/><use href="#sk-cell" x="105" y="135"/><use href="#sk-cell" x="120" y="135"/><use href="#sk-cell" x="135" y="135"/></g><g style="fill:var(--accent)"><use href="#sk-cell" x="0" y="0"/><use href="#sk-cell" x="15" y="0"/><use href="#sk-cell" x="30" y="0"/><use href="#sk-cell" x="45" y="0"/><use href="#sk-cell" x="60" y="0"/><use href="#sk-cell" x="75" y="0"/><use href="#sk-cell" x="90" y="0"/><use href="#sk-cell" x="105" y="0"/><use href="#sk-cell" x="120" y="0"/><use href="#sk-cell" x="135" y="0"/><use href="#sk-cell" x="0" y="15"/><use href="#sk-cell" x="15" y="15"/><use href="#sk-cell" x="30" y="15"/></g></svg>
+          <p style="margin:.7rem 0 0;font-size:.86rem;line-height:1.4;color:var(--muted)"><span style="display:block;font-family:var(--mono);font-size:1.3rem;color:var(--text);margin-bottom:.15rem">13</span>had at least one critical issue</p>
+        </div>
+        <div style="flex:1 1 0;min-width:5rem" title="76 of 3,984 (1.9%) carried a confirmed malicious payload">
+          <svg viewBox="0 0 147 147" width="100%" aria-hidden="true" focusable="false" style="display:block;max-width:150px"><g style="fill:var(--accent-soft)"><use href="#sk-cell" x="30" y="0"/><use href="#sk-cell" x="45" y="0"/><use href="#sk-cell" x="60" y="0"/><use href="#sk-cell" x="75" y="0"/><use href="#sk-cell" x="90" y="0"/><use href="#sk-cell" x="105" y="0"/><use href="#sk-cell" x="120" y="0"/><use href="#sk-cell" x="135" y="0"/><use href="#sk-cell" x="0" y="15"/><use href="#sk-cell" x="15" y="15"/><use href="#sk-cell" x="30" y="15"/><use href="#sk-cell" x="45" y="15"/><use href="#sk-cell" x="60" y="15"/><use href="#sk-cell" x="75" y="15"/><use href="#sk-cell" x="90" y="15"/><use href="#sk-cell" x="105" y="15"/><use href="#sk-cell" x="120" y="15"/><use href="#sk-cell" x="135" y="15"/><use href="#sk-cell" x="0" y="30"/><use href="#sk-cell" x="15" y="30"/><use href="#sk-cell" x="30" y="30"/><use href="#sk-cell" x="45" y="30"/><use href="#sk-cell" x="60" y="30"/><use href="#sk-cell" x="75" y="30"/><use href="#sk-cell" x="90" y="30"/><use href="#sk-cell" x="105" y="30"/><use href="#sk-cell" x="120" y="30"/><use href="#sk-cell" x="135" y="30"/><use href="#sk-cell" x="0" y="45"/><use href="#sk-cell" x="15" y="45"/><use href="#sk-cell" x="30" y="45"/><use href="#sk-cell" x="45" y="45"/><use href="#sk-cell" x="60" y="45"/><use href="#sk-cell" x="75" y="45"/><use href="#sk-cell" x="90" y="45"/><use href="#sk-cell" x="105" y="45"/><use href="#sk-cell" x="120" y="45"/><use href="#sk-cell" x="135" y="45"/><use href="#sk-cell" x="0" y="60"/><use href="#sk-cell" x="15" y="60"/><use href="#sk-cell" x="30" y="60"/><use href="#sk-cell" x="45" y="60"/><use href="#sk-cell" x="60" y="60"/><use href="#sk-cell" x="75" y="60"/><use href="#sk-cell" x="90" y="60"/><use href="#sk-cell" x="105" y="60"/><use href="#sk-cell" x="120" y="60"/><use href="#sk-cell" x="135" y="60"/><use href="#sk-cell" x="0" y="75"/><use href="#sk-cell" x="15" y="75"/><use href="#sk-cell" x="30" y="75"/><use href="#sk-cell" x="45" y="75"/><use href="#sk-cell" x="60" y="75"/><use href="#sk-cell" x="75" y="75"/><use href="#sk-cell" x="90" y="75"/><use href="#sk-cell" x="105" y="75"/><use href="#sk-cell" x="120" y="75"/><use href="#sk-cell" x="135" y="75"/><use href="#sk-cell" x="0" y="90"/><use href="#sk-cell" x="15" y="90"/><use href="#sk-cell" x="30" y="90"/><use href="#sk-cell" x="45" y="90"/><use href="#sk-cell" x="60" y="90"/><use href="#sk-cell" x="75" y="90"/><use href="#sk-cell" x="90" y="90"/><use href="#sk-cell" x="105" y="90"/><use href="#sk-cell" x="120" y="90"/><use href="#sk-cell" x="135" y="90"/><use href="#sk-cell" x="0" y="105"/><use href="#sk-cell" x="15" y="105"/><use href="#sk-cell" x="30" y="105"/><use href="#sk-cell" x="45" y="105"/><use href="#sk-cell" x="60" y="105"/><use href="#sk-cell" x="75" y="105"/><use href="#sk-cell" x="90" y="105"/><use href="#sk-cell" x="105" y="105"/><use href="#sk-cell" x="120" y="105"/><use href="#sk-cell" x="135" y="105"/><use href="#sk-cell" x="0" y="120"/><use href="#sk-cell" x="15" y="120"/><use href="#sk-cell" x="30" y="120"/><use href="#sk-cell" x="45" y="120"/><use href="#sk-cell" x="60" y="120"/><use href="#sk-cell" x="75" y="120"/><use href="#sk-cell" x="90" y="120"/><use href="#sk-cell" x="105" y="120"/><use href="#sk-cell" x="120" y="120"/><use href="#sk-cell" x="135" y="120"/><use href="#sk-cell" x="0" y="135"/><use href="#sk-cell" x="15" y="135"/><use href="#sk-cell" x="30" y="135"/><use href="#sk-cell" x="45" y="135"/><use href="#sk-cell" x="60" y="135"/><use href="#sk-cell" x="75" y="135"/><use href="#sk-cell" x="90" y="135"/><use href="#sk-cell" x="105" y="135"/><use href="#sk-cell" x="120" y="135"/><use href="#sk-cell" x="135" y="135"/></g><g style="fill:var(--accent)"><use href="#sk-cell" x="0" y="0"/><use href="#sk-cell" x="15" y="0"/></g></svg>
+          <p style="margin:.7rem 0 0;font-size:.86rem;line-height:1.4;color:var(--muted)"><span style="display:block;font-family:var(--mono);font-size:1.3rem;color:var(--text);margin-bottom:.15rem">2</span>carried a confirmed malicious payload</p>
+        </div>
+      </div>
+      <figcaption style="font-family:var(--mono);font-size:.68rem;color:var(--faint);line-height:1.6;padding-top:.8rem;border-top:1px solid var(--line)">Rounded to the nearest whole skill per 100. Exact figures: 1,467 (36.8%), 534 (13.4%) and 76 (1.9%) of 3,984 skills scanned on ClawHub and skills.sh. Source: <a href="https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/" target="_blank" rel="noopener">Snyk ToxicSkills</a>, 5 February 2026.</figcaption>
+    </figure>
+
+    <p>Three problems, three different owners, three different controls. A platform can help with one of them, partially.</p>
+
+    <h2>The one nobody can fix</h2>
+    <p>Underneath all of it sits prompt injection, and the honest position on prompt injection is that it is not going to be solved. The clearest statement of that comes from the UK's national cyber authority. In December the NCSC <a href="https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection" target="_blank" rel="noopener">wrote that</a> "it's very possible that prompt injection attacks may never be totally mitigated in the way that SQL injection attacks can be", and followed it with advice I agree with: "Beware any that claim they can 'stop' prompt injection, and instead look at those who understand how they reduce it." I would put anyone who claims to stop it in the same category as anyone who says they know everything about AI.</p>
+    <p>Microsoft's own <a href="https://learn.microsoft.com/en-us/agent-framework/agents/security" target="_blank" rel="noopener">engineering documentation</a> is blunter still. It states that “Prompt injection is the #1 risk on the OWASP LLM Top 10, and most agents in production today defend against it with one of two heuristics: a defensive system prompt, or a hand-rolled allow-list. Neither is deterministic.” Both can still fail.</p>
+    <p>It does however, go on to say that they have implemented an approach called FIDES, and it is the right shape of fix. Rather than trying to make the model resist the injection, it labels content as trusted or untrusted and checks those labels deterministically before every tool call. In Microsoft's words, "The model is still in charge of deciding what to do, but the framework is in charge of deciding what is allowed to happen." The model can still read the attack. It just cannot act on it. That contains the problem rather than removing it, and the page is open about the limits. FIDES is opt-in, Python-only for now and marked experimental, and it ships in the Agent Framework SDK rather than in Foundry Agent Service. Its protection is only as complete as your labelling of each data source, although anything left unlabelled is treated as untrusted by default. And once untrusted content enters a run, the rest of that run is treated as untrusted too, which is the point but also limits what the agent can do.</p>
+    <p>What I take from it is that the fix is not a better model. If the model cannot reliably separate an instruction from the data it's asked to read, then control cannot live inside the model. It has to live in what the agent can reach and do, which is an architecture decision, and therefore yours.</p>
+
+    <h2>What the evidence will and will not support</h2>
+    <p>Before buying anything, it is worth knowing how thin some of the numbers in this field are. I spent years in analytics watching a single percentage do lots of the arguing in a steering meeting, and this subject is full of them.</p>
+    <p>There are a number of reports that show a wide range of numbers for how many employees and businesses are using unapproved AI tools. However, in my experience most are either from companies that sell a tool, or are subjective at best. Additionally, for all the noise, <a href="https://www.crossborderdataforum.org/generative-ai-and-gdpr-enforcement-in-europe-a-lot-of-noise-one-fine-zero-survivors/" target="_blank" rel="noopener">one analysis counted</a> a single GDPR fine ever issued in Europe against a generative AI provider: 15 million euros against OpenAI in November 2024, suspended in March 2025 and annulled by the Court of Rome in March 2026.</p>
+    <p>None of that means the risk is imaginary. The Snyk scan and the incident record are real. It means you should buy controls against your own threat model rather than against a statistic, because the statistic may not survive contact with anything in production.</p>
+
+    <h2>Where a platform like Microsoft Foundry fits</h2>
+    <p>Managed agent platforms are one option, and Microsoft Foundry is a useful one to look at because Microsoft documents the boundary clearly. Its <a href="https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility-ai-agent" target="_blank" rel="noopener">shared responsibility model for AI agents</a> puts Foundry Agent Service in the platform-as-a-service row: "Microsoft provides the runtime, model hosting, and platform safety controls. You own the agent's instructions, tool and plugin selection, tool permissions, orchestration logic, memory design, and the agent's identity and authorization."</p>
+    <p>In other words, the platform takes the runtime and some of the safety controls. The decisions that determine whether an incident happens stay with you.</p>
+    <p>Within that, it covers a lot of real areas. Model level guardrails, red teaming and tracing are generally available, and it also offers agent identity and network isolation. It is a massive help, but there is more you still need to do yourself, and two details show why.</p>
+    <p>The first is that some of the features are still in preview, including the agent guardrails (see Microsoft's <a href="https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview" target="_blank" rel="noopener">guardrails documentation</a>) and the two intervention points that inspect an agent's tool traffic, tool call and tool response. That is the channel an injected instruction arrives through, and I look forward to seeing how this will work when fully released.</p>
+    <p>The second is that layering can make things weaker. It is important to understand which guardrails apply where. Microsoft's documentation says "The agentic guardrail fully overrides the model's guardrail", so an agent with no tool-call controls can leave its tool traffic unscanned even when the model's guardrail would have caught it.</p>
+    <p>Microsoft's own rule of thumb is the right one to hold on to: "Autonomy never reduces accountability."</p>
+
+    <h2>What actually keeps you safe</h2>
+    <p>If detection cannot be relied on, containment has to carry the weight. Four things I would do to stay safe.</p>
+    <ul>
+      <li><strong>Keep a registry of what each agent can do:</strong> not just a list of agents, but the actions each one can take, how it interacts with data, and what data it has access to. Include what you installed as well as what you built: skills, connectors, MCP servers and vendor AI features switched on by default. This is something I already implement across all my agents.</li>
+      <li><strong>Permission before capability:</strong> decide what an agent may reach before you decide what it may do. The banks' instinct to grant read-only access first is exactly this, applied to someone else's agent. Microsoft's own SDK documentation notes that by default every tool given to an agent is invoked without user approval, so approval is a thing you add rather than a thing you inherit.</li>
+      <li><strong>Know where the boundary is:</strong> it is not the prompt. The useful question is not what the agent was told, it is what it could send and where.</li>
+      <li><strong>A human on anything irreversible:</strong> and accept that this is a gate rather than just a policy. When the UK's AI Security Institute <a href="https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing" target="_blank" rel="noopener">published an incident report</a> on its own cyber testing in August, its agents had taken 19 unsanctioned actions across 10 of 122 runs, and its assessment was that "the margin between failure and success was narrow, resting on human vigilance". Its conclusion is the one to take: "good containment should not depend on the model choosing not to test its boundaries."</li>
+    </ul>
+    <p>The registry is the one I would start with, and it is something I have worked on directly, a record of every agent, the actions it can take, how it interacts with data, and what data it can reach. The other controls depend on it. You cannot scope permissions, watch the boundary or put a human on the irreversible actions for an agent you do not know is there. Platforms are starting to offer this too, Foundry's control plane among them, though its guardrails only apply to agents built in Foundry. A registry is only as useful as the controls it is connected to.</p>
+
+    <h2>Where I would start</h2>
+    <p>Three things, and none of them need a purchase order.</p>
+    <p>First, start the registry: every agent, what it can do, how it uses data and what it can reach, including the ones you installed rather than built. If nobody can fill it in, that is the finding.</p>
+    <p>Second, go through each agent and name the irreversible actions it can take, then check whether a human approves them today or whether that was assumed.</p>
+    <p>Third, write down which parts of the job your platform does and which are yours, and be honest about the second list.</p>
+    <p>I think the platforms will close some of this, as more and more features become available. What will not change is the shape of the responsibility model, because no vendor can own the question of what your agent is allowed to do on your behalf. That one is always going to stay with the business and the builders. This sits alongside the data questions I wrote about in <a href="securing-ai-at-the-edge.html">securing AI at the edge</a>, which is the other half of the same job.</p>
+    <p>Feel free to reach out if you'd like to know more or have any questions.</p>
+
+    <div class="post-actions">
+      <a href="index.html">← All posts</a>
+      <a href="securing-ai-at-the-edge.html">← Previous post</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fe08f6a1e46341bdbebdde4e431d0f9b"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
