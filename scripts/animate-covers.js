@@ -30,6 +30,8 @@ const COVERS = {
   'market-landscape': 4800,
   'agent-monitor': 4800,
   'repo-docs': 4800,
+  'sales-enablement': 4800,
+  'campaign-studio': 4800,
 };
 
 function css(T, extra) {
