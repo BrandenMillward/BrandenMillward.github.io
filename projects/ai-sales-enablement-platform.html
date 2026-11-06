@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Sales Enablement Platform — Branden Millward</title>
+<meta name="description" content="A privacy-policy grader that grew into a sales team's day-to-day platform: consent journeys read from screen recordings, reports that refuse to over-claim, and decks tailored by chat." />
+<link rel="canonical" href="https://brandenmillward.com/projects/ai-sales-enablement-platform.html" />
+<meta property="og:title" content="AI Sales Enablement Platform" />
+<meta property="og:description" content="A privacy-policy grader that grew into a sales team's day-to-day platform: consent journeys read from screen recordings, reports that refuse to over-claim, and decks tailored by chat." />
+<meta property="og:url" content="https://brandenmillward.com/projects/ai-sales-enablement-platform.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Sales Platform</p>
+    <h1>AI Sales Enablement Platform</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Vision Models · Grounded Generation</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/sales-enablement.svg" alt="A phone recording sampled into frames and read in parallel batches, feeding a report and a stack of tailored slides" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>It started as a privacy-policy compliance grader. The sales team kept asking it for more: research on a client before a call, a privacy report they could hand over, a deck tailored to the room, then pipeline and pricing. Each of those lived in a different tool, and each was assembled by hand. Could one platform do all of it without ever claiming more than the evidence supports?</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li><strong>Consent journeys from a screen recording:</strong> upload a phone recording of an app's consent flow and get back every consent screen plus the full list of third-party SDKs it discloses. Frames are sampled in the browser and read by a vision model in parallel batches of 12, three at a time, under a hard cost cap. An offline path does the same with Swift and Apple Vision OCR</li>
+          <li><strong>Reports that refuse to over-claim:</strong> a generator assembles goals, opportunities, value against risk, consent today against consent needed, and swimlane data-flow diagrams into a PDF</li>
+          <li><strong>Decks tailored by chat:</strong> pick a branded HTML deck and ask for changes in plain English. Edits are applied by text offset, so the design, images and live demos survive</li>
+          <li>Slides can be borrowed from any deck in a shared library, and a presenter view syncs two windows over a BroadcastChannel with a postMessage bridge into sandboxed frames</li>
+          <li>A partner-facing edition with its own branding and tenant-scoped access to a merged knowledge base</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>Client research, privacy reports, tailored decks, pipeline and pricing in one place. A three-minute consent recording costs under $2 to read. A 40-slide deck is tailored in 8 parallel batches in 47 seconds for about $0.50.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js · Vercel</li>
+          <li>Supabase (Postgres, RLS, storage, edge functions)</li>
+          <li>Anthropic API (vision, citations)</li>
+          <li>cheerio · react-pdf · Swift + Vision OCR</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>A slide that looks the same in any deck</h2>
+    <p>Every sector has its own branded deck, and each one styles its slides through its own global stylesheet. Copying a slide from one deck into another moved the markup but not the look: a diagram that depended on classes defined only in its home deck arrived unstyled.</p>
+    <p>So a borrowed slide now travels with exactly what it is missing. On insert, the platform collects the CSS rules for every class the slide uses that the target stylesheet lacks, plus the keyframes those rules animate with, and any small layout script the slide's component needs. It never carries the deck controller, so the target deck still owns navigation.</p>
+    <p>Design tokens needed one more step. Some decks read their colour tokens with fallbacks, so copying a source deck's tokens onto :root would have quietly repainted the whole target deck. Borrowed tokens are scoped to the borrowed slide instead. All 20 slides unique to one sector's deck render identically inside another, and the library grew into one searchable list of several hundred slides, grouped by type, that the chat can suggest from for a few cents a turn.</p>
+
+    <h2>Grounding every claim</h2>
+    <p>A sales tool is under constant pressure to say yes. I built this one so it can't. The compliance section of a report can only say "no conflict found" or "needs review". That wording is computed in code from the evidence, never written by the model, and the word "compliant" is not available to it. Where the report recommends consent wording, it quotes competitors' published wording as the reference, and when there is none it labels the suggestion as best practice instead of dressing it up as precedent.</p>
+    <p>The recording reader taught the same lesson about personal data. Early on, the model copied a tester's email address off a password prompt it glimpsed for a few frames. Personal data is now stripped in code rather than by asking the model nicely, screens like that never keep an image, and every sampled frame is deleted once it has been read.</p>
+    <p>The rest follows the same rule of keeping the model away from anything that has to be exact. Adding a new client triggers a research brief and then tailors their goals automatically, so setup is no longer a task. Pricing quotes run on a copied, version-stamped build of the pricing engine instead of a live API, and the copy was checked against 300 random quotes before it replaced the original.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="policy-compliance-grader.html">Privacy Policy Compliance Grader</a><span>Grounded RAG with a citations API</span></li>
+        <li><a href="market-landscape-researcher.html">Market Landscape Researcher</a><span>Mapping a consumer-app market against an ideal customer profile</span></li>
+        <li><a href="ai-document-platform.html">AI Document Generation Platform</a><span>Next.js and Supabase with async job handling</span></li>
+      </ul>
+    </nav>
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fe08f6a1e46341bdbebdde4e431d0f9b"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Marketing Campaign Studio — Branden Millward</title>
+<meta name="description" content="A workspace that drafts a week of ready-to-post campaigns for a marketing team, routes every piece through peer approval enforced in the database, and tracks what happened after it went out." />
+<link rel="canonical" href="https://brandenmillward.com/projects/ai-marketing-campaign-studio.html" />
+<meta property="og:title" content="AI Marketing Campaign Studio" />
+<meta property="og:description" content="A workspace that drafts a week of ready-to-post campaigns for a marketing team, routes every piece through peer approval enforced in the database, and tracks what happened after it went out." />
+<meta property="og:url" content="https://brandenmillward.com/projects/ai-marketing-campaign-studio.html" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
+<script>
+/* Resolve the theme before first paint. Mirrors the bottom-of-body IIFE exactly;
+   if the two ever disagree the page flashes the wrong theme. */
+(function () {
+  try {
+    var t = localStorage.getItem('site-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="shell nav-bar">
+    <a href="../index.html" class="nav-name">BRANDEN MILLWARD</a>
+
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a></li>
+        <li><a href="../index.html#speaking">Speaking</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work" class="is-active">Work</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-menu-cta">
+        <a class="nav-cta" href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="nav-cta" href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">LIGHT</button>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="post-hero">
+  <div class="shell">
+    <p class="hud"><a href="../index.html">Home</a> / <a href="../index.html#work">Work</a> / Campaign Studio</p>
+    <h1>AI Marketing Campaign Studio</h1>
+    <p class="post-meta"><span>Production System · 2026</span><span>Agents · Human-in-the-Loop</span></p>
+  </div>
+</header>
+
+<article class="post-body">
+  <div class="shell article-wrap">
+    <img src="../images/campaign-studio.svg" alt="Five campaign packs drafted in a row, each passing a second reviewer's approval gate before going out" class="article-image" width="640" height="360" loading="lazy" />
+
+    <div class="case-grid">
+      <div class="case-block">
+        <span class="hud">Problem</span>
+        <p>A small marketing team was writing every post from a blank page, chasing approvals in chat, and losing track of what had gone out and how it landed. Generating more content was easy. Making AI drafts the team could trust, review properly and actually ship was the hard part.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Approach</span>
+        <ul>
+          <li><strong>Campaign packs, not single posts:</strong> a weekly run builds five complete packs (company post, personal posts, blog, newsletter section, visual direction and a posting sequence) from fresh company research and a house voice contract. The team picks, edits in a rich-text editor, approves and posts</li>
+          <li><strong>Four-eyes approval enforced in the database:</strong> anyone on the team can approve a version, except its author or the person who requested it</li>
+          <li><strong>Video by an agent in a box:</strong> launch-style videos are made by a coding agent running in a container with its own spend-limited key and no database or social credentials. The app pulls the finished files</li>
+          <li><strong>Costs shown before they are spent:</strong> an estimate before every AI action, running monthly totals, and a confirmation at fixed thresholds of $50, $100, $200 and $500</li>
+          <li><strong>Clips:</strong> event recordings become per-speaker clips in each social format, and an events tracker with calendar views and AI event scoring replaced a spreadsheet-script tool</li>
+        </ul>
+      </div>
+      <div class="case-block">
+        <span class="hud">Result</span>
+        <p>A week of ready-to-post campaigns arrives as packs the team chooses from, and nothing goes out without a second person signing it off. The first storyboard video run cost about $0.50 and took under three minutes.</p>
+      </div>
+      <div class="case-block">
+        <span class="hud">Stack</span>
+        <ul>
+          <li>Next.js · Tiptap · Vercel</li>
+          <li>Supabase (row-level security)</li>
+          <li>Anthropic API · Claude Code in Docker</li>
+          <li>LinkedIn API</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Approval the app cannot skip</h2>
+    <p>Four-eyes approval is easy to promise in the interface and easy to bypass anywhere else. So the rule lives in row-level security: an approval row can only be written by someone on the team who is neither the author nor the requester of that version. I verified it with simulated user tokens rather than trusting the UI to hide the button.</p>
+    <p>Status is derived from the approvals on every read and never stored, so there is no column that can drift out of step with the evidence. Column-level insert grants keep the audit timestamps server-set, which means a client cannot backdate when something was approved.</p>
+    <p>Clips follow the same thinking about people. Speakers are named once by a person. There is deliberately no face or voice recognition, because biometric data is special-category and the feature does not need it. External speakers are gated behind a "cleared to post" check in the database, and video platforms whose terms forbid downloading are never downloaded from.</p>
+
+    <h2>Why the agent lives in a container</h2>
+    <p>The container was not the first plan. The first runner let the coding agent render videos directly on the machine, but its own macOS sandbox blocks headless Chrome at the operating-system level: a system call is denied during browser startup, and no setting allows it. That is a sandbox doing its job, so I stopped fighting it.</p>
+    <p>Moving the agent into a container turned the workaround into the better design. It gets its own spend-limited key and nothing else: no database access and no social credentials, so the worst a bad run can do is waste a capped amount of money on a video nobody approves. The app only ever pulls finished files out, and those files go through the same approval flow as everything else.</p>
+
+    <nav class="related" aria-labelledby="related-work">
+      <h2 id="related-work">Related work</h2>
+      <ul>
+        <li><a href="multi-model-research-engine.html">Multi-Model Company Research Engine</a><span>Seven parallel agents across six LLM providers</span></li>
+        <li><a href="conversational-video-agent.html">Conversational AI Video Sales Agent</a><span>Conversation design and guardrails on Tavus</span></li>
+        <li><a href="offer-to-onboarding-automation.html">Offer-to-Onboarding Automation</a><span>An n8n workflow with human approval gates</span></li>
+      </ul>
+    </nav>
+
+    <div class="post-actions">
+      <a href="../index.html#work">← All work</a>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p class="hud">Open to conversations about AI strategy, agentic systems, and responsible AI</p>
+    <div class="foot-actions">
+      <a href="https://www.linkedin.com/in/branden-millward/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/BrandenMillward" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/brandmillward15/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../blog/index.html">Blog</a>
+    </div>
+    <p class="hud">© 2026 Branden Millward · Stoke-on-Trent</p>
+  </div>
+</footer>
+
+<script src="../assets/js/base.js" defer></script>
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "fe08f6a1e46341bdbebdde4e431d0f9b"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
