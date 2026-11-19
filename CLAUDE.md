@@ -139,7 +139,10 @@ fell to ~7px.
 
 Copy an existing `projects/*.html` (e.g. `multi-model-research-engine.html`) and swap
 the content: title/meta/OG, hero, cover image, the Problem/Approach/Result/Stack
-case-grid, and two engineering-story `<h2>` sections. The nav/footer skeleton is
+case-grid, and two engineering-story `<h2>` sections. Add a row to `scripts/cards/project-card.html`, render
+`images/<slug>-social-1600.png`, and give the page the same `og:image`/`twitter:*` tags and
+`Article` JSON-LD block the others carry (a copied page inherits its source's card URL, so
+change it). The nav/footer skeleton is
 identical across all project pages — keep them in lockstep. Then: a slab in
 `index.html`'s `#work` showcase (thumbnail, tag pills, "Case study →" link), a
 `<link rel="canonical">` plus matching `og:url`, and a `sitemap.xml` entry.
@@ -222,6 +225,11 @@ inside them — they must work on BOTH light and dark grounds by construction
 `deviceScaleFactor: 4/3` to land on the **1600×836** every card in `images/*-social-1600.png`
 uses. All carry `noindex`. `social-card.html` is hardcoded for the three-regulators post, and `edge-social-card.html` for the securing-ai-at-the-edge post (its in-article image is a render of slide 4 from the talk deck, not a card, with a play-once `securing-ai-edge-tiers-anim.webp` that the post's inline script swaps in when the diagram scrolls into view, then overlays the slide's particle stream between the tiers on a canvas, since a play-once image cannot loop it; headless screenshots never capture canvas content, so verify the stream in a real browser);
 `series-card.html` is parameterised, `?ep=1` .. `?ep=5`, for the five-part AI series.
+`project-card.html` is parameterised, `?p=<slug>`, for every `projects/*` page, plus
+`?p=blog` and `?p=privacy` for the two non-post pages; it writes `images/<slug>-social-1600.png`.
+Its art is the page's own cover SVG, which is animated, so render it with
+`reducedMotion: 'reduce'` (Playwright context option) to get the cover as authored rather
+than mid-loop. Its `PROJECTS` table is copied from each page's `<h1>` and `.post-meta`.
 
 Three things to keep:
 
@@ -286,9 +294,15 @@ Four behaviours that surprise people:
 
 ## Page conventions
 
-Every page carries its own `<title>`, `<meta name="description">`, and OG tags; the
-homepage also has a JSON-LD `Person` block. Adding a page means adding its URL to
-`sitemap.xml`, which is an explicit hand-maintained list on the `brandenmillward.com`
+Every page carries its own `<title>`, `<meta name="description">`, OG tags including a
+1600×836 `og:image`, and JSON-LD (`Person` on the homepage, `BlogPosting` on posts, `Blog`
+on the blog index, `Article` on case studies).
+
+`404.html` at the root is what GitHub Pages serves for any missing URL, at that URL, so
+every local reference in it is root-absolute (`/assets/...`); a relative path would break
+one directory down. It is `noindex` and deliberately not in `sitemap.xml`.
+
+Adding a page means adding its URL to `sitemap.xml`, which is an explicit hand-maintained list on the `brandenmillward.com`
 domain.
 `robots.txt` points at the sitemap. The CV is not published: `files/` is gitignored
 because it carries personal contact details, and was purged from history in 2026-10.
@@ -317,7 +331,7 @@ injected and the dashboard read zero throughout. If numbers ever flatline to zer
 check that the tag is actually served before assuming there is no traffic:
 
 ```bash
-grep -L 'cf-beacon' index.html blog/*.html projects/*.html   # should print nothing
+grep -L 'cf-beacon' *.html blog/*.html projects/*.html   # should print nothing
 ```
 
 `scripts/cards/*.html` are deliberately excluded: they are `noindex` render stages, not

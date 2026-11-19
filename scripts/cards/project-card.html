@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* og:image cards for the projects/* case studies. Same 1200x627 stage and the
+   same site tokens as series-card.html, parameterised: open with ?p=<slug>.
+   Render at deviceScaleFactor 4/3 to land on the 1600x836 the other cards use.
+
+   The right-hand art is the page's own cover SVG. It is animated, so render with
+   prefers-reduced-motion: reduce, which leaves it exactly as authored instead of
+   catching it mid-loop (see "Project cover art" in CLAUDE.md). */
+  :root {
+    --bg: #0a0c16;
+    --accent: #8b9dff;
+    --text: #e6e9f5;
+    --faint: #7b83a3;
+    --line: rgba(255,255,255,.1);
+    --display: 'Archivo', ui-sans-serif, system-ui, 'DejaVu Sans', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'DejaVu Sans Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 627px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    display: flex;
+    flex-direction: column;
+    padding: 58px 68px 52px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 22px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--faint);
+  }
+  .eyebrow .kind { color: var(--accent); }
+
+  .main { display: grid; grid-template-columns: 1fr 520px; gap: 36px; align-items: center; margin-top: 24px; flex: 0 0 auto; }
+  /* Font size is set by the fit loop below: long titles step down until they
+     fit four lines, short ones stay at the series cards' 58px. */
+  h1 { font-weight: 700; line-height: 1.06; letter-spacing: -.015em; }
+  .main.solo { grid-template-columns: 1fr; }
+  .main.solo h1 { max-width: 22ch; }
+  .cover { width: 520px; height: 292px; display: block; }
+
+  /* Explicit spacer, not an auto margin: see social-card.html. */
+  .spacer { flex: 1 1 auto; min-height: 0; }
+  .rule { height: 1px; background: var(--line); flex: 0 0 auto; }
+
+  .foot { display: flex; justify-content: space-between; align-items: baseline; gap: 28px; margin-top: 26px; flex: 0 0 auto; }
+  .foot .what { font-size: 34px; font-weight: 700; letter-spacing: -.01em; }
+  .foot .site {
+    font-family: var(--mono); font-size: 22px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<p class="eyebrow"><span class="kind">Case study</span> · <span class="tag"></span></p>
+
+<div class="main">
+  <h1></h1>
+  <img class="cover" alt="" />
+</div>
+
+<div class="spacer"></div>
+<div class="rule"></div>
+
+<div class="foot">
+  <p class="what"></p>
+  <p class="site">brandenmillward.com</p>
+</div>
+
+<script>
+/* title: the page's <h1>. tag: the second .post-meta span. what: the first one,
+   so a card cannot describe the project as something its own page does not. */
+var PROJECTS = {
+  'agent-portfolio-monitor':            ['Agent Portfolio Monitor', 'Agent Operations', 'Production · 2026', 'agent-monitor'],
+  'ai-document-platform':               ['AI Document Generation Platform', 'Async Architecture', 'Production System · 2026', 'doc-platform'],
+  'ai-marketing-campaign-studio':       ['AI Marketing Campaign Studio', 'Agents · Human-in-the-Loop', 'Production System · 2026', 'campaign-studio'],
+  'ai-sales-enablement-platform':       ['AI Sales Enablement Platform', 'Vision Models · Grounded Generation', 'Production System · 2026', 'sales-enablement'],
+  'amazon-scraper':                     ['Amazon Web Scraper & Automated Email Alerts', 'Web Scraping · Scheduled Jobs', 'Automation · Python', 'web-scraper'],
+  'conversational-video-agent':         ['Conversational AI Video Sales Agent', 'Conversation Design · Guardrails', 'Production System · 2026', 'video-agent'],
+  'deep-learning-regulated-industries': ['Increasing Deep Learning Utilisation in Regulated Industries', 'Deep Learning · Explainable AI', 'MSc Dissertation', 'deep-learning-regulated'],
+  'document-sharing-exposure-audit':    ['Document Sharing Exposure Audit', 'Security & Governance Tooling', 'Production · 2026', 'sharing-audit'],
+  'enigma':                             ['Enigma Machine Simulation', 'Cryptography · Python', 'MSc Artificial Intelligence', 'enigma-cipher'],
+  'hybrid-ml':                          ['Hybrid Machine Learning Method', 'ACO · Genetic Algorithms', 'BSc Dissertation', 'hybrid-aco-ga'],
+  'linear-regression':                  ['Using Linear Regression to Predict Student Grades', 'Scikit-learn · Regression', 'Machine Learning · Python', 'linear-regression'],
+  'market-landscape-researcher':        ['Market Landscape Researcher', 'Agentic Research', 'Production · 2026', 'market-landscape'],
+  'movie-correlation':                  ['Correlation with Gross Movie Revenue', 'Pandas · Feature Engineering', 'Data Analysis · Python', 'movie-correlation'],
+  'multi-model-research-engine':        ['Multi-Model Company Research Engine', 'Multi-Agent Orchestration', 'Production System · 2026', 'research-engine'],
+  'offer-to-onboarding-automation':     ['Offer-to-Onboarding Automation', 'Human-in-the-Loop Automation', 'Production Pilot · 2026', 'onboarding-agent'],
+  'policy-compliance-grader':           ['Privacy Policy Compliance Grader', 'Grounded RAG · Evidence Design', 'Production System · 2026', 'policy-grader'],
+  'real-time-enrichment-middleware':    ['Real-Time Enrichment Middleware', 'Latency-Budgeted Service', 'Production System · 2026', 'enrichment-middleware'],
+  'self-documenting-repos':             ['Self-Documenting Repositories', 'Map-Reduce LLM Design', 'Automation · 2026', 'repo-docs'],
+
+  /* Not case studies: the two remaining pages that had no og:image. No cover,
+     so the title takes the full width. Copy comes from each page's own
+     meta description. Fifth field replaces the "Case study" eyebrow. */
+  'blog':    ['Writing on analytics, artificial intelligence and continuous learning', 'AI orchestration · Machine learning · Data', 'Essays and series', null, 'Blog'],
+  'privacy': ['What this site collects, which is very little', 'Cookieless analytics · No embeds', 'No cookies set', null, 'Privacy']
+};
+
+(function () {
+  var slug = new URLSearchParams(location.search).get('p') || 'enigma';
+  var p = PROJECTS[slug];
+  if (!p) { document.body.textContent = 'Unknown project: ' + slug; return; }
+  var h1 = document.querySelector('h1');
+  h1.textContent = p[0];
+  document.querySelector('.tag').textContent = p[1];
+  document.querySelector('.what').textContent = p[2];
+  if (p[4]) document.querySelector('.kind').textContent = p[4];
+  var cover = document.querySelector('.cover');
+  if (p[3]) cover.src = '../../images/' + p[3] + '.svg';
+  else { cover.remove(); document.querySelector('.main').classList.add('solo'); }
+
+  function fit() {
+    for (var size = 58; size >= 40; size -= 2) {
+      h1.style.fontSize = size + 'px';
+      if (h1.getBoundingClientRect().height <= size * 1.06 * 4 + 1) break;
+    }
+    document.body.setAttribute('data-ready', '');
+  }
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(fit);
+})();
+</script>
+</body>
+</html>

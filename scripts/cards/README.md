@@ -7,6 +7,7 @@ one asset cannot serve both, and the difference is not cosmetic.
 |---|---|---|
 | `social-card.html` | 1600×836 | `og:image`, and X. About **550px** wide in a feed |
 | `portrait-card.html` | 1200×1500 | uploaded as a native LinkedIn image. 4:5 takes far more vertical space in the feed |
+| `project-card.html` | 1600×836 | `og:image` for `projects/*`, the blog index and privacy, `?p=<slug>` |
 | `inline-card.html` | 1400×440 | inside the article, displayed at the **60ch measure**, about 700px |
 
 **LinkedIn no longer renders large link previews.** A shared URL gets a compact
